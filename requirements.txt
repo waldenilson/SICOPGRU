@@ -1,0 +1,6 @@
+Django==1.5.1
+psycopg2==2.5
+lxml==3.3.5
+django-webodt==0.3
+odslib==1.0
+xhtml2pdf

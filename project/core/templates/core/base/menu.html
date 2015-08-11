@@ -1,0 +1,64 @@
+					
+					<ul id="menu" style="font-size:15px">
+
+					<li>
+					<a href="/" title="">
+					<span>Página Inicial</span>
+					</a>
+					</li>
+							
+					{% if perms.sicop.titulo_calculo_portaria23 %}
+						<li><a href="#">Cálculo</a>
+						<ul>
+							{% if perms.sicop.titulo_calculo_portaria23 %}
+								<li><a href="/calculo/portaria23/">Portaria 23</a></li>
+							{% endif %}
+							{% if perms.sicop.tr_mensal_consulta %}
+								<li><a href="/calculo/tr_mensal/consulta/">TR Mensal</a></li>
+							{% endif %}
+						</ul>
+						</li>
+					{% endif %}
+					
+					{% if perms.sicop.usuario_consulta or perms.sicop.grupo_consulta or perms.sicop.divisao_consulta %}
+					<li><a href="#">Usuário</a>
+					<ul>
+					{% if perms.sicop.usuario_consulta %}
+					<li><a href="/core/usuario/consulta/">Controle</a></li>
+					{% endif %}
+					{% if perms.sicop.grupo_consulta %}
+					<li><a href="/core/grupo/consulta/">Grupo</a></li>
+					{% endif %}
+					{% if perms.sicop.permissao_consulta %}
+					<li><a href="/core/permissao/consulta/">Permissão</a></li>
+					{% endif %}
+					{% if perms.sicop.divisao_consulta %}
+					<li><a href="/core/divisao/consulta/">Divisão</a></li>
+					{% endif %}
+					</ul>
+					</li>
+					{% endif %}
+					
+					{% if perms.sicop.municipio_consulta %}
+						<li><a href="#">Município</a>
+						<ul>
+							{% if perms.sicop.municipio_consulta %}
+								<li><a href="/core/municipio/consulta/">Controle</a></li>
+							{% endif %}
+						</ul>
+						</li>
+					{% endif %}
+					
+					<li>
+					<a href="#" title="">
+					<span>Relatórios</span>
+					</a>
+					</li>													
+
+					<li>
+					<a href="/web/equipe/" title="">
+					<span>Equipe</span>
+					</a>
+					</li>
+	
+					</ul>
