@@ -1,4 +1,4 @@
-SICOP
+SICOP GRU
 =====
 
-SICOP Terra Legal
+Sistema de cálculo de GRU - Programa Terra Legal
