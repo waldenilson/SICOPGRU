@@ -1,33 +1,19 @@
 # Django settings for SICOP project.
 from os.path import abspath, join, dirname
+from decouple import config
 
-DEBUG = False
+DEBUG = config('DEBUG',default=False,cast=bool)
 
-TEMPLATE_DEBUG = DEBUG
-#import socket
-
-DEBUG = TEMPLATE_DEBUG = True
 DATABASES = {
         'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
-        #'ENGINE': 'django.contrib.gis.db.backends.postgis', 
-        'NAME': 'sicop',                      
-        'USER': 'admin',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',                      
-        'PORT': '5432'                      
+        'ENGINE': config('DEFAULT_ENGINE'), 
+        'NAME': config('DEFAULT_NAME'),                      
+        'USER': config('DEFAULT_USER'),
+        'PASSWORD': config('DEFAULT_PASSWORD'),
+        'HOST': config('DEFAULT_HOST'),                      
+        'PORT': config('DEFAULT_PORT')                      
         },
         }
-
-#usuario e senha estava admin e 123456
-
-# Absolute paths for where the project and templates are stored.
-#ABSOLUTE_PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-#ABSOLUTE_TEMPLATES_PATH = os.path.abspath(os.path.join(ABSOLUTE_PROJECT_ROOT, 'templates/'))
-
-#if not ABSOLUTE_PROJECT_ROOT in sys.path:    
-#    sys.path.insert(0, ABSOLUTE_PROJECT_ROOT)
-
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -39,7 +25,7 @@ MANAGERS = ADMINS
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -104,7 +90,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'sln8&&%o6=1g!jhmuranz2k@mh6dk48l#21qfp67p60h3l=q(2'
+SECRET_KEY = config('SECRET_KEY')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
