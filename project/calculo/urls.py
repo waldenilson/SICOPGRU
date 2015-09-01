@@ -6,7 +6,7 @@ urlpatterns = patterns('project.calculo',
    url(r'^portaria23', 'views.consulta'),
    url(r'^emissao/(?P<id>\d+)/', 'views.emissao'),
    url(r'^processo/digitar/', 'views.digitar'),
-   url(r'^geraPDF/', 'views.geraPDF'),
+   url(r'^geraPDF/(?P<id>\d+)/', 'views.geraPDF'),
    url(r'^geraGRU/(?P<id>\d+)/', 'views.geraGRU'),
 
    url(r'^tr_mensal/consulta/', 'tr_mensal.consulta'),

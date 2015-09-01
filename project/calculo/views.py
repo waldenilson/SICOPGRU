@@ -370,10 +370,10 @@ def link_callback(uri, rel):
                     (sUrl, mUrl))
     return path
 
-def geraPDF(request,data):
+def geraPDF(request,id):
 
     data = {}
-    data['recolhimento'] = "28874-8"
+    data['recolhimento'] = "28874-82032093"
     data['farmer'] = 'Old MacDonald'
     data['animals'] = [('Cow', 'Moo'), ('Goat', 'Baa'), ('Pig', 'Oink')]
     
@@ -381,7 +381,7 @@ def geraPDF(request,data):
     t = loader.get_template('portaria23/testePDF.html')
     c = Context(data)
     html =  t.render(c)
-    return HttpResponse(html)
+    #return HttpResponse(html)
     print "depois do template"
 
     #html  = template.render(Context(data))

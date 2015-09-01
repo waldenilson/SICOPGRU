@@ -102,7 +102,7 @@
 
 			{% if dtrequerimento  %}
 
-				<form method="post" action="/calculo/geraGRU/{{ id }}/">
+				<form method="post" action="/calculo/geraPDF/{{ id }}/" target="blank">
 					{% csrf_token %}
 		    	
 				<table class="csstable" style="width:100%;text-align: left " >
