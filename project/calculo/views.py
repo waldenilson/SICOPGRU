@@ -6,20 +6,17 @@ from project.core.models import Tbmunicipio, AuthUser
 from decimal import Decimal
 from datetime import date
 from project.core.funcoes import formatDataToText
-from project.core.funcoes import generatePDF
 from django.contrib import messages
 import datetime
 from datetime import timedelta
 import time
-
 from django.http import HttpResponse, HttpRequest
 from django.template import loader, Context
 import os
 from django.conf import settings
-
-from xhtml2pdf import pisa
 from django.template.loader import get_template
 from django.template import loader
+from project.core.funcoes import gerar_pdf
 
 nome_relatorio      = "relatorio_portaria80"
 response_consulta  = "/core/restrito/portaria80/calculo/"
@@ -217,8 +214,6 @@ def emissao(request,id):
                 return HttpResponse(html)
     #ateh aqui
     return render_to_response('portaria23/calculo.html' ,locals(), context_instance = RequestContext(request))
-
-
     
 @permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def digitar(request):
@@ -369,6 +364,15 @@ def link_callback(uri, rel):
                     'media URI must start with %s or %s' % \
                     (sUrl, mUrl))
     return path
+
+@permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
+def gerar_boleto_pagamento(request, id):
+    dados = {
+                #'brasao':abspath(join(dirname(__file__), '../../../staticfiles'))+'/img/brasao.gif',
+                'data':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year),
+            }
+    return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,'parcela.pdf')
+
 
 def geraPDF(request,id):
 

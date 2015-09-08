@@ -23,6 +23,7 @@ from django.template import Context
 import cStringIO as StringIO
 import os
 from django.conf import settings
+from project import settings as configuracao
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.template import loader
@@ -68,15 +69,18 @@ def verificaDivisaoUsuario(request):
     request.session['uf'] = id_uf_classe
     request.session['classe'] = [1,2,3,4,5,6,7,8,9,10]
 
-def gerar_html2pdf():
-    template = get_template('sicop/2pdf.html')
-    context = Context({'titulo':'O Título do documento'})
-    html  = template.render(context)
-    result = StringIO.StringIO()
-    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
-    if not pdf.err:
-        return http.HttpResponse(result.getvalue(), mimetype='application/pdf')
-    return http.HttpResponse('We had some errors<pre>%s</pre>' % cgi.escape(html))
+def gerar_pdf(request, template_path, data, name):
+    
+    # Render html content through html template with context
+    t = loader.get_template(template_path)
+    c = Context(data)
+    html =  t.render(c)
+    file = open(os.path.join(configuracao.MEDIA_ROOT, name), "w+b")
+    pisaStatus = pisa.CreatePDF(html, dest=file)
+    file.seek(0)
+    pdf = file.read()
+    file.close()            # Don't forget to close the file handle
+    return HttpResponse(pdf, mimetype='application/pdf')
 
 # Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources
 def link_callback(uri, rel):
@@ -98,41 +102,3 @@ def link_callback(uri, rel):
                     'media URI must start with %s or %s' % \
                     (sUrl, mUrl))
     return path
-
-def generatePDF(request):
-    print "generatePDF"
-    
-    data = {}
-    data['recolhimento'] = "28874-8"
-    data['farmer'] = 'Old MacDonald'
-    data['animals'] = [('Cow', 'Moo'), ('Goat', 'Baa'), ('Pig', 'Oink')]
-            
-
-    # Render html content through html template with context
-    print "generate_pdf YYY",data
-    template = get_template('portaria23/testePDF.html')
-    html  = template.render(Context(data))
-
-    # Write PDF to file
-    print"ante file"
-    file = open(os.path.join(settings.MEDIA_ROOT, 'test.pdf'), "w+b")
-    pisaStatus = pisa.CreatePDF(html, dest=file,
-            link_callback = link_callback)
-    print "apos"
-    # Return PDF document through a Django HTTP response
-    file.seek(0)
-    pdf = file.read()
-    file.close()            # Don't forget to close the file handle
-    return HttpResponse(pdf, mimetype='application/pdf')
-
-
-
-#def gerar_html2pdf():
-#    template = get_template('sicop/2pdf.html')
-#    context = Context({'titulo':'O Título do documento'})
-#    html  = template.render(context)
-#    result = StringIO.StringIO()
-#    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
-#    if not pdf.err:
-#        return http.HttpResponse(result.getvalue(), mimetype='application/pdf')
-#    return http.HttpResponse('We had some errors<pre>%s</pre>' % cgi.escape(html))

@@ -80,7 +80,9 @@
 						<!--td><input class="button_yellow" style="margin-right: 4px" type="submit" value="ATUALIZAR"/></td-->
 					</form>
 				{% endif %}	
-				<td><input class="button_yellow" style="margin-right: 4px" type="submit" value="ATUALIZAR"/></td>
+				<td>
+					<input class="button_yellow" style="margin-right: 4px" type="submit" value="ATUALIZAR"/>
+				</td>
 		    		
 
 		    	<!--teste-->
@@ -102,57 +104,57 @@
 
 			{% if dtrequerimento  %}
 
-				<form method="post" action="/calculo/geraPDF/{{ id }}/" target="blank">
+				<form method="post" action="/calculo/gerar_boleto/{{ id }}/" target="blank">
 					{% csrf_token %}
 		    	
-				<table class="csstable" style="width:100%;text-align: left " >
-				<tbody>
-					<tr>
-						<td class="colunaTabelaConsulta" >Status GRU</td>
-						<td class="colunaTabelaConsulta" >No.</td>
-						<td class="colunaTabelaConsulta" >Venc Parcela</td>
-						<td class="colunaTabelaConsulta" >Prestação</td>	
-						<td class="colunaTabelaConsulta" >Juros</td>
-						<td class="colunaTabelaConsulta" >Multa</td>
-						<td class="colunaTabelaConsulta" >Correcao</td>
-						<td class="colunaTabelaConsulta" >Desconto</td>
-						<td class="colunaTabelaConsulta" >Total</td>
-						<td class="colunaTabelaConsulta" >Venc GRU</td>
-					</tr>
-
-					{% if calculotitulo %}
-						{% for obj in calculotitulo %}
-						<!--tr onclick="editarID('/calculo/geraGRU/{{ obj.id }}');"-->
+					<table class="csstable" style="width:100%;text-align: left " >
+					<tbody>
 						<tr>
-						<td class="colunaTabelaConsulta" >
-							{% if obj.stpaga %}
-								<input disabled checked="checked" name="{{ obj.id }}-parcela" type="checkbox"/>PAGA
-							{% else %}
-								{% if obj.stgerada %}
-									<input disabled checked="checked" name="{{ obj.id }}-parcela" type="checkbox" />GERADA
+							<td class="colunaTabelaConsulta" >Status GRU</td>
+							<td class="colunaTabelaConsulta" >No.</td>
+							<td class="colunaTabelaConsulta" >Venc Parcela</td>
+							<td class="colunaTabelaConsulta" >Prestação</td>	
+							<td class="colunaTabelaConsulta" >Juros</td>
+							<td class="colunaTabelaConsulta" >Multa</td>
+							<td class="colunaTabelaConsulta" >Correcao</td>
+							<td class="colunaTabelaConsulta" >Desconto</td>
+							<td class="colunaTabelaConsulta" >Total</td>
+							<td class="colunaTabelaConsulta" >Venc GRU</td>
+						</tr>
+
+						{% if calculotitulo %}
+							{% for obj in calculotitulo %}
+							<!--tr onclick="editarID('/calculo/geraGRU/{{ obj.id }}');"-->
+							<tr>
+							<td class="colunaTabelaConsulta" >
+								{% if obj.stpaga %}
+									<input disabled checked="checked" name="{{ obj.id }}-parcela" type="checkbox"/>PAGA
 								{% else %}
-									<input name="{{ obj.id }}-parcela" type="checkbox" />
+									{% if obj.stgerada %}
+										<input disabled checked="checked" name="{{ obj.id }}-parcela" type="checkbox" />GERADA
+									{% else %}
+										<input name="{{ obj.id }}-parcela" type="checkbox" />
+									{% endif %}
 								{% endif %}
-							{% endif %}
-						</td>
+							</td>
 
 
-						<td class="colunaTabelaConsulta"> {{ obj.parcela }} </td>
-						<td class="colunaTabelaConsulta"> {{ obj.dtvencimento|date:"d/m/Y" }} </td>
-						<td class="colunaTabelaConsulta" name="prestacao"> {{ obj.vlprincipal }}</td>
-						
-						<td class="colunaTabelaConsulta" name="juros">{{ obj.vljuros}}</td>
-						<td class="colunaTabelaConsulta" name="multa">{{ obj.vlmulta}}</td>
-						<td class="colunaTabelaConsulta" name="multa">{{ obj.vlcorrecao}}</td>
-						<td class="colunaTabelaConsulta" name="desconto">{{ obj.vldesconto}}</td>
-						<td class="colunaTabelaConsulta" name="principal_corrigido_multa">{{ obj.vltotal}}</td>
-						<td class="colunaTabelaConsulta"> {{ obj.dtvencGRU|date:"d/m/Y" }} </td>
-						{% endfor %}
-					{% endif %}
-				</tbody>
-				</table>
-				<br/>
-				<td><input class="button_green" style="margin-right: 4px" type="submit" value="GERAR GRU"/></td>
+							<td class="colunaTabelaConsulta"> {{ obj.parcela }} </td>
+							<td class="colunaTabelaConsulta"> {{ obj.dtvencimento|date:"d/m/Y" }} </td>
+							<td class="colunaTabelaConsulta" name="prestacao"> {{ obj.vlprincipal }}</td>
+							
+							<td class="colunaTabelaConsulta" name="juros">{{ obj.vljuros}}</td>
+							<td class="colunaTabelaConsulta" name="multa">{{ obj.vlmulta}}</td>
+							<td class="colunaTabelaConsulta" name="multa">{{ obj.vlcorrecao}}</td>
+							<td class="colunaTabelaConsulta" name="desconto">{{ obj.vldesconto}}</td>
+							<td class="colunaTabelaConsulta" name="principal_corrigido_multa">{{ obj.vltotal}}</td>
+							<td class="colunaTabelaConsulta"> {{ obj.dtvencGRU|date:"d/m/Y" }} </td>
+							{% endfor %}
+						{% endif %}
+					</tbody>
+					</table>
+					<br/>
+					<td><input class="button_green" style="margin-right: 4px" type="submit" value="GERAR GRU"/></td>
 				</form>
 
 
