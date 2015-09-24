@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-import Image
-import ImageDraw
+from PIL import Image
+from PIL import ImageDraw
 
 class codigodebarra:
     def __init__(self):
@@ -14,7 +14,8 @@ class codigodebarra:
                   '10100', '01100', '00011', '10010', '01010')
 
         # criando imagem
-        imagem = Image.new('RGB',(750,80),'whiteraw = ImageDraw.Draw(imagem)')
+        imagem = Image.new('RGBA',(750,80),0)
+        draw = ImageDraw.Draw(imagem)
 
         # verificando se o conteudo para gerar barra é impar, se for,
         # adiciona 0 no inicial para fazer intercalação em seguida dos pares 
@@ -70,7 +71,7 @@ class codigodebarra:
                 draw.line((posX,posY,posX,posY + height),'white')
             posX+=1
         return imagem
-
+'''
 if __name__ == '__main__':
     # criando instância do objeto codigodebarra
     barra = codigodebarra()
@@ -84,4 +85,5 @@ if __name__ == '__main__':
     image = barra.getcodbarra(codigo)
 
     # salvando imagem do tipo informado na variavel tipo
-    image.save('%s.%s'%(codigo,tipo
+    image.save('%s.%s'%(codigo,tipo))
+'''

@@ -27,6 +27,7 @@ from project import settings as configuracao
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.template import loader
+from project.core.util.barcode import codigodebarra
 
 def formatDataToText( formato_data ):
     if formato_data:
@@ -102,3 +103,13 @@ def link_callback(uri, rel):
                     'media URI must start with %s or %s' % \
                     (sUrl, mUrl))
     return path
+
+def gerar_cod_barra(codigo):
+    try:
+        barra = codigodebarra()
+        image = barra.getcodbarra(codigo)
+        image.save( os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.png' ))
+        return os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.png')
+    except:
+        return None
+
