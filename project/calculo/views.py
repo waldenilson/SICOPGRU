@@ -369,7 +369,7 @@ def link_callback(uri, rel):
 def gerar_boleto_pagamento(request, id):
     dados = {
                 #'brasao':abspath(join(dirname(__file__), '../../../staticfiles'))+'/img/brasao.gif',
-                'data':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year),
+                'data':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year)
             }
     return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,'parcela.pdf')
 

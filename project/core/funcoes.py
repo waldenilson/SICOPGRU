@@ -75,7 +75,7 @@ def gerar_pdf(request, template_path, data, name):
     t = loader.get_template(template_path)
     c = Context(data)
     html =  t.render(c)
-    file = open(os.path.join(configuracao.MEDIA_ROOT, name), "w+b")
+    file = open(os.path.join(configuracao.MEDIA_ROOT+'/tmp', name), "w+b")
     pisaStatus = pisa.CreatePDF(html, dest=file)
     file.seek(0)
     pdf = file.read()
