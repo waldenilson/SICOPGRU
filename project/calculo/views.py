@@ -370,9 +370,9 @@ def gerar_boleto_pagamento(request, id):
 
 
     dados = {
-                #'brasao':abspath(join(dirname(__file__), '../../../staticfiles'))+'/img/brasao.gif',
                 'code_4_vencimento':'0257',
                 'code_10_value':'0000037912',
+                'barcode':os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/', 'teste.png'),
                 'data':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year)
             }
     return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,'parcela.pdf')
