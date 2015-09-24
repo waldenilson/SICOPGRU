@@ -367,8 +367,12 @@ def link_callback(uri, rel):
 
 @permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def gerar_boleto_pagamento(request, id):
+
+
     dados = {
                 #'brasao':abspath(join(dirname(__file__), '../../../staticfiles'))+'/img/brasao.gif',
+                'code_4_vencimento':'0257',
+                'code_10_value':'0000037912',
                 'data':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year)
             }
     return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,'parcela.pdf')
