@@ -104,7 +104,7 @@ def link_callback(uri, rel):
                     (sUrl, mUrl))
     return path
 
-def gerar_cod_barra(codigo):
+def gerar_codigo_barra(codigo):
     try:
         barra = codigodebarra()
         image = barra.getcodbarra(codigo)

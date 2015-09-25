@@ -34,7 +34,6 @@ def verificar_permissoes(grupo, permissoes):
         return permissao
     return False
 
-
 def mes_do_ano_texto(inteiro):
     mes_texto = ""
     

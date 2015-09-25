@@ -16,7 +16,8 @@ import os
 from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
-from project.core.funcoes import gerar_cod_barra, gerar_pdf
+from project.core.funcoes import gerar_codigo_barra, gerar_pdf
+from project.core.util.gru import calcular_codigo_barra, calcular_linha_digitavel
 
 nome_relatorio      = "relatorio_portaria80"
 response_consulta  = "/core/restrito/portaria80/calculo/"
@@ -368,15 +369,19 @@ def link_callback(uri, rel):
 @permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def gerar_boleto_pagamento(request, id):
 
-    codigo = '23793391265970787924921001306006502570000037915'
-    cod_barra = gerar_cod_barra(codigo)
+    valor_gru = ''
+    dt_vencimento = ''
+
+    num_codigo_barra = calcular_codigo_barra(valor_gru, dt_vencimento)
+    num_codigo_linha_digitavel = calcular_linha_digitavel(num_codigo_barra,valor_gru, dt_vencimento)
+    codigo_barra = gerar_codigo_barra(num_codigo_barra)
+
     dados = {
-                'code_4_vencimento':'0257',
-                'code_10_value':'0000037912',
-                'barcode':cod_barra,
-                'data':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year)
+                'codigo_linha_digitavel':num_codigo_linha_digitavel,
+                'codigo_barra':codigo_barra,
+                'data_emissao':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year)
             }
-    return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,codigo+'.pdf')
+    return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,num_codigo_barra+'.pdf')
 
 
 def geraPDF(request,id):
