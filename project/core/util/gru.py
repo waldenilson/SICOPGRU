@@ -43,8 +43,8 @@ def calcular_codigo_barra(valor, dt_vencimento):
 	return retorno
 
 def calcular_linha_digitavel(codigo_barra, valor, dt_vencimento):
-	posicao_20_24_codigo_barra = '01234'
-	posicao_25_34_codigo_barra = '5678901234'
-	posicao_35_44_codigo_barra = '5678901234'
+	posicao_20_24_codigo_barra = codigo_barra[19:24]
+	posicao_25_34_codigo_barra = codigo_barra[24:34]
+	posicao_35_44_codigo_barra = codigo_barra[34:44]
 	retorno = str(get_codigo_banco())+str(get_moeda())+str(posicao_20_24_codigo_barra)+str(get_DV_campo_1())+str(posicao_25_34_codigo_barra)+str(get_DV_campo_2())+str(posicao_35_44_codigo_barra)+str(get_DV_campo_3())+str(get_DV_codigo_barra())+str(get_fator_vencimento(dt_vencimento))+str(valor)
 	return retorno

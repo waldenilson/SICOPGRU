@@ -378,6 +378,9 @@ def gerar_boleto_pagamento(request, id):
     num_codigo_linha_digitavel = calcular_linha_digitavel(num_codigo_barra,valor_gru, dt_vencimento)
     codigo_barra = gerar_codigo_barra(num_codigo_barra)
 
+    print 'barra: '+num_codigo_barra
+    print 'linha: '+num_codigo_linha_digitavel
+
     #CRIACAO DA GRU PDF
     dados = {
                 'codigo_linha_digitavel':num_codigo_linha_digitavel,
