@@ -369,19 +369,21 @@ def link_callback(uri, rel):
 @permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def gerar_boleto_pagamento(request, id):
 
-    valor_gru = ''
-    dt_vencimento = ''
+    #VARIAVEIS DA GRU
+    valor_gru = '0000025975'
+    dt_vencimento = datetime.datetime.now()
 
+    #CRIACAO DOS NUMEROS E CODIGO DE BARRA
     num_codigo_barra = calcular_codigo_barra(valor_gru, dt_vencimento)
     num_codigo_linha_digitavel = calcular_linha_digitavel(num_codigo_barra,valor_gru, dt_vencimento)
     codigo_barra = gerar_codigo_barra(num_codigo_barra)
 
+    #CRIACAO DA GRU PDF
     dados = {
                 'codigo_linha_digitavel':num_codigo_linha_digitavel,
-                'codigo_barra':codigo_barra,
-                'data_emissao':str(datetime.datetime.now().day)+'/'+str(datetime.datetime.now().month)+'/'+str(datetime.datetime.now().year)
+                'codigo_barra':codigo_barra
             }
-    return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,num_codigo_barra+'.pdf')
+    return gerar_pdf(request,'portaria23/gru-cobranca.html',dados,num_codigo_linha_digitavel+'.pdf')
 
 
 def geraPDF(request,id):
