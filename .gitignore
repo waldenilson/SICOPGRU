@@ -16,3 +16,4 @@ local_settings.py
 .DS_Store
 .env
 pip-selfcheck.json
+media/tmp/*
