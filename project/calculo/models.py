@@ -48,20 +48,20 @@ class TbtrMensal(models.Model):
         db_table = 'tbtr_mensal'
 
 class Tbextrato(models.Model):
-    id_req = models.TextField(blank=True)
+    id_req = models.TextField(blank=True) #n
     cpf_req = models.TextField(blank=True)
     origem = models.TextField(blank=True)
-    dap = models.TextField(blank=True)
+    dap = models.TextField(blank=True) #n
     nome_req = models.TextField(blank=True)
     apelido_req = models.TextField(blank=True)
-    cooperativa_req = models.TextField(blank=True)
-    nome_mae_req = models.TextField(blank=True)
-    doc_id_req = models.TextField(blank=True)
-    tipo_doc_id_req = models.TextField(blank=True)
-    orgao_emiss_doc_id_req = models.TextField(blank=True)
+    cooperativa_req = models.TextField(blank=True) #n
+    nome_mae_req = models.TextField(blank=True) #n
+    doc_id_req = models.TextField(blank=True) #n
+    tipo_doc_id_req = models.TextField(blank=True) #n
+    orgao_emiss_doc_id_req = models.TextField(blank=True) #n
     data_nasc_req = models.DateField(null=True, blank=True)
     nacionalidade_req = models.TextField(blank=True)
-    naturalidade_req = models.TextField(blank=True)
+    naturalidade_req = models.TextField(blank=True) #n
     sexo_req = models.TextField(blank=True)
     estado_civil_req = models.TextField(blank=True)
     endereco_req = models.TextField(blank=True)
@@ -69,50 +69,82 @@ class Tbextrato(models.Model):
     cpf_conj = models.TextField(blank=True)
     nome_conj = models.TextField(blank=True)
     nome_mae_conj = models.TextField(blank=True)
-    doc_id_conj = models.TextField(blank=True)
-    tipo_doc_id_conj = models.TextField(blank=True)
-    orgao_emiss_doc_id_conj = models.TextField(blank=True)
+    doc_id_conj = models.TextField(blank=True) #n
+    tipo_doc_id_conj = models.TextField(blank=True) #n
+    orgao_emiss_doc_id_conj = models.TextField(blank=True) #n
     data_nasc_conj = models.DateField(null=True, blank=True)
     nacionalidade_conj = models.TextField(blank=True)
     estado_civil_conj = models.TextField(blank=True)
     sexo_conj = models.TextField(blank=True)
-    naturalidade_conj = models.TextField(blank=True)
+    naturalidade_conj = models.TextField(blank=True) #n
     numero_processo = models.TextField(blank=True)
     sncr = models.TextField(blank=True)
-    nome_imovel = models.TextField(blank=True)
+    nome_imovel = models.TextField(blank=True) #n
     atividade_economica = models.TextField(blank=True)
-    data_ocupacao_originaria = models.DateField(null=True, blank=True)
-    data_ocupacao_atual = models.DateField(null=True, blank=True)
-    ocupante_primitivo = models.TextField(blank=True)
-    posse_mansa_pacifica = models.TextField(blank=True)
-    doc_expedido_orgao_publico = models.TextField(blank=True)
+    data_ocupacao_originaria = models.DateField(null=True, blank=True) #n
+    data_ocupacao_atual = models.DateField(null=True, blank=True) #n
+    ocupante_primitivo = models.TextField(blank=True) #n
+    posse_mansa_pacifica = models.TextField(blank=True) #n
+    doc_expedido_orgao_publico = models.TextField(blank=True) #n
     indicacao_acesso = models.TextField(blank=True)
-    distancia_nucleo_urbano = models.TextField(blank=True)
-    tipo_acesso = models.TextField(blank=True)
-    nome_gleba = models.TextField(blank=True)
-    nome_gleba_cadastro = models.TextField(blank=True)
-    area = models.TextField(blank=True)
-    area_medida = models.TextField(blank=True)
-    tamanho_modulos_fiscais = models.DecimalField(null=True, max_digits=65535, decimal_places=65535, blank=True)
-    area_total_imovel = models.DecimalField(null=True, max_digits=10, decimal_places=4, blank=True)
-    area_maior_fracao_minima = models.TextField(blank=True)
-    uf_imovel = models.TextField(blank=True)
-    cod_municipio = models.TextField(blank=True)
-    nome_municipio = models.TextField(blank=True)
+    distancia_nucleo_urbano = models.TextField(blank=True) #n
+    tipo_acesso = models.TextField(blank=True) #n
+    nome_gleba = models.TextField(blank=True) #n
+    nome_gleba_cadastro = models.TextField(blank=True) #n
+    area = models.TextField(blank=True) #n
+    area_medida = models.TextField(blank=True) #n
+    tamanho_modulos_fiscais = models.DecimalField(null=True, max_digits=65535, decimal_places=65535, blank=True) #n
+    area_total_imovel = models.DecimalField(null=True, max_digits=10, decimal_places=4, blank=True) #n
+    area_maior_fracao_minima = models.TextField(blank=True) #n
+    uf_imovel = models.TextField(blank=True) #n
+    cod_municipio = models.TextField(blank=True) #n
+    nome_municipio = models.TextField(blank=True) #n
     situacao_processo = models.TextField(blank=True)
-    data_inicio_situacao_atual = models.DateField(null=True, blank=True)
-    entidade_cadastramento = models.TextField(blank=True)
-    responsavel_cadastramento = models.TextField(blank=True)
-    inspetor_cadastramento = models.TextField(blank=True)
+    data_inicio_situacao_atual = models.DateField(null=True, blank=True) #n
+    entidade_cadastramento = models.TextField(blank=True) #n
+    responsavel_cadastramento = models.TextField(blank=True) #n
+    inspetor_cadastramento = models.TextField(blank=True) #n
     data_cadastro = models.DateField(null=True, blank=True)
-    inspetor_transmissao = models.TextField(blank=True)
+    inspetor_transmissao = models.TextField(blank=True) #n
     data_transmissao = models.DateField(null=True, blank=True)
     numero_assentimento = models.CharField(max_length=50, blank=True)
     ano_assentimento = models.DecimalField(null=True, max_digits=4, decimal_places=0, blank=True)
     valor_imovel = models.DecimalField(null=True, max_digits=65535, decimal_places=65535, blank=True)
     data_vencimento_primeira_prestacao = models.DateField(null=True, blank=True)
-    data_inicio_etapa_anterior = models.DateField(null=True, blank=True)
+    data_inicio_etapa_anterior = models.DateField(null=True, blank=True) #n
     id = models.IntegerField(primary_key=True)
     class Meta:
         db_table = 'tbextrato'
 
+
+class Instituicao(models.Model):
+    id = AutoField(primary_key=True)
+    class Meta:
+        db_table = 'instituicao'
+
+class Convenio(models.Model):
+    id = AutoField(primary_key=True)
+    class Meta:
+        db_table = 'convenio'
+
+class Regional(models.Model):
+    id = AutoField(primary_key=True)
+    sigla_uf = CharField(max_length=2)
+    class Meta:
+        db_table = 'regional'
+
+class Requerente(models.Model):
+    id = AutoField(primary_key=True)
+    class Meta:
+        db_table = 'requerente'
+
+class Pagamento(models.Model):
+    id = AutoField(primary_key=True)
+    class Meta:
+        db_table = 'pagamento'
+
+class GuiaPagamento(models.Model):
+    id = AutoField(primary_key=True)
+    convenio = ForeignKey(null=False,primary_key=True)
+    class Meta:
+        db_table = 'guia_pagamento'
