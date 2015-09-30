@@ -119,19 +119,46 @@ class Tbextrato(models.Model):
 '''
 class Instituicao(models.Model):
     id = AutoField(primary_key=True)
+    nome = CharField(max_length=80)
+    descricao = TextField(blank=True,null=True)
     class Meta:
         db_table = 'instituicao'
 
 class Convenio(models.Model):
     id = AutoField(primary_key=True)
+    instituicao = ForeignKey(Instituicao,null=False,primary_key=True)
+    numero = CharField(max_length=80)
+    descricao = TextField(blank=True,null=True)
+    instituicao_financeira = CharField(max_length=80)
     class Meta:
         db_table = 'convenio'
 
 class Regional(models.Model):
     id = AutoField(primary_key=True)
+    nome = CharField(max_length=80)
     sigla_uf = CharField(max_length=2)
     class Meta:
         db_table = 'regional'
+
+class Imovel(models.Model):
+    id = AutoField(primary_key=True)
+    Regional = ForeignKey(Regional,null=False,primary_key=True)
+    class Meta:
+        db_table = 'imovel'
+
+class ImovelRequerente(models.Model):
+    id = AutoField(primary_key=True)
+    imovel = ForeignKey(Imovel,null=False,primary_key=True)
+    requerente = ForeignKey(Requerente,null=False,primary_key=True)
+    class Meta:
+        db_table = 'imovel_requerente'
+
+class HistoricoImovel(models.Model):
+    id = AutoField(primary_key=True)
+    imovel_requerente = ForeignKey(ImovelRequerente,null=False,primary_key=True)
+    descricao = TextField(blank=True,null=True)
+    class Meta:
+        db_table = 'historico_imovel'
 
 class Requerente(models.Model):
     id = AutoField(primary_key=True)
@@ -143,9 +170,16 @@ class Pagamento(models.Model):
     class Meta:
         db_table = 'pagamento'
 
+class ParcelaPagamento(models.Model):
+    id = AutoField(primary_key=True)
+    pagamento = ForeignKey(Pagamento,null=False,primary_key=True)
+    class Meta:
+        db_table = 'parcela_pagamento'
+
 class GuiaPagamento(models.Model):
     id = AutoField(primary_key=True)
-    convenio = ForeignKey(null=False,primary_key=True)
+    convenio = ForeignKey(Convenio, null=False,primary_key=True)
+    parcela = ForeignKey(Parcela, null=False,primary_key=True)
     class Meta:
         db_table = 'guia_pagamento'
 '''
