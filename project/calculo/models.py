@@ -116,7 +116,7 @@ class Tbextrato(models.Model):
     class Meta:
         db_table = 'tbextrato'
 
-
+'''
 class Instituicao(models.Model):
     id = AutoField(primary_key=True)
     class Meta:
@@ -148,3 +148,4 @@ class GuiaPagamento(models.Model):
     convenio = ForeignKey(null=False,primary_key=True)
     class Meta:
         db_table = 'guia_pagamento'
+'''
