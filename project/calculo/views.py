@@ -13,6 +13,7 @@ import time
 from django.http import HttpResponse, HttpRequest
 from django.template import loader, Context
 import os
+from os.path import abspath, join, dirname
 from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
@@ -371,7 +372,7 @@ def link_callback(uri, rel):
 def gerar_boleto_pagamento(request, id):
 
     #VARIAVEIS DA GRU
-    valor_gru = '0000025975'
+    valor_gru = '0000000175'
     dt_vencimento = datetime.datetime.now()
 
     #CRIACAO DOS NUMEROS E CODIGO DE BARRA
@@ -384,6 +385,7 @@ def gerar_boleto_pagamento(request, id):
 
     #CRIACAO DA GRU PDF
     dados = {
+                'icone':abspath(join(dirname(__file__), '../../staticfiles'))+'/img/bb.png',
                 'codigo_linha_digitavel':num_codigo_linha_digitavel,
                 'codigo_barra':codigo_barra
             }
