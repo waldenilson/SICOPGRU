@@ -14,7 +14,7 @@ def get_data_base():
 def get_DV_codigo_barra(codigo_barra):
 
 	#NUMEROS MULTIPLICADORES DE 2 A 9 COMECANDO CONTAGEM DE TRAS PARA FRENTE NO TOTAL DE 43 POSICOES
-	multiplicadores = '4329876543298765432987654329876543298765432'
+	multiplicadores = '43290876543298765432987654329876543298765432'
 	resultado_multiplicacao = []
 	soma_total = 0
 
@@ -37,14 +37,41 @@ def get_DV_codigo_barra(codigo_barra):
 
 	return str(retorno)
 
-def get_DV_campo_1():
-	return '7'
+def get_DV_campo(campo, pre_linha_digitavel):
 
-def get_DV_campo_2():
-	return '8'
+	if campo == 1:
+		cp = pre_linha_digitavel[0:9]
+		multiplicadores = '212121212'
+	elif campo == 2:
+		cp = pre_linha_digitavel[9:19]
+		multiplicadores = '1212121212'
+	elif campo == 3:
+		cp = pre_linha_digitavel[19:29]
+		multiplicadores = '1212121212'
+	
+	soma_total = 0
 
-def get_DV_campo_3():
-	return '9'
+	x = 0
+	for cod in cp:
+		resultado = int(cod)*int(multiplicadores[x])
+		if resultado > 9:
+			resultado = int(str(resultado)[0]) + int(str(resultado)[1])
+		soma_total += resultado
+		x += 1
+
+	prox_dezena = 10
+	achou_prox_dezena = False
+	prox = soma_total
+	while not achou_prox_dezena:
+		if prox > 9 and str(prox)[1] == '0':
+			achou_prox_dezena = True
+			prox_dezena = prox
+			break
+		else:
+			prox += 1
+
+	retorno = str(prox_dezena - soma_total)
+	return retorno
 
 #parameter dt_vencimento type datetime.datetime
 def get_fator_vencimento(dt_vencimento):
@@ -63,7 +90,7 @@ def get_carteira():
 	return '18'
 
 def calcular_codigo_barra(valor, dt_vencimento):
-	codigo_barra_sem_DV = str(get_codigo_banco())+str(get_moeda())+str(get_fator_vencimento(dt_vencimento))+str(valor)+str(get_zeros())+str(get_convenio())+str(get_nosso_numero())+str(get_carteira())
+	codigo_barra_sem_DV = str(get_codigo_banco())+str(get_moeda())+'0'+str(get_fator_vencimento(dt_vencimento))+str(valor)+str(get_zeros())+str(get_convenio())+str(get_nosso_numero())+str(get_carteira())
 	DV_codigo_barra = get_DV_codigo_barra( codigo_barra_sem_DV )
 	retorno = str(get_codigo_banco())+str(get_moeda())+str(DV_codigo_barra)+str(get_fator_vencimento(dt_vencimento))+str(valor)+str(get_zeros())+str(get_convenio())+str(get_nosso_numero())+str(get_carteira())
 	return retorno
@@ -72,5 +99,10 @@ def calcular_linha_digitavel(codigo_barra, valor, dt_vencimento):
 	posicao_20_24_codigo_barra = codigo_barra[19:24]
 	posicao_25_34_codigo_barra = codigo_barra[24:34]
 	posicao_35_44_codigo_barra = codigo_barra[34:44]
-	retorno = str(get_codigo_banco())+str(get_moeda())+str(posicao_20_24_codigo_barra)+str(get_DV_campo_1())+str(posicao_25_34_codigo_barra)+str(get_DV_campo_2())+str(posicao_35_44_codigo_barra)+str(get_DV_campo_3())+str(get_DV_codigo_barra(codigo_barra))+str(get_fator_vencimento(dt_vencimento))+str(valor)
+
+	DV_campo_1 = get_DV_campo(1, str(get_codigo_banco())+str(get_moeda())+str(posicao_20_24_codigo_barra)+str(posicao_25_34_codigo_barra)+str(posicao_35_44_codigo_barra) )
+	DV_campo_2 = get_DV_campo(2, str(get_codigo_banco())+str(get_moeda())+str(posicao_20_24_codigo_barra)+str(posicao_25_34_codigo_barra)+str(posicao_35_44_codigo_barra) )
+	DV_campo_3 = get_DV_campo(3, str(get_codigo_banco())+str(get_moeda())+str(posicao_20_24_codigo_barra)+str(posicao_25_34_codigo_barra)+str(posicao_35_44_codigo_barra) )
+
+	retorno = str(get_codigo_banco())+str(get_moeda())+str(posicao_20_24_codigo_barra)+DV_campo_1+str(posicao_25_34_codigo_barra)+DV_campo_2+str(posicao_35_44_codigo_barra)+DV_campo_3+str(get_DV_codigo_barra(codigo_barra))+str(get_fator_vencimento(dt_vencimento))+str(valor)
 	return retorno

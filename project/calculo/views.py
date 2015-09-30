@@ -17,7 +17,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf
-from project.core.util.gru import calcular_codigo_barra, calcular_linha_digitavel, get_DV_codigo_barra
+from project.core.util.gru import calcular_codigo_barra, calcular_linha_digitavel
 
 nome_relatorio      = "relatorio_portaria80"
 response_consulta  = "/core/restrito/portaria80/calculo/"
@@ -28,10 +28,6 @@ global principal_corrigido
 
 @permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def consulta(request):
-
-
-    print 'DV codigo de barras: '+get_DV_codigo_barra('0019373700000001000500940144816060680935031')
-
 
     p_extrato = []
     if request.method == "POST":
