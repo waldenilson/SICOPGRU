@@ -14,7 +14,6 @@ from django.db import models
 class AuthGroup(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=80, unique=True)
-    tbdivisao = models.ForeignKey('Tbdivisao')
     class Meta:
         db_table = 'auth_group'
 
