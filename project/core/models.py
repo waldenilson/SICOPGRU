@@ -44,7 +44,7 @@ class AuthUser(models.Model):
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
     date_joined = models.DateTimeField()
-    tbdivisao = models.ForeignKey('Tbdivisao')
+    regional = models.ForeignKey('Regional')
     id = models.AutoField(primary_key=True)
     class Meta:
         db_table = 'auth_user'
@@ -97,16 +97,15 @@ class DjangoSite(models.Model):
     class Meta:
         db_table = 'django_site'
 
-class Tbdivisao(models.Model):
-    nmdivisao = models.CharField(max_length=80, blank=True)
-    dsdivisao = models.TextField(blank=True)
-    tbuf = models.ForeignKey('Tbuf', null=True, blank=True)
+class Regional(models.Model):
+    nome = models.CharField(max_length=80, blank=True)
+    descricao = models.TextField(blank=True)
+    uf = models.ForeignKey('Uf', null=True, blank=True)
     id = models.AutoField(primary_key=True)
-    nrclasse = models.SmallIntegerField()
     class Meta:
-        db_table = 'tbdivisao'
+        db_table = 'regional'
 
-class Tbmunicipio(models.Model):
+class Municipio(models.Model):
     nome_mun_maiusculo = models.CharField(max_length=50, db_column='Nome_Mun_Maiusculo', blank=True) # Field name made lowercase.
     nome_mun = models.CharField(max_length=50, db_column='Nome_Mun', blank=True) # Field name made lowercase.
     codigo_mun = models.IntegerField(null=True, db_column='Codigo_Mun', blank=True) # Field name made lowercase.
@@ -120,13 +119,13 @@ class Tbmunicipio(models.Model):
     id = models.AutoField(primary_key=True)
     vlterranua = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     class Meta:
-        db_table = 'tbmunicipio'
+        db_table = 'municipio'
 
-class Tbuf(models.Model):
+class Uf(models.Model):
     sigla = models.CharField(max_length=2, blank=True)
     nmuf = models.CharField(max_length=50, blank=True)
     id = models.AutoField(primary_key=True)
     class Meta:
-        db_table = 'tbuf'
+        db_table = 'uf'
 
 

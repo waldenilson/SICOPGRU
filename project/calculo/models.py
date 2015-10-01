@@ -10,6 +10,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+'''
 class Tbcalculotitulo(models.Model):
     tbextrato = models.ForeignKey('Tbextrato',blank=True)
     parcela = models.IntegerField()
@@ -100,7 +101,7 @@ class Tbextrato(models.Model):
     cod_municipio = models.TextField(blank=True) #n
     nome_municipio = models.TextField(blank=True) #n
     situacao_processo = models.TextField(blank=True)
-    data_inicio_situacao_atual = models.DateField(null=True, blank=True) #n
+    data_inicio_situacao_atual = models.DateField(null=True, blank=True)
     entidade_cadastramento = models.TextField(blank=True) #n
     responsavel_cadastramento = models.TextField(blank=True) #n
     inspetor_cadastramento = models.TextField(blank=True) #n
@@ -115,16 +116,19 @@ class Tbextrato(models.Model):
     id = models.IntegerField(primary_key=True)
     class Meta:
         db_table = 'tbextrato'
-
 '''
+
+
+#SCHEMA ADMINISTRACAO
+
 class Orgao(models.Model):
     id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=80)
     descricao = models.TextField(blank=True,null=True)
-    codigo_receita = models.CharField(max_length=80)
-    ug = models.CharField(max_length=80)
+    codigo_receita = models.CharField(max_length=20)
+    ug = models.CharField(max_length=20)
     class Meta:
-        db_table = 'orgao'
+        db_table = 'administracao.orgao'
 
 class Convenio(models.Model):
     id = models.AutoField(primary_key=True)
@@ -133,27 +137,23 @@ class Convenio(models.Model):
     descricao = models.TextField(blank=True,null=True)
     instituicao_financeira = models.CharField(max_length=80)
     class Meta:
-        db_table = 'convenio'
+        db_table = 'administracao.convenio'
 
-class Regional(models.Model):
-    id = models.AutoField(primary_key=True)
-    nome = models.CharField(max_length=80)
-    sigla_uf = models.CharField(max_length=2)
-    class Meta:
-        db_table = 'regional'
+
+#SCHEMA TITULACAO
 
 class Imovel(models.Model):
     id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=80)
     sncr = models.CharField(max_length=20)
     gleba = models.CharField(max_length=80)
-    numero_parcela = models.IntegerField()
     area_total = models.DecimalField(null=True, max_digits=10, decimal_places=4, blank=True) #n
     tamanho_modulo_fiscal = models.DecimalField(null=True, max_digits=65535, decimal_places=65535, blank=True) #n
-    municipio = models.CharField(max_length=80)
-    Regional = models.ForeignKey(Regional,null=False,primary_key=True)
+    municipio = models.ForeignKey('core.Municipio',null=False,primary_key=True)
+    Regional = models.ForeignKey('core.Regional',null=False,primary_key=True)
     class Meta:
-        db_table = 'imovel'
+        db_table = 'titulacao.imovel'
+
 
 class ImovelTitulo(models.Model):
     id = models.AutoField(primary_key=True)
@@ -161,39 +161,56 @@ class ImovelTitulo(models.Model):
     titulo = models.ForeignKey(Titulo,null=False,primary_key=True)
     valor_imovel = models.DecimalField(null=True, max_digits=65535, decimal_places=65535, blank=True)
     class Meta:
-        db_table = 'imovel_titulo'
+        db_table = 'titulacao.imovel_titulo'
 
 class HistoricoImovel(models.Model):
     id = models.AutoField(primary_key=True)
     imovel_titulo = models.ForeignKey(ImovelTitulo,null=False,primary_key=True)
     descricao = models.TextField(blank=True,null=True)
     data_hora = models.DateTimeField()
-    auth_user = models.ForeignKey(AuthUser,null=False)
+    auth_user = models.ForeignKey('core.AuthUser',null=False)
     class Meta:
-        db_table = 'historico_imovel'
+        db_table = 'titulacao.historico_imovel'
 
 class Titulo(models.Model):
     id = models.AutoField(primary_key=True)
     numero = models.CharField(max_length=20)
+    tipo = models.CharField(max_length=20)
     processo = models.CharField(max_length=20)
     nome_titulado = models.CharField(max_length=80)
     cpf_titulado = models.CharField(max_length=20)
     data_emissao = models.DateTimeField()
     class Meta:
-        db_table = 'titulo'
+        db_table = 'titulacao.titulo'
+
+
+#SCHEMA PAGAMENTO
+
+class FormaPagamento(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=80)
+    descricao = models.TextField(blank=True,null=True)
+    class Meta:
+        db_table = 'pagamento.forma_pagamento'
 
 class Pagamento(models.Model):
     id = models.AutoField(primary_key=True)
     imovel_titulo = models.ForeignKey(ImovelTitulo,null=False,primary_key=True)
+    convenio = models.ForeignKey(Convenio,null=False,primary_key=True)
     data_requerimento = models.DateField()
     nossa_escola = models.BooleanField(default=False)
+    forma_pagamento = models.ForeignKey(FormaPagamento)
+    created_at = models.DateTimeField(auto_now_add=True)
+    auth_user_creator = models.ForeignKey('core.AuthUser')
+    updated_at = models.DateTimeField()
+    auth_user_updater = models.ForeignKey('core.AuthUser')
     class Meta:
-        db_table = 'pagamento'
+        db_table = 'pagamento.pagamento'
 
-class ParcelaPagamento(models.Model):
+class Parcela(models.Model):
     id = AutoField(primary_key=True)
     pagamento = models.ForeignKey(Pagamento,null=False,primary_key=True)
-    numero = models.CharField(max_length=80)
+    numero = models.IntegerField(null=False)
     data_vencimento = models.DateField()
     valor_principal = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     valor_desconto = models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -203,19 +220,26 @@ class ParcelaPagamento(models.Model):
     valor_acrescimo = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     valor_correcao = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     valor_total = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField()
     class Meta:
-        db_table = 'parcela_pagamento'
+        db_table = 'pagamento.parcela'
 
-class GuiaPagamento(models.Model):
-    id = models.AutoField(primary_key=True)
-    numero = models.IntegerField(null=False)
-    convenio = models.ForeignKey(Convenio, null=False,primary_key=True)
-    parcela = models.ForeignKey(Parcela, null=False,primary_key=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    status_pagamento = models.BooleanField(default=False)
+
+class ParcelaGuia(models.Model):
+    id = AutoField(primary_key=True)
+    parcela = models.ForeignKey(Pagamento,null=False,primary_key=True)
+    guia = models.ForeignKey(Pagamento,null=False,primary_key=True)
     data_pagamento = models.DateTimeField()
+    status_pagamento = models.BooleanField(default=False)
     class Meta:
-        db_table = 'guia_pagamento'
-'''
+        db_table = 'pagamento.parcela_guia'
+
+class Guia(models.Model):
+    id = models.AutoField(primary_key=True)
+    id_convenio = models.IntegerField()#primary_key
+    numero_via = models.IntegerField(null=False)
+    codigo_barra = models.TextField()
+    codigo_linha_digitavel = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    codigo_retorno = models.TextField()
+    class Meta:
+        db_table = 'pagamento.guia'
