@@ -113,3 +113,5 @@ def gerar_codigo_barra(codigo):
     except:
         return None
 
+def consumir_url(url):
+    pass

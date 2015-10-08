@@ -1,3 +1,4 @@
+# -- coding: utf-8 --
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
