@@ -43,7 +43,8 @@ class AuthUser(models.Model):
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
     date_joined = models.DateTimeField()
-    regional = models.ForeignKey('Regional')
+    tbdivisao = models.ForeignKey('Tbdivisao')
+#    regional = models.ForeignKey('Regional')
     id = models.AutoField(primary_key=True)
     class Meta:
         db_table = 'auth_user'
@@ -96,6 +97,10 @@ class DjangoSite(models.Model):
     class Meta:
         db_table = 'django_site'
 
+
+
+'''
+
 class Regional(models.Model):
     nome = models.CharField(max_length=80, blank=True)
     descricao = models.TextField(blank=True)
@@ -128,3 +133,36 @@ class Uf(models.Model):
         db_table = 'uf'
 
 
+'''
+
+class Tbdivisao(models.Model):
+    nmdivisao = models.CharField(max_length=80, blank=True)
+    dsdivisao = models.TextField(blank=True)
+    tbuf = models.ForeignKey('Tbuf', null=True, blank=True)
+    id = models.AutoField(primary_key=True)
+    nrclasse = models.SmallIntegerField()
+    class Meta:
+        db_table = 'tbdivisao'
+
+class Tbmunicipio(models.Model):
+    nome_mun_maiusculo = models.CharField(max_length=50, db_column='Nome_Mun_Maiusculo', blank=True) # Field name made lowercase.
+    nome_mun = models.CharField(max_length=50, db_column='Nome_Mun', blank=True) # Field name made lowercase.
+    codigo_mun = models.IntegerField(null=True, db_column='Codigo_Mun', blank=True) # Field name made lowercase.
+    regiao = models.CharField(null=True, max_length=50, db_column='Regiao', blank=True) # Field name made lowercase.
+    uf = models.CharField(max_length=2, db_column='UF', blank=True) # Field name made lowercase.
+    sr = models.CharField(null=True, max_length=50, db_column='SR', blank=True) # Field name made lowercase.
+    codigo_uf = models.ForeignKey('Tbuf', null=True, db_column='Codigo_UF', blank=True) # Field name made lowercase.
+    populacao = models.CharField(null=True, max_length=50, db_column='Populacao', blank=True) # Field name made lowercase.
+    nrmodulofiscal = models.IntegerField(null=True, blank=True)
+    nrfracaominima = models.IntegerField(null=True, blank=True)
+    id = models.AutoField(primary_key=True)
+    vlterranua = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    class Meta:
+        db_table = 'tbmunicipio'
+
+class Tbuf(models.Model):
+    sigla = models.CharField(max_length=2, blank=True)
+    nmuf = models.CharField(max_length=50, blank=True)
+    id = models.AutoField(primary_key=True)
+    class Meta:
+        db_table = 'tbuf'

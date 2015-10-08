@@ -108,8 +108,8 @@ def gerar_codigo_barra(codigo):
     try:
         barra = codigodebarra()
         image = barra.getcodbarra(codigo)
-        image.save( os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.png' ))
-        return os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.png')
+        image.save( os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.GIF' ))
+        return os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.GIF')
     except:
         return None
 

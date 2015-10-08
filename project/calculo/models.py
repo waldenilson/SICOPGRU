@@ -10,7 +10,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-'''
+
 class Tbcalculotitulo(models.Model):
     tbextrato = models.ForeignKey('Tbextrato',blank=True)
     parcela = models.IntegerField()
@@ -243,3 +243,4 @@ class Guia(models.Model):
     codigo_retorno = models.TextField()
     class Meta:
         db_table = 'pagamento.guia'
+'''

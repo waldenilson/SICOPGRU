@@ -152,7 +152,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'odslib',
-    'lxml',
+#    'lxml',
     'xhtml2pdf',
     'project.calculo',
     'project.web',
