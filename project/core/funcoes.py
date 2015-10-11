@@ -28,6 +28,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.template import loader
 from project.calculo.barcode import codigodebarra
+import urllib2
 
 def formatDataToText( formato_data ):
     if formato_data:
@@ -113,5 +114,11 @@ def gerar_codigo_barra(codigo):
     except:
         return None
 
-def consumir_url(url):
-    pass
+def consumir_url_json(url):
+    retorno = None
+    try:
+        response = urllib2.urlopen( url , timeout=3)
+        retorno = json.loads(response.read())
+    except:
+        pass
+    return retorno           
