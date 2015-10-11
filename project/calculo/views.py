@@ -19,7 +19,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf
-from project.core.util.gru import calcular_codigo_barra, calcular_linha_digitavel
+from project.calculo.gru import calcular_codigo_barra, calcular_linha_digitavel
 
 nome_relatorio      = "relatorio_portaria80"
 response_consulta  = "/core/restrito/portaria80/calculo/"

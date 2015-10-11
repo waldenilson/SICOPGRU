@@ -27,7 +27,7 @@ from project import settings as configuracao
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.template import loader
-from project.core.util.barcode import codigodebarra
+from project.calculo.barcode import codigodebarra
 
 def formatDataToText( formato_data ):
     if formato_data:
@@ -108,8 +108,8 @@ def gerar_codigo_barra(codigo):
     try:
         barra = codigodebarra()
         image = barra.getcodbarra(codigo)
-        image.save( os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.GIF' ))
-        return os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.GIF')
+        image.save( os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.PNG' ))
+        return os.path.join(settings.MEDIA_ROOT+'/tmp/barcode/'+codigo+'.PNG')
     except:
         return None
 

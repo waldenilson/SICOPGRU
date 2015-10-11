@@ -1,4 +1,35 @@
 <html>
+	<head>
+		<style>
+		@page {
+                size:a4;
+
+                @frame {
+                    top:1.5cm;
+                    left:0.5cm;
+                    right:0.5cm;
+                    bottom:1.5cm;
+                }
+
+                @frame header {
+                    -pdf-frame-content:header;
+                    top:0.5cm;
+                    left:0.5cm;
+                    right:0.5cm;
+                    height:0.5cm;
+                }
+
+                @frame footer {
+                    -pdf-frame-content:footer;
+                    bottom:5cm;
+                    left:0.5cm;
+                    right:0.5cm;
+                    height:0.5cm;
+                }
+            }
+		</style>
+	</head>
+	
 	<table border="0.2">
 		<tr>
 			<td colspan="4" height="100" ><img src="{{icone}}" width="200px" />| <strong>001-9</strong>|</td>
@@ -59,13 +90,17 @@
 		</tr>
 
 		<tr>
-			<td colspan="8"><strong>AUTENTICA&#199;&#195;O MEC&#194;NICA</strong></td>
+			<td colspan="8" style="padding:0.2em"><strong>AUTENTICA&#199;&#195;O MEC&#194;NICA</strong></td>
 		</tr>
 		
 		<tr>
 			<td colspan="8">
-<!--				&nbsp;&nbsp;<img src="{{codigo_barra}}" /> -->
+				&nbsp;&nbsp;<img src="{{codigo_barra}}" />
 			</td>
 		</tr>
 	</table>
+		
+			<div id="footer">
+				<p > TEXT YOU WANT</p>
+			</div>
 </html>
