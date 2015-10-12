@@ -151,7 +151,7 @@ class Imovel(models.Model):
     municipio = models.ForeignKey('core.Municipio',null=False,primary_key=True)
     Regional = models.ForeignKey('core.Regional',null=False,primary_key=True)
     class Meta:
-        db_table = 'titulacao.imovel'
+        db_table = '"titulacao"."imovel"'
 
 class Titulo(models.Model):
     id = models.AutoField(primary_key=True)
@@ -162,7 +162,7 @@ class Titulo(models.Model):
     cpf_titulado = models.CharField(max_length=20)
     data_emissao = models.DateTimeField()
     class Meta:
-        db_table = 'titulacao.titulo'
+        db_table = '"titulacao"."titulo"'
 
 class ImovelTitulo(models.Model):
     id = models.AutoField(primary_key=True)
