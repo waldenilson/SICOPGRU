@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib import messages
-from project.core.models import AuthUser, Tbdivisao, AuthGroup, AuthUserGroups
+from project.core.models import AuthUser, Regional, AuthGroup, AuthUserGroups
 import datetime
 from django.contrib.auth.hashers import make_password, load_hashers, get_hasher
 import json
@@ -51,7 +51,7 @@ def consulta(request):
 def cadastro(request):
     
     #servidor = Tbservidor.objects.all()
-    divisao = Tbdivisao.objects.all().order_by('nmdivisao')
+    divisao = Regional.objects.all().order_by('nmdivisao')
     
     
     grupo = AuthGroup.objects.all().filter( tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).order_by('name')
@@ -69,7 +69,7 @@ def cadastro(request):
     if request.method == "POST":
         if validacao(request, 'cadastro'):            
             usuario = AuthUser(
-                                   tbdivisao = Tbdivisao.objects.get( pk = request.POST['tbdivisao'] ),
+                                   tbdivisao = Regional.objects.get( pk = request.POST['tbdivisao'] ),
                                    password = make_password(request.POST['password']),
                                    first_name = request.POST['first_name'],
                                    last_name = request.POST['last_name'],
@@ -99,7 +99,7 @@ def cadastro(request):
 @permission_required('sicop.usuario_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
     
-    divisao = Tbdivisao.objects.all().order_by('nmdivisao')
+    divisao = Regional.objects.all().order_by('nmdivisao')
     grupo = AuthGroup.objects.all().filter( tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).order_by('name')
     userGrupo = AuthUserGroups.objects.all().filter( user = id )
     
@@ -156,7 +156,7 @@ def edicao(request, id):
             
             usuario = AuthUser(
                                    id = user_obj.id,
-                                   tbdivisao = Tbdivisao.objects.get( pk = request.POST['tbdivisao'] ),
+                                   tbdivisao = Regional.objects.get( pk = request.POST['tbdivisao'] ),
                                    password = senha_atual,
                                    first_name = request.POST['first_name'],
                                    last_name = request.POST['last_name'],
@@ -180,7 +180,7 @@ def edicao_usuario_logado(request, id):
     
     if str(request.user.id) == str(id):
     
-        divisao = Tbdivisao.objects.all()
+        divisao = Regional.objects.all()
         grupo = AuthGroup.objects.all()
         #servidor = Tbservidor.objects.all()
         userGrupo = AuthUserGroups.objects.all().filter( user = id )
@@ -236,7 +236,7 @@ def edicao_usuario_logado(request, id):
                 
                 usuario = AuthUser(
                                        id = user_obj.id,
-                                       tbdivisao = Tbdivisao.objects.get( pk = request.POST['tbdivisao'] ),
+                                       tbdivisao = Regional.objects.get( pk = request.POST['tbdivisao'] ),
                                        password = senha_atual,
                                        first_name = request.POST['first_name'],
                                        last_name = request.POST['last_name'],

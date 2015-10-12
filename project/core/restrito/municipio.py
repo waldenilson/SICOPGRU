@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required,\
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from project.core.forms import FormMunicipio
-from project.core.models import Tbmunicipio, AuthUser, Tbdivisao, Tbuf
+from project.core.models import Municipio, AuthUser, Regional, Uf
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from project.core.admin import verificar_permissao_grupo
@@ -27,10 +27,10 @@ def consulta(request):
     # as divisoes somente podem ver suas glebas (classe = 1) Divisoes com classe > 1 podem acessar todas as glebas das classe inferiores
     if request.method == "POST":
         nome = request.POST['nome_mun']
-        lista = Tbmunicipio.objects.all().filter( nome_mun__icontains=nome)#, tbuf__id__in=request.session['uf'])# = Tbdivisao.objects.get( pk = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).tbuf.id )
+        lista = Municipio.objects.all().filter( nome_mun__icontains=nome)#, tbuf__id__in=request.session['uf'])# = Regional.objects.get( pk = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).tbuf.id )
     else:
-        #lista = Tbgleba.objects.all().filter(tbuf__id=Tbdivisao.objects.get( pk = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).tbuf.id )
-        lista = Tbmunicipio.objects.all().filter(codigo_uf__id__in=request.session['uf'])
+        #lista = Tbgleba.objects.all().filter(tbuf__id=Regional.objects.get( pk = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).tbuf.id )
+        lista = Municipio.objects.all().filter(codigo_uf__id__in=request.session['uf'])
     lista = lista.order_by( 'nome_mun' )
     
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf
@@ -40,8 +40,8 @@ def consulta(request):
 
 @permission_required('sicop.municipio_edicao', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
-    instance = get_object_or_404(Tbmunicipio, id=id)
-    uf = Tbuf.objects.all()
+    instance = get_object_or_404(Municipio, id=id)
+    uf = Uf.objects.all()
     
     if request.method == "POST":
         if not request.user.has_perm('sicop.municipio_editar'):

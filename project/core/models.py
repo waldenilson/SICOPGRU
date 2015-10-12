@@ -32,6 +32,15 @@ class AuthPermission(models.Model):
     class Meta:
         db_table = 'auth_permission'
 
+class Regional(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=80, blank=True)
+    descricao = models.TextField(blank=True)
+    uf = models.ForeignKey('Uf', null=True, blank=True)
+    nrclasse = models.SmallIntegerField()
+    class Meta:
+        db_table = 'regional'
+
 class AuthUser(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField()
@@ -43,8 +52,7 @@ class AuthUser(models.Model):
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
     date_joined = models.DateTimeField()
-    tbdivisao = models.ForeignKey('Tbdivisao')
-#    regional = models.ForeignKey('Regional')
+    regional = models.ForeignKey(Regional)
     id = models.AutoField(primary_key=True)
     class Meta:
         db_table = 'auth_user'
@@ -97,18 +105,6 @@ class DjangoSite(models.Model):
     class Meta:
         db_table = 'django_site'
 
-
-
-'''
-
-class Regional(models.Model):
-    nome = models.CharField(max_length=80, blank=True)
-    descricao = models.TextField(blank=True)
-    uf = models.ForeignKey('Uf', null=True, blank=True)
-    id = models.AutoField(primary_key=True)
-    class Meta:
-        db_table = 'regional'
-
 class Municipio(models.Model):
     nome_mun_maiusculo = models.CharField(max_length=50, db_column='Nome_Mun_Maiusculo', blank=True) # Field name made lowercase.
     nome_mun = models.CharField(max_length=50, db_column='Nome_Mun', blank=True) # Field name made lowercase.
@@ -116,7 +112,7 @@ class Municipio(models.Model):
     regiao = models.CharField(null=True, max_length=50, db_column='Regiao', blank=True) # Field name made lowercase.
     uf = models.CharField(max_length=2, db_column='UF', blank=True) # Field name made lowercase.
     sr = models.CharField(null=True, max_length=50, db_column='SR', blank=True) # Field name made lowercase.
-    codigo_uf = models.ForeignKey('Tbuf', null=True, db_column='Codigo_UF', blank=True) # Field name made lowercase.
+    codigo_uf = models.ForeignKey('Uf', null=True, db_column='Codigo_UF', blank=True) # Field name made lowercase.
     populacao = models.CharField(null=True, max_length=50, db_column='Populacao', blank=True) # Field name made lowercase.
     nrmodulofiscal = models.IntegerField(null=True, blank=True)
     nrfracaominima = models.IntegerField(null=True, blank=True)
@@ -166,3 +162,4 @@ class Tbuf(models.Model):
     id = models.AutoField(primary_key=True)
     class Meta:
         db_table = 'tbuf'
+'''

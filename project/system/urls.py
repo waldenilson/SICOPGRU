@@ -2,8 +2,10 @@
 
 from django.conf.urls import patterns, url
 
-urlpatterns = patterns('project.calculo',
-   url(r'^portaria23', 'views.consulta'),
+urlpatterns = patterns('project.system',
+   url(r'^consulta', 'views.consulta'),
+   
+
    url(r'^emissao/(?P<id>\d+)/', 'views.emissao'),
    url(r'^processo/digitar/', 'views.digitar'),
    url(r'^gerar_boleto/(?P<id>\d+)/', 'views.gerar_boleto_pagamento'),

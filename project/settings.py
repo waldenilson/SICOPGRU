@@ -154,9 +154,10 @@ INSTALLED_APPS = (
     'odslib',
 #    'lxml',
     'xhtml2pdf',
-    'project.calculo',
-    'project.web',
     'project.core',
+    'project.calculation',
+    'project.system',
+    'project.web',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

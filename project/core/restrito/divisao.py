@@ -2,10 +2,10 @@ from django.contrib.auth.decorators import login_required, permission_required,\
     user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from project.core.models import Tbdivisao, Tbuf
+from project.core.models import Regional, Uf
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from project.core.forms import FormDivisao
+from project.core.forms import FormRegional
 from project.core.admin import verificar_permissao_grupo
 from django.http.response import HttpResponse
 from project.core.relatorio_base import relatorio_pdf_base_header,\
@@ -23,9 +23,9 @@ planilha_relatorio  = "Divisoes"
 def consulta(request):
     if request.method == "POST":
         nome = request.POST['nmdivisao']
-        lista = Tbdivisao.objects.all().filter( nmdivisao__icontains=nome )
+        lista = Regional.objects.all().filter( nmdivisao__icontains=nome )
     else:
-        lista = Tbdivisao.objects.all()
+        lista = Regional.objects.all()
     lista = lista.order_by( 'id' )
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf
     request.session['relatorio_divisao'] = lista
@@ -33,10 +33,10 @@ def consulta(request):
     
 @permission_required('sicop.divisao_cadastro', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def cadastro(request):
-    uf = Tbuf.objects.all()
+    uf = Uf.objects.all()
     if request.method == "POST":
         next = request.GET.get('next', '/')
-        form = FormDivisao(request.POST)
+        form = FormRegional(request.POST)
         if validacao(request):
             if form.is_valid():
                 form.save()
@@ -45,25 +45,25 @@ def cadastro(request):
                 else:    
                     return HttpResponseRedirect( next ) 
     else:
-        form = FormDivisao()
+        form = FormRegional()
     return render_to_response('core/divisao/cadastro.html',{"form":form,"uf":uf,"classe":request.session['classe']}, context_instance = RequestContext(request))
 
 @permission_required('sicop.divisao_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
-    uf = Tbuf.objects.all()
-    instance = get_object_or_404(Tbdivisao, id=id)
+    uf = Uf.objects.all()
+    instance = get_object_or_404(Regional, id=id)
     if request.method == "POST":
 
         if not request.user.has_perm('sicop.divisao_edicao'):
             return HttpResponseRedirect('/excecoes/permissao_negada/') 
 
-        form = FormDivisao(request.POST,request.FILES,instance=instance)
+        form = FormRegional(request.POST,request.FILES,instance=instance)
         if validacao(request):
             if form.is_valid():
                 form.save()
                 return HttpResponseRedirect("/core/divisao/consulta/")
     else:
-        form = FormDivisao(instance=instance)
+        form = FormRegional(instance=instance)
     return render_to_response('core/divisao/edicao.html', {"form":form,"uf":uf,"classe":request.session['classe']}, context_instance = RequestContext(request))
 
 

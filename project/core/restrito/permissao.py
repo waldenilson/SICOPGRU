@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required, permission_required,\
     user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext, Context
-from project.core.models import AuthUser, Tbdivisao, AuthPermission, DjangoContentType
+from project.core.models import AuthUser, Regional, AuthPermission, DjangoContentType
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from project.core.relatorio_base import relatorio_ods_base_header, relatorio_ods_base, relatorio_csv_base,\

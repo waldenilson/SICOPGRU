@@ -3,7 +3,6 @@
 
 from django.contrib import admin
 from project.core.models import AuthUser, AuthUserGroups, AuthGroupPermissions
-from project.calculo.models import TbtrMensal
 from django.http.response import HttpResponse
 import csv
 import sqlite3
@@ -65,6 +64,7 @@ def diferenca_mes(d2, d1):
             break
     return delta
 
+'''
 def import_tr(csv_):
     trs = []
     aux = []
@@ -96,6 +96,6 @@ def import_tr(csv_):
 
     print len(lines)
     print lines
-
+'''
 #admin.site.register(AuthUser)
 

@@ -17,16 +17,15 @@ urlpatterns = patterns('',
     # DAJAXICE AJAX DO PROJETO
     #url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 #    url(r'^livro/',include(project+'.livro.urls',namespace='livro')),
-    url(r'^calculo/',include(project+'.calculo.urls',namespace='calculo')),
 #    url(r'^servidor/',include(project+'.servidor.urls',namespace='servidor')),
 #    url(r'^documento/',include(project+'.documento.urls',namespace='documento')),
 #    url(r'^web/',include(project+'.web.urls',namespace='web')),
+    url(r'^sistema/',include(project+'.system.urls',namespace='sistema')),
     url(r'^core/',include(project+'.core.urls',namespace='core')),
 
 
     # ACESSO AO PUBLICO
     url(r'^$', project+'.web.views_publicas.inicio'),
-    url(r'^web/estatisticas/', project+'.web.estatisticas.estatisticas'),
     url(r'^web/equipe/', project+'.web.views_publicas.equipe'),
     url(r'^media/(?P<path>.*)$',project+'.core.util.media.download', {'document_root': settings.MEDIA_ROOT}),
    

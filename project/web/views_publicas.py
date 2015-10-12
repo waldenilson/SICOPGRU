@@ -18,13 +18,13 @@ from reportlab.lib.pagesizes import letter
 import urllib2
 import json
 import pprint
-from project.core.models import AuthUser, Tbdivisao
+from project.core.models import AuthUser, Regional
 from project.core.funcoes import verificaDivisaoUsuario
    
 def inicio(request):
     if request.user.id is not None:
         # gravando na sessao a divisao do usuario logado
-        request.session['divisao'] = AuthUser.objects.get( pk = request.user.id ).tbdivisao.nmdivisao +" - "+AuthUser.objects.get( pk = request.user.id ).tbdivisao.tbuf.nmuf
+        request.session['regional'] = AuthUser.objects.get( pk = request.user.id ).regional.nome +" - "+AuthUser.objects.get( pk = request.user.id ).regional.uf.nmuf
         verificaDivisaoUsuario(request) 
     return render(request, "index.html")
 

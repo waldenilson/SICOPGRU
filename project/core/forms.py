@@ -1,11 +1,11 @@
 # formularios customizados
 from django.forms import models
 from django import forms
-from project.core.models import AuthGroup, Tbdivisao, Tbmunicipio
+from project.core.models import AuthGroup, Regional, Municipio
 
-class FormDivisao(models.ModelForm):
+class FormRegional(models.ModelForm):
     class Meta:
-        model = Tbdivisao
+        model = Regional
                 
 class FormAuthGroup(models.ModelForm):
     class Meta:
@@ -13,4 +13,4 @@ class FormAuthGroup(models.ModelForm):
 
 class FormMunicipio(models.ModelForm):
     class Meta:
-        model = Tbmunicipio        
+        model = Municipio        
