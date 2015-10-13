@@ -4,6 +4,7 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('project.system',
    url(r'^consulta', 'views.consulta'),
+   url(r'^inicio-pagamento/(?P<cpf>\d+)/', 'views.inicio_pagamento'),
    
 
    url(r'^emissao/(?P<id>\d+)/', 'views.emissao'),
