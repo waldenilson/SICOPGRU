@@ -55,7 +55,7 @@ def consumir_base_extrato(cpf):
 		dados['sncr'] = lista[0].sncr
 		dados['gleba'] = lista[0].nome_gleba
 		dados['area_total'] = lista[0].area_total_imovel
-		dados['municipio'] = Municipio.objects.filter( nome_mun = lista[0].nome_municipio )[0]
+		dados['municipio'] = Municipio.objects.filter( nome_mun = lista[0].nome_municipio )[0].nome_mun
 		dados['regional'] = Regional.objects.get(pk=1)				
 		dados['modulo_fiscal'] = lista[0].tamanho_modulos_fiscais
 

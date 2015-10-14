@@ -16,15 +16,59 @@
 		<form name="form" method="post" action="">
 			{% csrf_token %}
 						
-			<table style="width:100%;text-align: left">
-				<tbody>
-					<tr>
-						<td class="colunaTabela">
-							<label>Nº do CPF:&nbsp;{{dados.pagamento.imovel_titulo.titulo.cpf_titulado}}</label>	
-						</td>
-					</tr>
-				</tbody>
-			</table>
+								<table style="width:80%;text-align: left">
+										<tr>
+											<td class="colunaTabela" colspan="2"> 
+												<b>TITULADO</b><hr/>
+											</td>
+										</tr>
+
+										<tr>
+											<td> <b>Nome:</b> </td>
+											<td> {{dados.nome_titulado}} </td>
+										</tr>
+
+										<tr>
+											<td> <b>CPF:</b> </td>
+											<td> {{dados.cpf_titulado}} </td>
+										</tr>
+
+										<tr>
+											<td> <b>Nº Título:</b> </td>
+											<td> {{dados.titulo}} </td>
+										</tr>
+
+										<tr>
+											<td> <b>Data Emissão:</b> </td>
+											<td> {{dados.data_emissao_titulo}} </td>
+										</tr>
+
+										<tr>
+											<td class="colunaTabela" colspan="2"> 
+												<b>IMÓVEL</b><hr/>
+											</td>
+										</tr>
+
+										<tr>
+											<td> <b>Nome:</b> </td>
+											<td> {{dados.nome_imovel}} </td>
+										</tr>
+
+										<tr>
+											<td> <b>Gleba:</b> </td>
+											<td> {{dados.gleba}} </td>
+										</tr>
+
+										<tr>
+											<td> <b>Município:</b> </td>
+											<td> {{dados.municipio}} </td>
+										</tr>
+
+										<tr>
+											<td> <b>Área Total:</b> </td>
+											<td> {{dados.area_total}} ha </td>
+										</tr>					
+								</table>
 			<br />
 			<table style="width:20%">
 <!--
@@ -72,7 +116,7 @@
 							</tr>
 						{% endfor %}
 					{% else %}
-					<tr> <td style="padding-top: 20px" colspan="6"> Nenhum Processo Encontrado </td> </tr>
+					<tr> <td style="padding-top: 20px" colspan="6"> Nenhuma Parcela Encontrada </td> </tr>
 				{% endif %}
 			</tbody>
 		</table>

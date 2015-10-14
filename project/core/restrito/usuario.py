@@ -34,13 +34,13 @@ def consulta(request):
             lista = AuthUser.objects.all().filter( first_name__icontains=first_name, email__icontains=email )
         else:
             lista = AuthUser.objects.all().filter( first_name__icontains=first_name, email__icontains=email, 
-                                                   tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id )
+                                                   regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
     else:
         # se usuario for do grupo Super; mostra todos senao mostra somente os usuarios da divisao
         if verificar_permissao_grupo( AuthUser.objects.get( pk = request.user.id ), {'Super'} ):
             lista = AuthUser.objects.all()
         else:
-            lista = AuthUser.objects.all().filter( tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id )
+            lista = AuthUser.objects.all().filter( regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
 
     lista = lista.order_by( 'username' )
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf

@@ -22,9 +22,9 @@ planilha_relatorio  = "Grupos"
 def consulta(request):
     if request.method == "POST":
         nome = request.POST['name']
-        lista = AuthGroup.objects.all().filter( name__icontains=nome, tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id )
+        lista = AuthGroup.objects.all().filter( name__icontains=nome, regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
     else:
-        lista = AuthGroup.objects.all().filter(tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id)
+        lista = AuthGroup.objects.all().filter(regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id)
     lista = lista.order_by( 'name' )
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf
     request.session['relatorio_grupo'] = lista

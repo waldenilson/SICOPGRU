@@ -27,13 +27,13 @@
 					<li><a href="/core/usuario/consulta/">Controle</a></li>
 					{% endif %}
 					{% if perms.sicop.grupo_consulta %}
-					<li><a href="/core/grupo/consulta/">Grupo</a></li>
+					<li><a href="#">Grupo</a></li>
 					{% endif %}
 					{% if perms.sicop.permissao_consulta %}
-					<li><a href="/core/permissao/consulta/">Permissão</a></li>
+					<li><a href="#">Permissão</a></li>
 					{% endif %}
 					{% if perms.sicop.divisao_consulta %}
-					<li><a href="/core/divisao/consulta/">Divisão</a></li>
+					<li><a href="#">Regional</a></li>
 					{% endif %}
 					</ul>
 					</li>
@@ -53,6 +53,9 @@
 					<a href="#" title="">
 					<span>Relatórios</span>
 					</a>
+						<ul>
+							<li><a href="/sistema/relatorio/parcelas/pagas-vencidas/">Parcelas pagas x vencidas</a></li>
+						</ul>
 					</li>													
 
 					<li>

@@ -224,7 +224,6 @@ class Parcela(models.Model):
 class Guia(models.Model):
     id = models.AutoField(primary_key=True)
     id_convenio = models.IntegerField()#primary_key
-    numero_via = models.IntegerField(null=False)
     codigo_barra = models.TextField()
     codigo_linha_digitavel = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -234,8 +233,8 @@ class Guia(models.Model):
 
 class ParcelaGuia(models.Model):
     id = models.AutoField(primary_key=True)
-    parcela = models.ForeignKey(Pagamento,null=False,primary_key=True)
-    guia = models.ForeignKey(Guia,null=False,primary_key=True)
+    parcela = models.ForeignKey(Parcela,null=False)
+    guia = models.ForeignKey(Guia,null=False)
     data_pagamento = models.DateTimeField()
     status_pagamento = models.BooleanField(default=False)
     class Meta:

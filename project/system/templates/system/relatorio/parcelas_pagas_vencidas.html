@@ -1,0 +1,93 @@
+{% extends "core/base/consulta.html" %} 
+{% load staticfiles %}
+
+{% block breadcumbs %}
+	Relatório | Pagamento | Parcelas Pagas x Vencidas
+{% endblock %}
+
+{% block subtitulo %}
+	
+	PARCELAS PAGAS X VENCIDAS
+	
+{% endblock %}
+
+{% block consulta %}
+	
+	<br/><br/>
+	<div style="width:100%;font-size:12px;text-align:center">
+			<form method="post" action="">
+				{% csrf_token %}
+				<div style="width:80%;font-size:12px;text-align:left">
+
+					<table>
+					   <tr> 
+					   		<td class="colunaTabela"> <label>Selecione:</label> </td>
+					   		<td>
+					   			<select name="ordenacao" style="width:200px">
+										<option value="pagas">PARCELAS PAGAS</option>
+										<option value="vencidas">PARCELAS VENCIDAS</option>
+								</select>
+							</td>
+						</tr>
+					</table>				
+				
+				</div>
+				<br/><br />
+				<table style="width:100%">
+					<tr>
+						<td class="colunaTabela" style="text-align:left"> 
+							<input type="submit" class="button_yellow" value="PESQUISAR" />
+						</td>
+					</tr>
+				</table>
+			</form>
+	</div>
+	
+{% endblock %}
+
+
+{% block resultado %}
+	{% if parcelas %}
+		<div style="text-align:left">
+			<hr/><br/>
+			<b>{{titulo}}<br/>Total em (R$): {{total}} ({{descricao}})</b><br/><br/>
+		</div>
+	{% endif %}
+		<div style="overflow:auto;height:500px">	
+			<table class="csstable">
+			<tbody>
+				<tr>
+					<td class="colunaTabelaConsulta" style="width:5%">Nº</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Processo</td>
+					<td class="colunaTabelaConsulta" style="width:20%">Municipio</td>
+					<td class="colunaTabelaConsulta" style="width:20%">Gleba</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Titulo</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Vencimento</td>
+					<td class="colunaTabelaConsulta" style="width:5%">Emitir</td>
+					
+					
+				</tr>
+				{% if parcelas %}
+				  		{% for obj in parcelas %}
+							<tr>
+									<td class="colunaTabelaConsulta">{{ obj.numero }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.numero_processo }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.nome_municipio }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.nome_gleba }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.id_req}}</td>
+									<td class="colunaTabelaConsulta">{{ obj.data_vencimento_primeira_prestacao}}</td>
+									<td class="colunaTabelaConsulta">
+										<a target="blank" href="/sistema/gru-pagamento/{{obj.id}}/">
+											<img width="24px" src="{% static "img/pdf.png" %}" title="Gerar GRU" alt="Gerar GRU" />	
+										</a>
+									</td>
+							</tr>
+						{% endfor %}
+					{% else %}
+					<tr> <td style="padding-top: 20px" colspan="6"> Nenhuma Parcela Encontrada </td> </tr>
+				{% endif %}
+			</tbody>
+		</table>
+	</div>		
+
+{% endblock %}

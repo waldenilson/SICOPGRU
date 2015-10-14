@@ -2,7 +2,7 @@
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from project.system.models import Tbextrato
+from project.system.models import Tbextrato, Parcela, ParcelaGuia, Guia
 from project.core.models import Municipio, AuthUser
 from decimal import Decimal
 from datetime import date
@@ -71,18 +71,41 @@ def parcelas_pagamento(request, cpf):
 def gru_pagamento(request, id):
 
     # id da parcela
+    parcela = Parcela.objects.get(pk=id)
 
     #VARIAVEIS DA GRU
-    valor_gru = '0000000175'
-    dt_vencimento = datetime.datetime.now()
+#    valor_gru = '0000000175'
+#    dt_vencimento = datetime.datetime.now()
+
+    #salvar guia
+    obj_guia = Guia(
+        id_convenio = parcela.numero,# models.IntegerField()#primary_key
+        codigo_barra = '', #models.TextField()
+        codigo_linha_digitavel = '', #models.TextField()
+        codigo_retorno = ''
+        )
+    obj_guia.save()
+
+    #salvar parcela_guia
+    obj_parcela_guia = ParcelaGuia(
+        parcela = parcela,
+        guia = obj_guia,
+        data_pagamento = None,
+        status_pagamento = False
+        )
+    obj_parcela_guia.save()
 
     #CRIACAO DOS NUMEROS E CODIGO DE BARRA
-    num_codigo_barra = calcular_codigo_barra(valor_gru, dt_vencimento)
-    num_codigo_linha_digitavel = calcular_linha_digitavel(num_codigo_barra,valor_gru, dt_vencimento)
+    num_codigo_barra = calcular_codigo_barra(parcela.valor_total, obj_guia.id, parcela.data_vencimento)
+    num_codigo_linha_digitavel = calcular_linha_digitavel(num_codigo_barra,parcela.valor_total, parcela.data_vencimento)
     codigo_barra = gerar_codigo_barra(num_codigo_barra)
 
-    print 'barra: '+num_codigo_barra
-    print 'linha: '+num_codigo_linha_digitavel
+    obj_guia.codigo_barra = num_codigo_barra
+    obj_guia.codigo_linha_digitavel = num_codigo_linha_digitavel
+    obj_guia.save()
+
+    print 'barra: '+num_codigo_barra+' - '+str(len(num_codigo_barra))
+    print 'linha: '+num_codigo_linha_digitavel+' - '+str(len(num_codigo_linha_digitavel))
 
     #CRIACAO DA GRU PDF
     dados = {
@@ -90,4 +113,30 @@ def gru_pagamento(request, id):
                 'codigo_linha_digitavel':num_codigo_linha_digitavel,
                 'codigo_barra':codigo_barra
             }
+
     return gerar_pdf(request,'system/gru-cobranca.html',dados,num_codigo_linha_digitavel+'.pdf')
+
+def relatorio_parcelas_pagas_vencidas(request):
+    parcelas = []
+    titulo = ''
+    total = 0.0
+    descricao = 'Estimativas - Base de dados SisterLeg: Abril/2015'
+    if request.method == "POST":
+        escolha = request.POST['ordenacao']
+        if escolha == 'pagas':
+            titulo = 'PARCELAS PAGAS'
+            descricao = 'Base de dados SisterLeg: Abril/2015'
+            lista = ParcelaGuia.objects.filter( status_pagamento = True )
+            for l in lista:
+                total += l.parcela.valor_total
+                parcelas.append( l.parcela )
+        else:
+            titulo = 'PARCELAS VENCIDAS'
+            descricao = 'Estimativas, sem cálculo de juros, multa e correções. - Base de dados SisterLeg: Abril/2015'
+            lista = Parcela.objects.all()
+            for l in lista:
+                if l.data_vencimento > datetime.datetime.now().date():
+                    total += l.valor_total
+                    parcelas.append( l )
+        print escolha
+    return render_to_response('system/relatorio/parcelas_pagas_vencidas.html',{'titulo':titulo,'total':total,'descricao':descricao,'parcelas':parcelas}, context_instance = RequestContext(request))

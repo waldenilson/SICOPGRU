@@ -1,5 +1,6 @@
 # encoding: utf-8
 from datetime import datetime
+from project.system.models import Convenio
 
 def get_codigo_banco():
 	return '001'
@@ -75,27 +76,37 @@ def get_DV_campo(campo, pre_linha_digitavel):
 
 #parameter dt_vencimento type datetime.datetime
 def get_fator_vencimento(dt_vencimento):
-	return ( dt_vencimento - get_data_base() ).days
+	return ( dt_vencimento - get_data_base().date() ).days
 
 def get_zeros():
 	return '000000'
 
 def get_convenio():
-	return '1234567'
-
-def get_nosso_numero():
-	return '1234567890'
+	conv = Convenio.objects.get(pk=1).numero[0:7]
+	return conv
+	
+def get_nosso_numero(numero):
+	retorno = format_10_position( str(numero) )
+	return retorno
 
 def get_carteira():
 	return '18'
 
-def calcular_codigo_barra(valor, dt_vencimento):
-	codigo_barra_sem_DV = str(get_codigo_banco())+str(get_moeda())+'0'+str(get_fator_vencimento(dt_vencimento))+str(valor)+str(get_zeros())+str(get_convenio())+str(get_nosso_numero())+str(get_carteira())
+def calcular_codigo_barra(valor, nosso_numero, dt_vencimento):
+
+	valor_ = str(valor).replace('.','')
+	valor = format_10_position( valor_ )
+
+	codigo_barra_sem_DV = str(get_codigo_banco())+str(get_moeda())+'0'+str(get_fator_vencimento(dt_vencimento))+str(valor)+str(get_zeros())+str(get_convenio())+str(get_nosso_numero(nosso_numero))+str(get_carteira())
 	DV_codigo_barra = get_DV_codigo_barra( codigo_barra_sem_DV )
-	retorno = str(get_codigo_banco())+str(get_moeda())+str(DV_codigo_barra)+str(get_fator_vencimento(dt_vencimento))+str(valor)+str(get_zeros())+str(get_convenio())+str(get_nosso_numero())+str(get_carteira())
+	retorno = str(get_codigo_banco())+str(get_moeda())+str(DV_codigo_barra)+str(get_fator_vencimento(dt_vencimento))+str(valor)+str(get_zeros())+str(get_convenio())+str(get_nosso_numero(nosso_numero))+str(get_carteira())
 	return retorno
 
 def calcular_linha_digitavel(codigo_barra, valor, dt_vencimento):
+
+	valor_ = str(valor).replace('.','')
+	valor = format_10_position( valor_ )
+
 	posicao_20_24_codigo_barra = codigo_barra[19:24]
 	posicao_25_34_codigo_barra = codigo_barra[24:34]
 	posicao_35_44_codigo_barra = codigo_barra[34:44]
@@ -106,3 +117,16 @@ def calcular_linha_digitavel(codigo_barra, valor, dt_vencimento):
 
 	retorno = str(get_codigo_banco())+str(get_moeda())+str(posicao_20_24_codigo_barra)+DV_campo_1+str(posicao_25_34_codigo_barra)+DV_campo_2+str(posicao_35_44_codigo_barra)+DV_campo_3+str(get_DV_codigo_barra(codigo_barra))+str(get_fator_vencimento(dt_vencimento))+str(valor)
 	return retorno
+
+
+def format_10_position( numero ):
+	numero_ = ''
+	if len(str(numero))<10:
+		y = 10 - len(str(numero))
+		aux = ''
+		for i in range(0,y):
+			aux += '0'
+		numero_ = aux+str(numero)
+	else:
+		numero_ = str(numero)
+	return numero_
