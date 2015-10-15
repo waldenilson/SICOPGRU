@@ -8,16 +8,7 @@
 					</li>
 							
 					{% if perms.sicop.titulo_calculo_portaria23 %}
-						<li><a href="#">Cálculo</a>
-						<ul>
-							{% if perms.sicop.titulo_calculo_portaria23 %}
-								<li><a href="/calculo/portaria23/">Portaria 23</a></li>
-							{% endif %}
-							{% if perms.sicop.tr_mensal_consulta %}
-								<li><a href="/calculo/tr_mensal/consulta/">TR Mensal</a></li>
-							{% endif %}
-						</ul>
-						</li>
+						<li><a href="/sistema/consulta/">Cálculo</a></li>
 					{% endif %}
 					
 					{% if perms.sicop.usuario_consulta or perms.sicop.grupo_consulta or perms.sicop.divisao_consulta %}

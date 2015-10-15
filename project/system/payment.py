@@ -2,6 +2,7 @@
 from datetime import timedelta
 from project.calculation.calc import calcular
 from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela
+from project.core.models import Municipio
 import datetime
 
 def read_exemple_return_siafi():

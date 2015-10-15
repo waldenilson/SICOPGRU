@@ -58,29 +58,23 @@
 			<tbody>
 				<tr>
 					<td class="colunaTabelaConsulta" style="width:5%">Nº</td>
-					<td class="colunaTabelaConsulta" style="width:15%">Processo</td>
-					<td class="colunaTabelaConsulta" style="width:20%">Municipio</td>
-					<td class="colunaTabelaConsulta" style="width:20%">Gleba</td>
-					<td class="colunaTabelaConsulta" style="width:15%">Titulo</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Principal</td>
+					<td class="colunaTabelaConsulta" style="width:20%">Juros</td>
+					<td class="colunaTabelaConsulta" style="width:20%">Multa</td>
+					<td class="colunaTabelaConsulta" style="width:20%">Correção</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Total</td>
 					<td class="colunaTabelaConsulta" style="width:15%">Vencimento</td>
-					<td class="colunaTabelaConsulta" style="width:5%">Emitir</td>
-					
-					
 				</tr>
 				{% if parcelas %}
 				  		{% for obj in parcelas %}
 							<tr>
 									<td class="colunaTabelaConsulta">{{ obj.numero }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.numero_processo }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.nome_municipio }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.nome_gleba }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.id_req}}</td>
-									<td class="colunaTabelaConsulta">{{ obj.data_vencimento_primeira_prestacao}}</td>
-									<td class="colunaTabelaConsulta">
-										<a target="blank" href="/sistema/gru-pagamento/{{obj.id}}/">
-											<img width="24px" src="{% static "img/pdf.png" %}" title="Gerar GRU" alt="Gerar GRU" />	
-										</a>
-									</td>
+									<td class="colunaTabelaConsulta">{{ obj.valor_principal }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.valor_juro }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.valor_multa }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.valor_correcao }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.valor_total}}</td>
+									<td class="colunaTabelaConsulta">{{ obj.data_vencimento|date:'d/m/Y'}}</td>
 							</tr>
 						{% endfor %}
 					{% else %}

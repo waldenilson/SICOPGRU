@@ -35,7 +35,7 @@ def consulta(request):
             if dados != None:
                 print 'Encontrou registro'
                 if dados['dados'] == 'local':
-                    lista_parcela = carregar_parcelas( dados )
+                    lista_parcela = carregar_parcelas( cpf )
                     return HttpResponseRedirect('/sistema/parcelas-pagamento/'+dados['cpf_titulado']+'/')
                 elif dados['dados'] == 'externa':
                     if dados['situacao'] == 'Titulado':
@@ -52,7 +52,6 @@ def consulta(request):
         
     return render_to_response('system/consulta.html',{}, context_instance = RequestContext(request))
 
-
 def inicio_pagamento(request, cpf):
     dados = consultar(cpf)
     if request.method == "POST":
@@ -60,7 +59,7 @@ def inicio_pagamento(request, cpf):
         data_requerimento = data_requerimento.date()
         if data_requerimento <= datetime.datetime.now().date():
             iniciar_calculo( dados, data_requerimento, request.POST.get('nossa_escola',False), AuthUser.objects.get(pk=request.user.id) )
-            return HttpResponseRedirect("/sistema/consulta/")
+            return HttpResponseRedirect('/sistema/parcelas-pagamento/'+cpf+'/')
         else:
             messages.add_message(request, messages.WARNING, 'Data do Requerimento maior que a data de hoje.')
     return render_to_response('system/calculo_pagamento.html',{'dados':dados}, context_instance = RequestContext(request))
@@ -119,7 +118,7 @@ def gru_pagamento(request, id):
 def relatorio_parcelas_pagas_vencidas(request):
     parcelas = []
     titulo = ''
-    total = 0.0
+    total = Decimal(0.0)
     descricao = 'Estimativas - Base de dados SisterLeg: Abril/2015'
     if request.method == "POST":
         escolha = request.POST['ordenacao']
@@ -135,8 +134,8 @@ def relatorio_parcelas_pagas_vencidas(request):
             descricao = 'Estimativas, sem cálculo de juros, multa e correções. - Base de dados SisterLeg: Abril/2015'
             lista = Parcela.objects.all()
             for l in lista:
-                if l.data_vencimento > datetime.datetime.now().date():
-                    total += l.valor_total
+                if l.data_vencimento < datetime.datetime.now().date():
+                    total += Decimal(l.valor_total)
                     parcelas.append( l )
         print escolha
     return render_to_response('system/relatorio/parcelas_pagas_vencidas.html',{'titulo':titulo,'total':total,'descricao':descricao,'parcelas':parcelas}, context_instance = RequestContext(request))
