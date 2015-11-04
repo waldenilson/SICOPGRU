@@ -1,12 +1,32 @@
 # -- coding: utf-8 --
 from datetime import timedelta
 from project.calculation.calc import calcular
-from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela
+from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela, ParcelaGuia
 from project.core.models import Municipio
 import datetime
 
-def read_exemple_return_siafi():
-	pass
+def return_file_ref(file_ref):
+	header = []
+	lines = []
+	x = 0
+	for line in file_ref:
+		if x == 0:
+			header = line[0]
+		else:
+			lines.append(line[0])
+		x += 1
+	obj_convenio = Convenio.objects.filter( numero = header )
+	if obj_convenio:
+		for l in lines:
+			parcelasguia = ParcelaGuia.objects.filter( guia__id_convenio = obj_convenio[0].id, id = int(l) )
+			for pg in parcelasguia:
+				pg.status_pagamento = True
+				pg.data_pagamento = '2015-11-04'
+				pg.guia.codigo_retorno = file_ref
+				pg.guia.save()
+				pg.save()
+	else:
+		print 'no conv'
 
 def iniciar_calculo( dados, data_requerimento, nossa_escola, usuario ):
 	print 'INICIANDO CALCULO'

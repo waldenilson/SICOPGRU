@@ -21,7 +21,7 @@ from django.template import Context
 
 #import ho.pisa as pisa
 import cStringIO as StringIO
-import os
+import os,sys,csv
 from django.conf import settings
 from project import settings as configuracao
 from django.template.loader import get_template
@@ -29,6 +29,29 @@ from xhtml2pdf import pisa
 from django.template import loader
 from project.calculation.barcode import codigodebarra
 import urllib2
+
+def upload_file(request_file,path,nome_arquivo,extensao):
+    if nome_arquivo[len(nome_arquivo)-3:len(nome_arquivo)] == extensao:        
+        try:
+            with open(path, 'wb+') as destination:
+                for chunk in request_file.chunks():
+                    destination.write(chunk)
+                destination.close()
+                return '1'
+        except:
+            return '0'
+    else:
+        return '2'
+
+def reader_csv(path, delimitador):    
+    csv.field_size_limit(sys.maxsize)
+    retorno = []
+    with open(path, 'rb') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=str(delimitador), quotechar='\n')
+        for row in spamreader:
+            if row:
+                retorno.append(row) 
+    return retorno
 
 def formatDataToText( formato_data ):
     if formato_data:

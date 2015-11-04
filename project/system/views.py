@@ -19,8 +19,8 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
 from project.system.integration import consultar
-from project.system.payment import iniciar_calculo, carregar_parcelas
-from project.core.funcoes import gerar_codigo_barra, gerar_pdf
+from project.system.payment import iniciar_calculo, carregar_parcelas, return_file_ref
+from project.core.funcoes import gerar_codigo_barra, gerar_pdf, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel
 
 @permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
@@ -139,3 +139,17 @@ def relatorio_parcelas_pagas_vencidas(request):
                     parcelas.append( l )
         print escolha
     return render_to_response('system/relatorio/parcelas_pagas_vencidas.html',{'titulo':titulo,'total':total,'descricao':descricao,'parcelas':parcelas}, context_instance = RequestContext(request))
+
+
+@permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
+def arquivo_retorno(request):
+    if request.method == 'POST' and request.FILES:
+        path = abspath(join(dirname(__file__), '../../media'))+'/tmp/arquivo_retorno.ref'
+        res = upload_file(request.FILES['arquivo'],path,request.FILES['arquivo'].name,'ref')
+        if res == '0':
+            messages.add_message(request,messages.ERROR,'Erro no upload. Tente novamente.')
+        elif res == '2':
+            messages.add_message(request,messages.WARNING,'Arquivo com extensão incorreta.')
+        elif res == '1':
+            return_file_ref( reader_csv(path, ' ') )
+    return render_to_response('system/arquivo_retorno.html',{}, context_instance = RequestContext(request))

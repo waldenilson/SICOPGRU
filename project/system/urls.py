@@ -7,6 +7,7 @@ urlpatterns = patterns('project.system',
    url(r'^inicio-pagamento/(?P<cpf>\d+)/', 'views.inicio_pagamento'),
    url(r'^parcelas-pagamento/(?P<cpf>\d+)/', 'views.parcelas_pagamento'),
    url(r'^gru-pagamento/(?P<id>\d+)/', 'views.gru_pagamento'),
+   url(r'^arquivo-retorno', 'views.arquivo_retorno'),
 
    url(r'^relatorio/parcelas/pagas-vencidas/', 'views.relatorio_parcelas_pagas_vencidas'),
       

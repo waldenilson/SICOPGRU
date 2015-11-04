@@ -10,6 +10,16 @@
 					{% if perms.sicop.titulo_calculo_portaria23 %}
 						<li><a href="/sistema/consulta/">Cálculo</a></li>
 					{% endif %}
+
+					{% if perms.sicop.titulo_calculo_portaria23 %}
+						<li><a href="#">Importação</a>
+						<ul>
+							{% if perms.sicop.usuario_consulta %}
+							<li><a href="/sistema/arquivo-retorno/">Arquivo Retorno</a></li>
+							{% endif %}
+						</ul>
+						</li>
+					{% endif %}
 					
 					{% if perms.sicop.usuario_consulta or perms.sicop.grupo_consulta or perms.sicop.divisao_consulta %}
 					<li><a href="#">Usuário</a>
