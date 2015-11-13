@@ -47,14 +47,14 @@
 				<tr>
 					<td class="colunaTabelaConsulta" style="width:20%">Nome</td>
 					<td class="colunaTabelaConsulta" style="width:15%">Email</td>
-					<td class="colunaTabelaConsulta" style="width:10%">Divisao</td>
+					<td class="colunaTabelaConsulta" style="width:10%">Regional</td>
 				</tr>
 				{% if lista %}
 					{% for obj in lista %}
 						<tr onclick="editarID('/core/usuario/edicao/{{ obj.id }}');">
 							<td class="colunaTabelaConsulta">{{ obj.first_name }}</td>
 							<td class="colunaTabelaConsulta">{{ obj.email }}</td>
-							<td class="colunaTabelaConsulta">{{ obj.tbdivisao.nmdivisao }}</td>
+							<td class="colunaTabelaConsulta">{{ obj.regional.nome }}</td>
 						</tr>
 					{% endfor %}
 				{% else %}

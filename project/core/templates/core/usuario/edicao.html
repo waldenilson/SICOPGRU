@@ -28,20 +28,20 @@
 							<input type="checkbox" name="is_active" />
 						{% endif %}
 				   </td> </tr>
-					<tr> <td class="colunaTabela"> <label>Divisao:</label> </td>
+					<tr> <td class="colunaTabela"> <label>Regional:</label> </td>
 				   		<td>
-				   			<select style="width: 200px" name="tbdivisao">
-				   				{% for obj in divisao %}
-									{% if obj.id == user_obj.tbdivisao.id %}
-										<option selected="selected" value="{{ obj.id }}">{{ obj.nmdivisao }}</option>
+				   			<select style="width: 200px" name="regional">
+				   				{% for obj in regional %}
+									{% if obj.id == user_obj.regional.id %}
+										<option selected="selected" value="{{ obj.id }}">{{ obj.nome }}</option>
 									{% else %}
-										<option value="{{ obj.id }}">{{ obj.nmdivisao }}</option>
+										<option value="{{ obj.id }}">{{ obj.nome }}</option>
 									{% endif %}
 								{% endfor %}
 							</select>
 						</td>
 					<td>
-						<a href="/core/divisao/cadastro/?next=/sicop/usuario/cadastro/" title="Nova Divisao"> <img src="{% static "img/add.png" %}" width="24" /> </a>
+						<a href="/core/regional/cadastro/?next=/sicop/usuario/cadastro/" title="Nova Regional"> <img src="{% static "img/add.png" %}" width="24" /> </a>
 					</td>						
 				   	</tr>
 				</table>

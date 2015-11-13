@@ -22,17 +22,17 @@
 				   <tr> <td class="colunaTabela"> <label>Login:</label> </td><td> <input name="username" /> </td> </tr>
 				   <tr> <td class="colunaTabela"> <label>Senha:</label> </td><td> <input type="password" size="12" name="password" /> </td> </tr>
 				   <tr> <td class="colunaTabela"> <label>Ativo:</label> </td><td> <input type="checkbox" name="is_active" /> </td> </tr>
-				   <tr> <td class="colunaTabela"> <label>Divisao:</label> </td>
+				   <tr> <td class="colunaTabela"> <label>Regional:</label> </td>
 				   		<td>
-				   			<select style="width: 200px" name="tbdivisao">
-				   				<option value="">-- Selecione a Divisao --</option>
-								{% for obj in divisao %}
-									<option value="{{ obj.id }}">{{ obj.nmdivisao }}</option>
+				   			<select style="width: 200px" name="regional">
+				   				<option value="">-- Selecione a Regional --</option>
+								{% for obj in regional %}
+									<option value="{{ obj.id }}">{{ obj.nome }}</option>
 								{% endfor %}
 							</select>
 						</td>
 					<td>
-						<a href="/core/divisao/cadastro/?next=/core/usuario/cadastro/" title="Nova Divisao"> <img src="{% static "img/add.png" %}" width="24" /> </a>
+						<a href="/core/regional/cadastro/?next=/core/usuario/cadastro/" title="Nova Divisao"> <img src="{% static "img/add.png" %}" width="24" /> </a>
 					</td>						
 				  </tr>
 				   

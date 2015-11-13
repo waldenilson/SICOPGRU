@@ -28,15 +28,15 @@ def consulta(request):
     if request.method == "POST":
         first_name = request.POST['first_name']
         email = request.POST['email']
-        #print 'User: '+AuthUser.objects.get( pk = request.user.id ).tbdivisao.nmdivisao
-        # se usuario for do grupo Super; mostra todos senao mostra somente os usuarios da divisao
+        #print 'User: '+AuthUser.objects.get( pk = request.user.id ).regional.nmregional
+        # se usuario for do grupo Super; mostra todos senao mostra somente os usuarios da regional
         if verificar_permissao_grupo( AuthUser.objects.get( pk = request.user.id ), {'Super'} ):
             lista = AuthUser.objects.all().filter( first_name__icontains=first_name, email__icontains=email )
         else:
             lista = AuthUser.objects.all().filter( first_name__icontains=first_name, email__icontains=email, 
                                                    regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
     else:
-        # se usuario for do grupo Super; mostra todos senao mostra somente os usuarios da divisao
+        # se usuario for do grupo Super; mostra todos senao mostra somente os usuarios da regional
         if verificar_permissao_grupo( AuthUser.objects.get( pk = request.user.id ), {'Super'} ):
             lista = AuthUser.objects.all()
         else:
@@ -51,10 +51,10 @@ def consulta(request):
 def cadastro(request):
     
     #servidor = Tbservidor.objects.all()
-    divisao = Regional.objects.all().order_by('nmdivisao')
+    regional = Regional.objects.all().order_by('nmregional')
     
     
-    grupo = AuthGroup.objects.all().filter( tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).order_by('name')
+    grupo = AuthGroup.objects.all().filter( regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id ).order_by('name')
     
     result = {}
     for obj in grupo:
@@ -69,7 +69,7 @@ def cadastro(request):
     if request.method == "POST":
         if validacao(request, 'cadastro'):            
             usuario = AuthUser(
-                                   tbdivisao = Regional.objects.get( pk = request.POST['tbdivisao'] ),
+                                   regional = Regional.objects.get( pk = request.POST['regional'] ),
                                    password = make_password(request.POST['password']),
                                    first_name = request.POST['first_name'],
                                    last_name = request.POST['last_name'],
@@ -93,14 +93,14 @@ def cadastro(request):
             
             return HttpResponseRedirect("/core/usuario/consulta/") 
     
-    return render_to_response('core/usuario/cadastro.html',{'divisao':divisao,'result':result,'grupo':grupo}, context_instance = RequestContext(request))
+    return render_to_response('core/usuario/cadastro.html',{'regional':regional,'result':result,'grupo':grupo}, context_instance = RequestContext(request))
 
 
 @permission_required('sicop.usuario_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
     
-    divisao = Regional.objects.all().order_by('nmdivisao')
-    grupo = AuthGroup.objects.all().filter( tbdivisao__id = AuthUser.objects.get( pk = request.user.id ).tbdivisao.id ).order_by('name')
+    regional = Regional.objects.all().order_by('nome')
+    grupo = AuthGroup.objects.all().filter( regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id ).order_by('name')
     userGrupo = AuthUserGroups.objects.all().filter( user = id )
     
     result = {}
@@ -156,7 +156,7 @@ def edicao(request, id):
             
             usuario = AuthUser(
                                    id = user_obj.id,
-                                   tbdivisao = Regional.objects.get( pk = request.POST['tbdivisao'] ),
+                                   regional = Regional.objects.get( pk = request.POST['regional'] ),
                                    password = senha_atual,
                                    first_name = request.POST['first_name'],
                                    last_name = request.POST['last_name'],
@@ -172,7 +172,7 @@ def edicao(request, id):
             return HttpResponseRedirect("/core/usuario/consulta/")
     
     return render_to_response('core/usuario/edicao.html', 
-                              {'result':result,'grupo':grupo,'usergrupo':userGrupo,'user_obj':user_obj,'divisao':divisao}, context_instance = RequestContext(request))
+                              {'result':result,'grupo':grupo,'usergrupo':userGrupo,'user_obj':user_obj,'regional':regional}, context_instance = RequestContext(request))
 
 
 @login_required
@@ -180,7 +180,7 @@ def edicao_usuario_logado(request, id):
     
     if str(request.user.id) == str(id):
     
-        divisao = Regional.objects.all()
+        regional = Regional.objects.all()
         grupo = AuthGroup.objects.all()
         #servidor = Tbservidor.objects.all()
         userGrupo = AuthUserGroups.objects.all().filter( user = id )
@@ -236,7 +236,7 @@ def edicao_usuario_logado(request, id):
                 
                 usuario = AuthUser(
                                        id = user_obj.id,
-                                       tbdivisao = Regional.objects.get( pk = request.POST['tbdivisao'] ),
+                                       regional = Regional.objects.get( pk = request.POST['regional'] ),
                                        password = senha_atual,
                                        first_name = request.POST['first_name'],
                                        last_name = request.POST['last_name'],
@@ -252,7 +252,7 @@ def edicao_usuario_logado(request, id):
                 return HttpResponseRedirect("/core/usuario/edicao/usuario/"+str(id)+"/")
         
         return render_to_response('core/usuario/edicao.html', 
-                                  {'result':result,'grupo':grupo,'usergrupo':userGrupo,'user_obj':user_obj,'divisao':divisao}, context_instance = RequestContext(request))
+                                  {'result':result,'grupo':grupo,'usergrupo':userGrupo,'user_obj':user_obj,'regional':regional}, context_instance = RequestContext(request))
     else:
         return HttpResponseRedirect("/core/usuario/edicao/"+str(id)+"/")
 
@@ -269,7 +269,7 @@ def relatorio_pdf(request):
         dados = relatorio_pdf_base_header_title(titulo_relatorio)
         dados.append( ('NOME','DIVISAO') )
         for obj in lista:
-            dados.append( ( obj.username , obj.tbdivisao.nmdivisao ) )
+            dados.append( ( obj.username , obj.regional.nmregional ) )
         return relatorio_pdf_base(response, doc, elements, dados)
     else:
         return HttpResponseRedirect(response_consulta)
@@ -294,7 +294,7 @@ def relatorio_ods(request):
         x = 0
         for obj in lista:
             sheet.getCell(0, x+2).setAlignHorizontal('center').stringValue(obj.username)
-            sheet.getCell(1, x+2).setAlignHorizontal('center').stringValue(obj.tbdivisao.nmdivisao)    
+            sheet.getCell(1, x+2).setAlignHorizontal('center').stringValue(obj.regional.nmregional)    
             x += 1
         
     #TRECHO PERSONALIZADO DE CADA CONSULTA     
@@ -318,7 +318,7 @@ def relatorio_csv(request):
         writer = relatorio_csv_base(response, nome_relatorio)
         writer.writerow(['Nome', 'Divisao'])
         for obj in lista:
-            writer.writerow([obj.username, obj.tbdivisao.nmdivisao])
+            writer.writerow([obj.username, obj.regional.nmregional])
         return response
     else:
         return HttpResponseRedirect( response_consulta )
@@ -351,7 +351,7 @@ def validacao(request_form, acao):
         if request_form.POST['password'] == '':
             messages.add_message(request_form,messages.WARNING,'Informe a Senha')
             warning = False
-    if request_form.POST['tbdivisao'] == '':
+    if request_form.POST['regional'] == '':
         messages.add_message(request_form,messages.WARNING,'Selecione a Divisao')
         warning = False
     return warning

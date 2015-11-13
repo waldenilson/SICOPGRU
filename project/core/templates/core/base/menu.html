@@ -6,50 +6,24 @@
 					<span>Página Inicial</span>
 					</a>
 					</li>
-							
-					{% if perms.sicop.titulo_calculo_portaria23 %}
+					<hr/>
+					{% if perms.system.consulta %}
 						<li><a href="/sistema/consulta/">Cálculo</a></li>
+						<hr/>
 					{% endif %}
 
-					{% if perms.sicop.titulo_calculo_portaria23 %}
+					{% if perms.system.importacao_arquivo_retorno %}
 						<li><a href="#">Importação</a>
 						<ul>
-							{% if perms.sicop.usuario_consulta %}
+							{% if perms.system.importacao_arquivo_retorno %}
 							<li><a href="/sistema/arquivo-retorno/">Arquivo Retorno</a></li>
 							{% endif %}
 						</ul>
 						</li>
+						<hr/>
 					{% endif %}
-					
-					{% if perms.sicop.usuario_consulta or perms.sicop.grupo_consulta or perms.sicop.divisao_consulta %}
-					<li><a href="#">Usuário</a>
-					<ul>
-					{% if perms.sicop.usuario_consulta %}
-					<li><a href="/core/usuario/consulta/">Controle</a></li>
-					{% endif %}
-					{% if perms.sicop.grupo_consulta %}
-					<li><a href="/core/grupo/consulta/">Grupo</a></li>
-					{% endif %}
-					{% if perms.sicop.permissao_consulta %}
-					<li><a href="/core/permissao/consulta/">Permissão</a></li>
-					{% endif %}
-					{% if perms.regional_consulta %}
-					<li><a href="/core/regional/consulta/">Regional</a></li>
-					{% endif %}
-					</ul>
-					</li>
-					{% endif %}
-					
-					{% if perms.sicop.municipio_consulta %}
-						<li><a href="#">Município</a>
-						<ul>
-							{% if perms.sicop.municipio_consulta %}
-								<li><a href="/core/municipio/consulta/">Controle</a></li>
-							{% endif %}
-						</ul>
-						</li>
-					{% endif %}
-					
+
+					{% if perms.system.relatorio %}					
 					<li>
 					<a href="#" title="">
 					<span>Relatórios</span>
@@ -57,8 +31,40 @@
 						<ul>
 							<li><a href="/sistema/relatorio/parcelas/pagas-vencidas/">Parcelas pagas x vencidas</a></li>
 						</ul>
-					</li>													
-
+					</li>
+					<hr/>													
+					{% endif %}
+					
+					{% if perms.core.usuario_consulta or perms.core.grupo_consulta or perms.core.regional_consulta %}
+					<li><a href="#">Usuário</a>
+					<ul>
+					{% if perms.core.usuario_consulta %}
+					<li><a href="/core/usuario/consulta/">Controle</a></li>
+					{% endif %}
+					{% if perms.core.grupo_consulta %}
+					<li><a href="/core/grupo/consulta/">Grupo</a></li>
+					{% endif %}
+					{% if perms.core.permissao_consulta %}
+					<li><a href="/core/permissao/consulta/">Permissão</a></li>
+					{% endif %}
+					{% if perms.core.regional_consulta %}
+					<li><a href="/core/regional/consulta/">Regional</a></li>
+					{% endif %}
+					</ul>
+					</li>
+					<hr/>
+					{% endif %}
+					
+					{% if perms.core.municipio_consulta %}
+						<li><a href="#">Município</a>
+						<ul>
+							{% if perms.core.municipio_consulta %}
+								<li><a href="/core/municipio/consulta/">Controle</a></li>
+							{% endif %}
+						</ul>
+						</li>
+						<hr/>
+					{% endif %}
 					<li>
 					<a href="/web/equipe/" title="">
 					<span>Equipe</span>

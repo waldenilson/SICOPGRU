@@ -50,7 +50,7 @@ def edicao(request, id):
         if validacao(request):
             if form.is_valid():
                 form.save()
-                return HttpResponseRedirect("/sicop/municipio/edicao/"+str(id)+"/")
+                return HttpResponseRedirect("/core/municipio/edicao/"+str(id)+"/")
     else:
         form = FormMunicipio(instance=instance) 
     return render_to_response('core/municipio/edicao.html', {"form":form,'uf':uf}, context_instance = RequestContext(request))

@@ -23,7 +23,7 @@ from project.system.payment import iniciar_calculo, carregar_parcelas, return_fi
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel
 
-@permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('system.consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def consulta(request):
 
     if request.method == "POST":
@@ -115,6 +115,7 @@ def gru_pagamento(request, id):
 
     return gerar_pdf(request,'system/gru-cobranca.html',dados,num_codigo_linha_digitavel+'.pdf')
 
+@permission_required('system.relatorio_pagas_vencidas', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def relatorio_parcelas_pagas_vencidas(request):
     parcelas = []
     titulo = ''
@@ -141,7 +142,7 @@ def relatorio_parcelas_pagas_vencidas(request):
     return render_to_response('system/relatorio/parcelas_pagas_vencidas.html',{'titulo':titulo,'total':total,'descricao':descricao,'parcelas':parcelas}, context_instance = RequestContext(request))
 
 
-@permission_required('sicop.titulo_calculo_portaria23', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('system.importacao_arquivo_retorno', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def arquivo_retorno(request):
     if request.method == 'POST' and request.FILES:
         path = abspath(join(dirname(__file__), '../../media'))+'/tmp/arquivo_retorno.ref'
