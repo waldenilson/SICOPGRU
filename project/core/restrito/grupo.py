@@ -22,9 +22,9 @@ planilha_relatorio  = "Grupos"
 def consulta(request):
     if request.method == "POST":
         nome = request.POST['name']
-        lista = AuthGroup.objects.all().filter( name__icontains=nome, regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
+        lista = AuthGroup.objects.filter( name__icontains=nome, regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
     else:
-        lista = AuthGroup.objects.all().filter(regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id)
+        lista = AuthGroup.objects.filter(regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id)
     lista = lista.order_by( 'name' )
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf
     request.session['relatorio_grupo'] = lista
@@ -34,16 +34,15 @@ def consulta(request):
 def cadastro(request):
     if request.method == "POST":
         next = request.GET.get('next', '/')    
-        if validacao(request):
-            f_grupo = AuthGroup(
-                                        name = request.POST['nome'],
-                                        tbdivisao = AuthUser.objects.get( pk = request.user.id ).tbdivisao
-                                      )
-            f_grupo.save()
-            if next == "/":
-                return HttpResponseRedirect("/core/grupo/consulta/")
-            else:    
-                return HttpResponseRedirect( next ) 
+        f_grupo = AuthGroup(
+            name = request.POST['nome'],
+            regional = AuthUser.objects.get( pk = request.user.id ).regional
+        )
+        f_grupo.save()
+        if next == "/":
+            return HttpResponseRedirect("/core/grupo/consulta/")
+        else:    
+            return HttpResponseRedirect( next ) 
     return render_to_response('core/grupo/cadastro.html',{}, context_instance = RequestContext(request))
     
 @permission_required('sicop.grupo_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
@@ -97,7 +96,7 @@ def edicao(request, id):
             f_grupo = AuthGroup(
                                         id = instance.id,
                                         name = request.POST['nome'],
-                                        tbdivisao = AuthUser.objects.get( pk = request.user.id ).tbdivisao
+                                        regional = AuthUser.objects.get( pk = request.user.id ).regional
                                       )
             f_grupo.save()
             return HttpResponseRedirect("/core/grupo/consulta/")
