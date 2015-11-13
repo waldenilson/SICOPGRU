@@ -34,6 +34,20 @@
 					</li>
 					<hr/>													
 					{% endif %}
+
+					{% if perms.system.orgao_consulta or perms.system.convenio_consulta %}
+						<li><a href="#">Administração</a>
+						<ul>
+							{% if perms.system.orgao_consulta %}
+							<li><a href="/core/orgao/consulta/">Orgão</a></li>
+							{% endif %}
+							{% if perms.system.convenio_consulta %}
+							<li><a href="/core/convenio/consulta/">Convênio</a></li>
+							{% endif %}
+						</ul>
+						</li>
+						<hr/>
+					{% endif %}
 					
 					{% if perms.core.usuario_consulta or perms.core.grupo_consulta or perms.core.regional_consulta %}
 					<li><a href="#">Usuário</a>
