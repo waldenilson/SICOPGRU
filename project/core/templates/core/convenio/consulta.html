@@ -2,12 +2,12 @@
 {% load staticfiles %} 
 
 {% block breadcumbs %}
-	Acesso Restrito | Regional
+	Acesso Restrito | Convênio
 {% endblock %}
 
 {% block subtitulo %}
 	
-	CONSULTAR REGIONAL
+	CONSULTAR CONVÊNIO
 	
 {% endblock %}
 
@@ -19,7 +19,7 @@
 			<table style="width:100%;text-align: left">
 				<tbody>
 				   <tr> 
-				   		<td class="colunaTabela"> <label>Nome:</label> </td><td> <input style="width:100%" name="nome" /> </td>
+				   		<td class="colunaTabela"> <label>Número:</label> </td><td> <input style="width:100%" name="numero" /> </td>
 				   </tr>
 				</tbody>
 			</table>
@@ -28,12 +28,12 @@
 				<tr>
 					<td class="colunaTabela" style="text-align:left"> 
 						<input class="button_yellow" style="margin-right: 10px" type="submit" value="PESQUISAR" />
-						<a href="/core/regional/cadastro/"> <input class="button_green" value="NOVO" type="button" /> </a>
+						<a href="/core/convenio/cadastro/"> <input class="button_green" value="NOVO" type="button" /> </a>
 					</td>
 				</tr>
 				<tr>
 					<td class="colunaTabela" colspan="2" style="text-align:left"> 
-						<div>Total de registros: {{ request.session.relatorio_regional|length }}</div>
+						<div>Total de registros: {{ request.session.relatorio_convenio|length }}</div>
 					</td>
 				</tr>
 			</table>
@@ -46,18 +46,20 @@
 		<table class="csstable">
 			<tbody>
 				<tr>
-					<td class="colunaTabelaConsulta" style="width:20%">Nome</td>
-					<td class="colunaTabelaConsulta" style="width:10%">UF</td>
+					<td class="colunaTabelaConsulta" style="width:10%">Número</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Orgão</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Inst. Financeira</td>
 				</tr>
 				{% if lista %}
 					{% for obj in lista %}
-						<tr onclick="editarID('/core/regional/edicao/{{ obj.id }}');">
-							<td class="colunaTabelaConsulta">{{ obj.nome }}</td>
-							<td class="colunaTabelaConsulta">{{ obj.uf.nmuf }}</td>
+						<tr onclick="editarID('/core/convenio/edicao/{{ obj.id }}');">
+							<td class="colunaTabelaConsulta">{{ obj.numero }}</td>
+							<td class="colunaTabelaConsulta">{{ obj.orgao.nome }}</td>
+							<td class="colunaTabelaConsulta">{{ obj.instituicao_financeira }}</td>
 						</tr>
 					{% endfor %}
 				{% else %}
-					<tr> <td style="padding-top: 20px" colspan="6"> Nenhuma Regional Encontrada </td> </tr>
+					<tr> <td style="padding-top: 20px" colspan="6"> Nenhum Convênio Encontrado </td> </tr>
 				{% endif %}
 			</tbody>
 		</table>

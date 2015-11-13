@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required, permission_required,\
     user_passes_test
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from project.core.models import Regional, Uf
+from project.system.models import Convenio, Orgao
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from project.core.admin import verificar_permissao_grupo
@@ -12,67 +12,66 @@ from project.core.relatorio_base import relatorio_pdf_base_header,\
     relatorio_ods_base_header, relatorio_ods_base, relatorio_csv_base
 from odslib import ODS
 
-nome_relatorio      = "relatorio_regional"
-response_consulta  = "/core/regional/consulta/"
-titulo_relatorio    = "Relatorio Regional"
-planilha_relatorio  = "Regionais"
+nome_relatorio      = "relatorio_convenio"
+response_consulta  = "/core/convenio/consulta/"
+titulo_relatorio    = "Relatorio Convenio"
+planilha_relatorio  = "Convenios"
 
 
-@permission_required('regional_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('core.convenio_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def consulta(request):
     if request.method == "POST":
-        nome = request.POST['nome']
-        lista = Regional.objects.filter( nome__icontains=nome )
+        numero = request.POST['numero']
+        lista = Convenio.objects.filter( numero__icontains=numero )
     else:
-        lista = Regional.objects.all()
+        lista = Convenio.objects.all()
     lista = lista.order_by( 'id' )
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf
-    request.session['relatorio_regional'] = lista
-    return render_to_response('core/regional/consulta.html' ,{'lista':lista}, context_instance = RequestContext(request))
+    request.session['relatorio_convenio'] = lista
+    return render_to_response('core/convenio/consulta.html' ,{'lista':lista}, context_instance = RequestContext(request))
     
-@permission_required('sicop.regional_cadastro', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('core.convenio_cadastro', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def cadastro(request):
 
-    uf = Uf.objects.all()
     if request.method == "POST":
         next = request.GET.get('next', '/')
-        f_grupo = Regional(
-            nome = request.POST['nome'],
-            uf = Uf.objects.get( pk = request.POST['uf'] ),
-            nrclasse = request.POST['nrclasse'],
+        f_grupo = Convenio(
+            numero = request.POST['numero'],
+            orgao = Orgao.objects.get( pk = request.POST['orgao'] ),
+            instituicao_financeira = request.POST['instituicao_financeira'],
             descricao = request.POST['descricao']
         )
         f_grupo.save()
         if next == "/":
-            return HttpResponseRedirect("/core/regional/consulta/")
+            return HttpResponseRedirect("/core/convenio/consulta/")
         else:    
             return HttpResponseRedirect( next ) 
-    return render_to_response('core/regional/cadastro.html',{"uf":uf,"classe":request.session['classe']}, context_instance = RequestContext(request))
+    return render_to_response('core/convenio/cadastro.html',{"orgaos":Orgao.objects.all()}, context_instance = RequestContext(request))
 
-@permission_required('sicop.regional_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('core.convenio_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
-    uf = Uf.objects.all()
-    instance = get_object_or_404(Regional, id=id)
+    
+    instance = get_object_or_404(Convenio, id=id)
     if request.method == "POST":
 
-        if not request.user.has_perm('sicop.regional_edicao'):
+        if not request.user.has_perm('core.convenio_edicao'):
             return HttpResponseRedirect('/excecoes/permissao_negada/') 
 
-        f_regional = Regional(
+        f_convenio = Convenio(
             id = instance.id,
-            nome = request.POST['nome'],
-            uf = Uf.objects.get( pk = request.POST['uf'] ),
-            nrclasse = request.POST['nrclasse'],
+            numero = request.POST['numero'],
+            orgao = Orgao.objects.get( pk = request.POST['orgao'] ),
+            instituicao_financeira = request.POST['instituicao_financeira'],
             descricao = request.POST['descricao']
         )
-        f_regional.save()
+        f_convenio.save()
         
-        return HttpResponseRedirect("/core/regional/consulta/")
+        return HttpResponseRedirect("/core/convenio/consulta/")
 
-    return render_to_response('core/regional/edicao.html', {"objeto":instance,"uf":uf,"classe":request.session['classe']}, context_instance = RequestContext(request))
+    return render_to_response('core/convenio/edicao.html', {"objeto":instance,"orgaos":Orgao.objects.all()}, context_instance = RequestContext(request))
 
 
-@permission_required('sicop.regional_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('sicop.convenio_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def relatorio_pdf(request):
     # montar objeto lista com os campos a mostrar no relatorio/pdf
     lista = request.session[nome_relatorio]
@@ -84,12 +83,12 @@ def relatorio_pdf(request):
         dados = relatorio_pdf_base_header_title(titulo_relatorio)
         dados.append( ('NOME','ESTADO') )
         for obj in lista:
-            dados.append( ( obj.nmregional , obj.tbuf.nmuf ) )
+            dados.append( ( obj.nmconvenio , obj.tbuf.nmuf ) )
         return relatorio_pdf_base(response, doc, elements, dados)
     else:
         return HttpResponseRedirect(response_consulta)
 
-@permission_required('sicop.regional_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('sicop.convenio_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def relatorio_ods(request):
 
     # montar objeto lista com os campos a mostrar no relatorio/pdf
@@ -108,7 +107,7 @@ def relatorio_ods(request):
         #DADOS
         x = 0
         for obj in lista:
-            sheet.getCell(0, x+2).setAlignHorizontal('center').stringValue(obj.nmregional)
+            sheet.getCell(0, x+2).setAlignHorizontal('center').stringValue(obj.nmconvenio)
             sheet.getCell(1, x+2).setAlignHorizontal('center').stringValue(obj.tbuf.nmuf)    
             x += 1
         
@@ -124,7 +123,7 @@ def relatorio_ods(request):
     else:
         return HttpResponseRedirect( response_consulta )
 
-@permission_required('sicop.regional_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('sicop.convenio_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def relatorio_csv(request):
     # montar objeto lista com os campos a mostrar no relatorio/pdf
     lista = request.session[nome_relatorio]
@@ -133,7 +132,7 @@ def relatorio_csv(request):
         writer = relatorio_csv_base(response, nome_relatorio)
         writer.writerow(['Nome', 'Estado'])
         for obj in lista:
-            writer.writerow([obj.nmregional, obj.tbuf.nmuf])
+            writer.writerow([obj.nmconvenio, obj.tbuf.nmuf])
         return response
     else:
         return HttpResponseRedirect( response_consulta )
@@ -143,7 +142,7 @@ def relatorio_csv(request):
 def validacao(request_form):
     warning = True
     if request_form.POST['nome'] == '':
-        messages.add_message(request_form,messages.WARNING,'Informe o nome da regional')
+        messages.add_message(request_form,messages.WARNING,'Informe o nome da convenio')
         warning = False
     if request_form.POST['uf'] == '':
         messages.add_message(request_form,messages.WARNING,'Informe o UF')

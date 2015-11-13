@@ -17,28 +17,23 @@
 		{% csrf_token %}
 		<div style="width:100%;font-size:12px;text-align:left">
 				<table>
-				   <tr> <td class="colunaTabela"> <label>Nome:</label> </td>
-				   	<td> <input name="nome" id="nome" required /> </td> </tr>
-				   <tr> <td class="colunaTabela"> <label>UF:</label> </td>
+
+				   <tr> <td class="colunaTabela"> <label>Número:</label> </td>
+				   	<td> <input name="numero" id="numero" required /> </td> </tr>
+
+				   <tr> <td class="colunaTabela"> <label>Orgão:</label> </td>
 				   	<td>
-				   		<select name="uf" required>
-				   			<option value="">-- Selecione o UF --</option>
-							{% for obj in uf %}
-								<option value="{{ obj.id }}">{{ obj.nmuf }}</option>
+				   		<select name="orgao" required>
+				   			<option value="">-- Selecione o Orgão --</option>
+							{% for obj in orgaos %}
+								<option value="{{ obj.id }}">{{ obj.nome }}</option>
 							{% endfor %}
 						</select>		
 				   	</td>
 				   </tr>
-				   <tr> <td class="colunaTabela"> <label>Classe:</label> </td>
-				   	<td>
-				   		<select name="nrclasse">
-							{% for obj in classe %}
-								<option value="{{ obj}}">{{ obj }}</option>
-							{% endfor %}
-						</select>		
-				   	</td>
-				   </tr>
-				   
+
+				   <tr> <td class="colunaTabela"> <label>Inst. Financeira:</label> </td>
+				   	<td> <input name="instituicao_financeira" id="instituicao_financeira" required /> </td> </tr>				   
 				   
 				   <tr> <td class="colunaTabela"> <label>Descricao:</label> </td><td> <textarea rows="4" cols="40" name="descricao"></textarea></td> </tr>
 				</table>
@@ -47,7 +42,7 @@
 		<table style="width:100%">
 			<tr>
 				<td class="colunaTabela" style="text-align:left"> 
-					<a href="/core/regional/consulta/" style="margin-right: 10px"><input type="button" class="button_yellow" value="CONSULTAR" /></a>
+					<a href="/core/convenio/consulta/" style="margin-right: 10px"><input type="button" class="button_yellow" value="CONSULTAR" /></a>
 					<input type="submit" class="button_green" value="SALVAR" />
 				</td>
 			</tr>
