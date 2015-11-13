@@ -30,6 +30,11 @@ from django.template import loader
 from project.calculation.barcode import codigodebarra
 import urllib2
 
+from webodt.shortcuts import render_to
+from webodt import shortcuts
+from webodt.converters import converter
+import webodt
+
 def upload_file(request_file,path,nome_arquivo,extensao):
     if nome_arquivo[len(nome_arquivo)-3:len(nome_arquivo)] == extensao:        
         try:
@@ -145,3 +150,13 @@ def consumir_url_json(url):
     except:
         pass
     return retorno           
+
+def emitir_documento(nome_template, dados=dict()):
+    
+    template = webodt.ODFTemplate(nome_template)
+    document = template.render(Context(dados))
+
+    conv = converter()
+    pdf = conv.convert(document, format='pdf')
+    document.close()
+    return HttpResponse(pdf, mimetype='application/pdf')

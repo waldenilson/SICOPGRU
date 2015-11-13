@@ -138,8 +138,8 @@ TEMPLATE_DIRS = (
     # ABSOLUTE_TEMPLATES_PATH,
 ) 
 
-WEBODT_TEMPLATE_PATH = abspath(join(dirname(__file__), '../staticfiles/doc/template'))
-WEBODT_TMP_DIR = abspath(join(dirname(__file__), '../staticfiles/doc/tmp'))
+WEBODT_TEMPLATE_PATH = abspath(join(dirname(__file__), '../media/doc/template'))
+WEBODT_TMP_DIR = abspath(join(dirname(__file__), '../media/doc/tmp'))
 CSV_PATH_DIR = abspath(join(dirname(__file__), '../staticfiles/csv'))
 
 
@@ -152,7 +152,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'odslib',
-#    'lxml',
+    'webodt',
+    'lxml',
     'xhtml2pdf',
     'project.core',
     'project.calculation',
