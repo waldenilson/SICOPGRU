@@ -1,13 +1,13 @@
 {% extends "core/base/cadastro.html" %} 
 {% load staticfiles %} 
 {% block breadcumbs %}
-	Acesso Restrito | Divisao | Edicao
+	Acesso Restrito | Regional | Edicao
 {% endblock %}
 
 {% block formulario %}
 <div id="tabs" style="color:black;width:100%;font-size:11px">
 <ul>
-	<li><a href="#tabs-1">EDITAR DIVISAO</a></li>
+	<li><a href="#tabs-1">EDITAR REGIONAL</a></li>
 </ul>
 
 <div id="tabs-1">		
@@ -16,13 +16,15 @@
 		{% csrf_token %}
 		<div style="width:100%;font-size:12px;text-align:left">
 				<table>
-				   <tr> <td class="colunaTabela"> <label>Nome:</label> </td><td>{{ form.nmdivisao }} </td> </tr>
+				   <tr> <td class="colunaTabela"> <label>Nome:</label> </td>
+				   	<td> <input name="nome" id="nome" value="{{objeto.nome}}" /> </td>
+				   </tr>
 				   
 				   <tr> <td class="colunaTabela"> <label>UF:</label> </td>
 				   	<td>
-				   		<select name="tbuf">
+				   		<select name="uf">
 							{% for obj in uf %}
-								{% if obj.id == form.tbuf.value %}
+								{% if obj.id == objeto.uf.id %}
 									<option selected="selected" value="{{ obj.id }}">{{ obj.nmuf }}</option>
 								{% else %}
 									<option value="{{ obj.id }}">{{ obj.nmuf }}</option>
@@ -37,7 +39,7 @@
 				   	<td>
 				   		<select name="nrclasse">
 							{% for obj in classe %}
-								{% if obj == form.nrclasse.value %}
+								{% if obj == objeto.nrclasse %}
 									<option selected="selected" value="{{ obj }}">{{ obj }}</option>
 								{% else %}
 									<option value="{{ obj}}">{{ obj }}</option>
@@ -49,7 +51,7 @@
 
 				   
 				   
-				   <tr> <td class="colunaTabela"> <label>Descricao:</label> </td><td> <textarea rows="4" cols="40" name="dsdivisao">{{ form.dsdivisao.value }}</textarea></td> </tr>
+				   <tr> <td class="colunaTabela"> <label>Descricao:</label> </td><td> <textarea rows="4" cols="40" name="descricao">{{ objeto.descricao }}</textarea></td> </tr>
 				</table>
 		</div>
 		<br />

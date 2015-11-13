@@ -37,13 +37,13 @@ urlpatterns = patterns('',
 
     # ACESSO RESTRITO SICOP PROCESSO
             
-   # ACESSO RESTRITO SICOP DIVISAO
-    url(r'^core/divisao/consulta/', 'project.core.restrito.divisao.consulta'),
-    url(r'^core/divisao/cadastro/', 'project.core.restrito.divisao.cadastro'),
-    url(r'^core/divisao/edicao/(?P<id>\d+)/', 'project.core.restrito.divisao.edicao'),
-    url(r'^core/divisao/relatorio/pdf/', 'project.core.restrito.divisao.relatorio_pdf'),
-    url(r'^core/divisao/relatorio/ods/', 'project.core.restrito.divisao.relatorio_ods'),
-    url(r'^core/divisao/relatorio/csv/', 'project.core.restrito.divisao.relatorio_csv'),
+   # ACESSO RESTRITO REGIONAL
+    url(r'^core/regional/consulta/', 'project.core.restrito.regional.consulta'),
+    url(r'^core/regional/cadastro/', 'project.core.restrito.regional.cadastro'),
+    url(r'^core/regional/edicao/(?P<id>\d+)/', 'project.core.restrito.regional.edicao'),
+    url(r'^core/regional/relatorio/pdf/', 'project.core.restrito.regional.relatorio_pdf'),
+    url(r'^core/regional/relatorio/ods/', 'project.core.restrito.regional.relatorio_ods'),
+    url(r'^core/regional/relatorio/csv/', 'project.core.restrito.regional.relatorio_csv'),
   
   # ACESSO RESTRITO SICOP GRUPO
     url(r'^core/grupo/consulta/', 'project.core.restrito.grupo.consulta'),

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required,\
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from project.core.forms import FormAuthGroup
-from project.core.models import AuthGroup, AuthPermission, AuthGroupPermissions, AuthUser, DjangoContentType
+from project.core.models import AuthGroup, AuthPermission, AuthGroupPermissions, AuthUser, DjangoContentType, Regional
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from project.core.admin import verificar_permissao_grupo

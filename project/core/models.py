@@ -11,9 +11,26 @@ from __future__ import unicode_literals
 #from django.contrib.gis.db import models
 from django.db import models
 
+class Uf(models.Model):
+    sigla = models.CharField(max_length=2, blank=True)
+    nmuf = models.CharField(max_length=50, blank=True)
+    id = models.AutoField(primary_key=True)
+    class Meta:
+        db_table = 'uf'
+
+class Regional(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=80, blank=True)
+    descricao = models.TextField(blank=True)
+    uf = models.ForeignKey('Uf', null=True, blank=True)
+    nrclasse = models.SmallIntegerField()
+    class Meta:
+        db_table = 'regional'
+
 class AuthGroup(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=80, unique=True)
+    regional = models.ForeignKey(Regional)
     class Meta:
         db_table = 'auth_group'
 
@@ -31,15 +48,6 @@ class AuthPermission(models.Model):
     codename = models.CharField(max_length=100)
     class Meta:
         db_table = 'auth_permission'
-
-class Regional(models.Model):
-    id = models.AutoField(primary_key=True)
-    nome = models.CharField(max_length=80, blank=True)
-    descricao = models.TextField(blank=True)
-    uf = models.ForeignKey('Uf', null=True, blank=True)
-    nrclasse = models.SmallIntegerField()
-    class Meta:
-        db_table = 'regional'
 
 class AuthUser(models.Model):
     password = models.CharField(max_length=128)
@@ -121,12 +129,6 @@ class Municipio(models.Model):
     class Meta:
         db_table = 'municipio'
 
-class Uf(models.Model):
-    sigla = models.CharField(max_length=2, blank=True)
-    nmuf = models.CharField(max_length=50, blank=True)
-    id = models.AutoField(primary_key=True)
-    class Meta:
-        db_table = 'uf'
 
 
 '''

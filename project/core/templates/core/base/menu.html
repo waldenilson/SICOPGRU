@@ -28,13 +28,13 @@
 					<li><a href="/core/usuario/consulta/">Controle</a></li>
 					{% endif %}
 					{% if perms.sicop.grupo_consulta %}
-					<li><a href="#">Grupo</a></li>
+					<li><a href="/core/grupo/consulta/">Grupo</a></li>
 					{% endif %}
 					{% if perms.sicop.permissao_consulta %}
-					<li><a href="#">Permissão</a></li>
+					<li><a href="/core/permissao/consulta/">Permissão</a></li>
 					{% endif %}
-					{% if perms.sicop.divisao_consulta %}
-					<li><a href="#">Regional</a></li>
+					{% if perms.regional_consulta %}
+					<li><a href="/core/regional/consulta/">Regional</a></li>
 					{% endif %}
 					</ul>
 					</li>
