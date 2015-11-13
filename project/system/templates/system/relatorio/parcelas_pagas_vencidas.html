@@ -58,21 +58,17 @@
 			<tbody>
 				<tr>
 					<td class="colunaTabelaConsulta" style="width:5%">Nº</td>
-					<td class="colunaTabelaConsulta" style="width:15%">Principal</td>
-					<td class="colunaTabelaConsulta" style="width:20%">Juros</td>
-					<td class="colunaTabelaConsulta" style="width:20%">Multa</td>
-					<td class="colunaTabelaConsulta" style="width:20%">Correção</td>
-					<td class="colunaTabelaConsulta" style="width:15%">Total</td>
+					<td class="colunaTabelaConsulta" style="width:60%">Titulado</td>
+					<td class="colunaTabelaConsulta" style="width:10%">Principal</td>
+					<td class="colunaTabelaConsulta" style="width:10%">Total</td>
 					<td class="colunaTabelaConsulta" style="width:15%">Vencimento</td>
 				</tr>
 				{% if parcelas %}
 				  		{% for obj in parcelas %}
 							<tr>
 									<td class="colunaTabelaConsulta">{{ obj.numero }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.pagamento.imovel_titulo.titulo.nome_titulado }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.valor_principal }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.valor_juro }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.valor_multa }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.valor_correcao }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.valor_total}}</td>
 									<td class="colunaTabelaConsulta">{{ obj.data_vencimento|date:'d/m/Y'}}</td>
 							</tr>
