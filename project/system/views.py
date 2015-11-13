@@ -20,7 +20,7 @@ from django.template.loader import get_template
 from django.template import loader
 from project.system.integration import consultar
 from project.system.payment import iniciar_calculo, carregar_parcelas, return_file_ref
-from project.core.funcoes import gerar_codigo_barra, gerar_pdf, upload_file, reader_csv
+from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel
 
 @permission_required('system.consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
@@ -113,6 +113,7 @@ def gru_pagamento(request, id):
                 'codigo_barra':codigo_barra
             }
 
+    return emitir_documento("modelo-gru-cobranca.odt",dados)
     return gerar_pdf(request,'system/gru-cobranca.html',dados,num_codigo_linha_digitavel+'.pdf')
 
 @permission_required('system.relatorio_pagas_vencidas', login_url='/excecoes/permissao_negada/', raise_exception=True)

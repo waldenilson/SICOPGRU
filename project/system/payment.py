@@ -104,3 +104,11 @@ def carregar_parcelas( cpf ):
     # retornar obj imoveltitulo, pagamento, parcelas
     return dados
 
+def recalculo():
+	pass
+
+def excecao_maior_menor():
+	pass
+
+def excecao_menor_maior():
+	pass
