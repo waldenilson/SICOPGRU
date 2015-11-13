@@ -136,8 +136,9 @@ def relatorio_parcelas_pagas_vencidas(request):
             lista = Parcela.objects.all()
             for l in lista:
                 if l.data_vencimento < datetime.datetime.now().date():
-                    total += Decimal(l.valor_total)
-                    parcelas.append( l )
+                    if not ParcelaGuia.objects.filter( parcela__id = l.id, status_pagamento = True ):
+                        total += Decimal(l.valor_total)
+                        parcelas.append( l )
         print escolha
     return render_to_response('system/relatorio/parcelas_pagas_vencidas.html',{'titulo':titulo,'total':total,'descricao':descricao,'parcelas':parcelas}, context_instance = RequestContext(request))
 

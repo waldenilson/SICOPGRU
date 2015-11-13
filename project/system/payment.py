@@ -1,7 +1,7 @@
 # -- coding: utf-8 --
 from datetime import timedelta
 from project.calculation.calc import calcular
-from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela, ParcelaGuia
+from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela, ParcelaGuia, Guia
 from project.core.models import Municipio
 import datetime
 
@@ -18,13 +18,15 @@ def return_file_ref(file_ref):
 	obj_convenio = Convenio.objects.filter( numero = header )
 	if obj_convenio:
 		for l in lines:
-			parcelasguia = ParcelaGuia.objects.filter( guia__id_convenio = obj_convenio[0].id, id = int(l) )
-			for pg in parcelasguia:
-				pg.status_pagamento = True
-				pg.data_pagamento = '2015-11-04'
-				pg.guia.codigo_retorno = file_ref
-				pg.guia.save()
-				pg.save()
+			guias = Guia.objects.filter( id_convenio = obj_convenio[0].id, id = int(l[0:10]) )
+			for g in guias:
+				parcelasguia = ParcelaGuia.objects.filter( guia__id = g.id )
+				for pg in parcelasguia:
+					pg.status_pagamento = True
+					pg.data_pagamento = str(l[10:14])+'-'+str(l[14:16])+'-'+str(l[16:18])
+					pg.guia.codigo_retorno = file_ref
+					pg.guia.save()
+					pg.save()
 	else:
 		print 'no conv'
 
