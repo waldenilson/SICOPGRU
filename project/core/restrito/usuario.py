@@ -51,7 +51,7 @@ def consulta(request):
 def cadastro(request):
     
     #servidor = Tbservidor.objects.all()
-    regional = Regional.objects.all().order_by('nmregional')
+    regional = Regional.objects.all().order_by('nome')
     
     
     grupo = AuthGroup.objects.all().filter( regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id ).order_by('name')
@@ -269,7 +269,7 @@ def relatorio_pdf(request):
         dados = relatorio_pdf_base_header_title(titulo_relatorio)
         dados.append( ('NOME','DIVISAO') )
         for obj in lista:
-            dados.append( ( obj.username , obj.regional.nmregional ) )
+            dados.append( ( obj.username , obj.regional.nome ) )
         return relatorio_pdf_base(response, doc, elements, dados)
     else:
         return HttpResponseRedirect(response_consulta)
@@ -294,7 +294,7 @@ def relatorio_ods(request):
         x = 0
         for obj in lista:
             sheet.getCell(0, x+2).setAlignHorizontal('center').stringValue(obj.username)
-            sheet.getCell(1, x+2).setAlignHorizontal('center').stringValue(obj.regional.nmregional)    
+            sheet.getCell(1, x+2).setAlignHorizontal('center').stringValue(obj.regional.nome)    
             x += 1
         
     #TRECHO PERSONALIZADO DE CADA CONSULTA     
@@ -318,7 +318,7 @@ def relatorio_csv(request):
         writer = relatorio_csv_base(response, nome_relatorio)
         writer.writerow(['Nome', 'Divisao'])
         for obj in lista:
-            writer.writerow([obj.username, obj.regional.nmregional])
+            writer.writerow([obj.username, obj.regional.nome])
         return response
     else:
         return HttpResponseRedirect( response_consulta )
