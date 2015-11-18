@@ -3,7 +3,8 @@
 from django.conf.urls import patterns, url
 
 urlpatterns = patterns('project.system',
-   url(r'^consulta', 'views.consulta'),
+   url(r'^consulta-unica', 'views.consulta_unica'),
+   url(r'^consulta-titulado', 'views.consulta_titulado'),
    url(r'^inicio-pagamento/(?P<cpf>\d+)/', 'views.inicio_pagamento'),
    url(r'^parcelas-pagamento/(?P<cpf>\d+)/', 'views.parcelas_pagamento'),
    url(r'^gru-pagamento/(?P<id>\d+)/', 'views.gru_pagamento'),

@@ -23,8 +23,8 @@ from project.system.payment import iniciar_calculo, carregar_parcelas, return_fi
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel
 
-@permission_required('system.consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
-def consulta(request):
+#@permission_required('system.consulta_unica', login_url='/excecoes/permissao_negada/', raise_exception=True)
+def consulta_unica(request):
 
     if request.method == "POST":
         cpf = request.POST['cpf'].replace('.','').replace('/','').replace('-','')
@@ -50,7 +50,12 @@ def consulta(request):
         else:
             messages.add_message(request, messages.WARNING, 'CPF Inválido.')
         
-    return render_to_response('system/consulta.html',{}, context_instance = RequestContext(request))
+    return render_to_response('system/consulta_unica.html',{}, context_instance = RequestContext(request))
+
+@permission_required('system.consulta_titulado', login_url='/excecoes/permissao_negada/', raise_exception=True)
+def consulta_titulado(request):
+    print 'consultar e retornar titulados por cpf e/ou nome.'
+    return render_to_response('system/consulta_titulado.html',{}, context_instance = RequestContext(request))
 
 def inicio_pagamento(request, cpf):
     dados = consultar(cpf)

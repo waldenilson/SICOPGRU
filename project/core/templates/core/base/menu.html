@@ -7,10 +7,16 @@
 					</a>
 					</li>
 					<hr/>
-					{% if perms.system.consulta %}
-						<li><a href="/sistema/consulta/">Cálculo</a></li>
-						<hr/>
-					{% endif %}
+
+					<li><a href="#">Cálculo</a>
+						<ul>
+							<li><a href="/sistema/consulta-unica/">Consulta Única</a></li>
+							{% if perms.system.consulta_titulado %}
+								<li><a href="/sistema/consulta-titulado/">Consulta de Titulado(s)</a></li>
+							{% endif %}
+						</ul>
+					</li>
+					<hr/>
 
 					{% if perms.system.importacao_arquivo_retorno %}
 						<li><a href="#">Importação</a>
