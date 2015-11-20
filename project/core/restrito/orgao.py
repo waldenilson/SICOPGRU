@@ -6,6 +6,7 @@ from project.system.models import Orgao
 from project.core.forms import OrgaoForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.core.urlresolvers import reverse as r
 from project.core.admin import verificar_permissao_grupo
 from django.http.response import HttpResponse
 from project.core.relatorio_base import relatorio_pdf_base_header,\
@@ -27,21 +28,24 @@ def consulta(request):
     else:
         lista = Orgao.objects.all()
     lista = lista.order_by( 'id' )
+
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf
     request.session['relatorio_orgao'] = lista
-    return render_to_response('core/orgao/consulta.html' ,{'lista':lista}, context_instance = RequestContext(request))
+    return render_to_response( 'core/orgao/consulta.html' ,{'lista':lista}, context_instance = RequestContext(request))
     
 @permission_required('core.orgao_cadastro', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def cadastro(request):
 
-
+    '''
     if request.method == "POST":
         form = OrgaoForm(request.POST)
         if form.is_valid():
             form.save()
         else:
             return render_to_response('core/orgao/cadastro.html',{'form':form},context_instance = RequestContext(request))
+    return render_to_response('core/orgao/cadastro.html',{'form':OrgaoForm()},context_instance = RequestContext(request))
     '''
+    
     if request.method == "POST":
         next = request.GET.get('next', '/')
         f_grupo = Orgao(
@@ -52,13 +56,12 @@ def cadastro(request):
         )
         f_grupo.save()
         if next == "/":
-            return HttpResponseRedirect("/core/orgao/consulta/")
+            return HttpResponseRedirect(r('core:orgao_consulta'))
         else:    
             return HttpResponseRedirect( next ) 
     return render_to_response('core/orgao/cadastro.html',{}, context_instance = RequestContext(request))
-    '''
-    return render_to_response('core/orgao/cadastro.html',{'form':OrgaoForm()},context_instance = RequestContext(request))
-
+    
+    
 @permission_required('core.orgao_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
 
@@ -77,7 +80,7 @@ def edicao(request, id):
         )
         f_orgao.save()
         
-        return HttpResponseRedirect("/core/orgao/consulta/")
+        return HttpResponseRedirect( r('core:orgao_consulta') )
 
     return render_to_response('core/orgao/edicao.html', {"objeto":instance}, context_instance = RequestContext(request))
 

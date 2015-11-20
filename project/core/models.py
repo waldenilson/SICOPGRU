@@ -10,6 +10,7 @@ from __future__ import unicode_literals
 
 #from django.contrib.gis.db import models
 from django.db import models
+from project.core.managers import UserActiveManager
 
 class Uf(models.Model):
     sigla = models.CharField(max_length=2, blank=True)
@@ -61,6 +62,8 @@ class AuthUser(models.Model):
     is_active = models.BooleanField()
     date_joined = models.DateTimeField()
     regional = models.ForeignKey(Regional)
+    objects = models.Manager()
+    actives = UserActiveManager()
     id = models.AutoField(primary_key=True)
     class Meta:
         db_table = 'auth_user'
