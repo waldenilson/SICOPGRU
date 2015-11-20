@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required,\
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from project.system.models import Orgao
+from project.core.forms import OrgaoForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from project.core.admin import verificar_permissao_grupo
@@ -33,6 +34,14 @@ def consulta(request):
 @permission_required('core.orgao_cadastro', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def cadastro(request):
 
+
+    if request.method == "POST":
+        form = OrgaoForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            return render_to_response('core/orgao/cadastro.html',{'form':form},context_instance = RequestContext(request))
+    '''
     if request.method == "POST":
         next = request.GET.get('next', '/')
         f_grupo = Orgao(
@@ -47,6 +56,8 @@ def cadastro(request):
         else:    
             return HttpResponseRedirect( next ) 
     return render_to_response('core/orgao/cadastro.html',{}, context_instance = RequestContext(request))
+    '''
+    return render_to_response('core/orgao/cadastro.html',{'form':OrgaoForm()},context_instance = RequestContext(request))
 
 @permission_required('core.orgao_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):

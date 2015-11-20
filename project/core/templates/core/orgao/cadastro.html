@@ -13,8 +13,26 @@
 </ul>
 <div id="tabs-1">		
 		
-	<form method="post" action="">
+	<form method="post" action=".">
 		{% csrf_token %}
+
+<!--
+		{{form.errors}}
+		<hr/>
+		{{ form.nome.label }}
+		{{ form.nome }}
+		<hr/>
+		{{ form.ativo.label }}
+		{{ form.ativo }}
+
+		
+		<br/>
+		<br/>
+		<hr/>
+		<br/>
+-->
+
+
 		<div style="width:100%;font-size:12px;text-align:left">
 				<table>
 				   <tr> <td class="colunaTabela"> <label>Nome:</label> </td>
@@ -30,6 +48,7 @@
 				</table>
 		</div>
 		<br />
+
 		<table style="width:100%">
 			<tr>
 				<td class="colunaTabela" style="text-align:left"> 
