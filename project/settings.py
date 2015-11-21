@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     'webodt',
     'lxml',
     'xhtml2pdf',
+    'project.bootstrap_tags',
     'project.core',
     'project.calculation',
     'project.system',

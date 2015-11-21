@@ -36,53 +36,27 @@ def consulta(request):
 @permission_required('core.orgao_cadastro', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def cadastro(request):
 
-    '''
+    form = OrgaoForm()
     if request.method == "POST":
         form = OrgaoForm(request.POST)
         if form.is_valid():
             form.save()
-        else:
-            return render_to_response('core/orgao/cadastro.html',{'form':form},context_instance = RequestContext(request))
-    return render_to_response('core/orgao/cadastro.html',{'form':OrgaoForm()},context_instance = RequestContext(request))
-    '''
-    
-    if request.method == "POST":
-        next = request.GET.get('next', '/')
-        f_grupo = Orgao(
-            nome = request.POST['nome'],
-            ug = request.POST['ug'],
-            codigo_receita = request.POST['codigo_receita'],
-            descricao = request.POST['descricao']
-        )
-        f_grupo.save()
-        if next == "/":
             return HttpResponseRedirect(r('core:orgao_consulta'))
-        else:    
-            return HttpResponseRedirect( next ) 
-    return render_to_response('core/orgao/cadastro.html',{}, context_instance = RequestContext(request))
-    
+    return render_to_response('core/orgao/cadastro.html',{'form':form},context_instance = RequestContext(request))
     
 @permission_required('core.orgao_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
 
-    instance = get_object_or_404(Orgao, id=id)
+    obj = get_object_or_404(Orgao, id=id)
+    form = OrgaoForm(instance=obj)
     if request.method == "POST":
-
         if not request.user.has_perm('core.orgao_edicao'):
             return HttpResponseRedirect('/excecoes/permissao_negada/') 
-
-        f_orgao = Orgao(
-            id = instance.id,
-            nome = request.POST['nome'],
-            ug = request.POST['ug'],
-            codigo_receita = request.POST['codigo_receita'],
-            descricao = request.POST['descricao']
-        )
-        f_orgao.save()
-        
-        return HttpResponseRedirect( r('core:orgao_consulta') )
-
-    return render_to_response('core/orgao/edicao.html', {"objeto":instance}, context_instance = RequestContext(request))
+        form = OrgaoForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect( r('core:orgao_consulta') )
+    return render_to_response('core/orgao/edicao.html', {"form":form}, context_instance = RequestContext(request))
 
 
 @permission_required('sicop.orgao_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)

@@ -123,9 +123,9 @@ class Tbextrato(models.Model):
 class Orgao(models.Model):
     id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=80)
-    descricao = models.TextField(blank=True,null=True)
-    codigo_receita = models.CharField(max_length=20)
     ug = models.CharField(max_length=20)
+    codigo_receita = models.CharField(max_length=20)
+    descricao = models.TextField(blank=True,null=True)
     class Meta:
         db_table = '"administracao"."orgao"'
 

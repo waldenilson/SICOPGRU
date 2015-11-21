@@ -26,11 +26,11 @@ class OrgaoForm(forms.ModelForm):
 	class Meta:
 		model = Orgao
 
-	nome = forms.CharField(
+	descricao = forms.CharField(
 		required = False,
-		widget=forms.TextInput(
+		widget=forms.Textarea(
 				attrs={
-					'title':'Nome'
+					'cols':'1000'
 				}
 			)
 	)

@@ -1,5 +1,6 @@
 {% extends "core/base/cadastro.html" %} 
 {% load staticfiles %} 
+{% load bootstrap_tags %}
 
 {% block breadcumbs %}
 	Acesso Restrito | Orgão | Cadastro
@@ -16,38 +17,9 @@
 	<form method="post" action=".">
 		{% csrf_token %}
 
-<!--
-		{{form.errors}}
-		<hr/>
-		{{ form.nome.label }}
-		{{ form.nome }}
-		<hr/>
-		{{ form.ativo.label }}
-		{{ form.ativo }}
-
+		{% bootstrap_form form %}
 		
 		<br/>
-		<br/>
-		<hr/>
-		<br/>
--->
-
-
-		<div style="width:100%;font-size:12px;text-align:left">
-				<table>
-				   <tr> <td class="colunaTabela"> <label>Nome:</label> </td>
-				   	<td> <input name="nome" id="nome" required /> </td> </tr>
-				   
-				   <tr> <td class="colunaTabela"> <label>UG:</label> </td>
-				   	<td> <input name="ug" id="ug" required /> </td> </tr>
-
-				   <tr> <td class="colunaTabela"> <label>Código Receita:</label> </td>
-				   	<td> <input name="codigo_receita" id="codigo_receita" required /> </td> </tr>
-				   
-				   <tr> <td class="colunaTabela"> <label>Descricao:</label> </td><td> <textarea rows="4" cols="40" name="descricao"></textarea></td> </tr>
-				</table>
-		</div>
-		<br />
 
 		<table style="width:100%">
 			<tr>
