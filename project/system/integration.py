@@ -16,17 +16,17 @@ def consultar(cpf):
 		dados['processo'] = lista[0].titulo.processo
 		dados['tipo_titulo'] = lista[0].titulo.tipo
 		dados['data_emissao_titulo'] = lista[0].titulo.data_emissao
-		
+
 		dados['nome_imovel'] = lista[0].imovel.nome
 		dados['sncr'] = lista[0].imovel.sncr
 		dados['gleba'] = lista[0].imovel.gleba
 		dados['area_total'] = lista[0].imovel.area_total
 		dados['municipio'] = lista[0].imovel.municipio.nome_mun
-		dados['regional'] = lista[0].imovel.regional.nome				
+		dados['regional'] = lista[0].imovel.regional.nome
 		dados['modulo_fiscal'] = lista[0].imovel.tamanho_modulo_fiscal
 
 		dados['valor_imovel'] = lista[0].valor_imovel.quantize(Decimal('1.00'))
-		return dados 
+		return dados
 	else:
 		dados = consumir_base_extrato(cpf) # mudar somente aqui os metodos de consumo dos dados
 		if dados != None:
@@ -38,7 +38,7 @@ def salvar():
 	pass
 
 def consumir_base_extrato(cpf):
-	lista = Tbextrato.objects.filter(cpf_req__icontains=cpf) #, situacao_processo__icontains = 'Titulado')
+	lista = Tbextrato.objects.filter(cpf_req__icontains=cpf , situacao_processo__icontains = 'Titulado')
 	dados = dict()
 	if lista:
 		dados['dados'] = 'externa'
@@ -55,25 +55,25 @@ def consumir_base_extrato(cpf):
 		dados['sncr'] = lista[0].sncr
 		dados['gleba'] = lista[0].nome_gleba
 		dados['area_total'] = lista[0].area_total_imovel
-		dados['municipio'] = Municipio.objects.filter( nome_mun = lista[0].nome_municipio )[0]
-		dados['regional'] = Regional.objects.get(pk=1)				
+		dados['municipio'] = Municipio.objects.filter( codigo_mun = lista[0].cod_municipio[0:len(lista[0].cod_municipio)-1] )[0]
+		dados['regional'] = Regional.objects.get(pk=1)
 		dados['modulo_fiscal'] = lista[0].tamanho_modulos_fiscais
 
 		dados['valor_imovel'] = lista[0].valor_imovel.quantize(Decimal('1.00'))
-		return dados 
+		return dados
 	else:
 		return None
 def consumir_sisterleg( search ):
 	return consumir_sisterleg_qsit( search )
 
 def consumir_sisterleg_qsit( search ):
-	
+
 	URL = 'http://mda.qsit.com.br/api/'
 	TOKEN = '6oVBmLr5X1Aj7xr1yP3C0X5heXmdjitF'
 	SISTEMA = 'sisterleg'
 	TIPO = 'json'
 	CPF = search
-	
+
 	return consumir_url_json( URL+'?token='+TOKEN+'&sistema='+SISTEMA+'&tipo='+TIPO+'&cpf='+CPF )
 
 def consumir_sigef_destinacao():

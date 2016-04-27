@@ -6,12 +6,12 @@ DEBUG = config('DEBUG',default=False,cast=bool)
 
 DATABASES = {
         'default': {
-        'ENGINE': config('DEFAULT_ENGINE'), 
-        'NAME': config('DEFAULT_NAME'),                      
+        'ENGINE': config('DEFAULT_ENGINE'),
+        'NAME': config('DEFAULT_NAME'),
         'USER': config('DEFAULT_USER'),
         'PASSWORD': config('DEFAULT_PASSWORD'),
-        'HOST': config('DEFAULT_HOST'),                      
-        'PORT': config('DEFAULT_PORT')                      
+        'HOST': config('DEFAULT_HOST'),
+        'PORT': config('DEFAULT_PORT')
         },
         }
 
@@ -136,12 +136,11 @@ TEMPLATE_DIRS = (
     abspath(join(dirname(__file__), '../templates')),
     #abspath(join(dirname(__file__), '../calculo/templates')),
     # ABSOLUTE_TEMPLATES_PATH,
-) 
+)
 
 WEBODT_TEMPLATE_PATH = abspath(join(dirname(__file__), '../media/doc/template'))
 WEBODT_TMP_DIR = abspath(join(dirname(__file__), '../media/doc/tmp'))
 CSV_PATH_DIR = abspath(join(dirname(__file__), '../staticfiles/csv'))
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',

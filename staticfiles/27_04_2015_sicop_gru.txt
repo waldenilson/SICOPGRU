@@ -1,0 +1,16 @@
+preparar ambiente para apresentacao
+  consulta do requerente atraves do cpf (usuario 02)
+    preenche a data do requerimento (usuario)
+    gera as parcelas com o modulo de calculo
+    gera a via GRU
+    upload do arquivo retorno (usuario 01)
+    verificacao do status da parcela (paga, vencida)
+
+controle do arquivo de retorno
+  contato para criacao e designar o usuario para receber os arquivos
+
+manual do usuario do sistema
+
+controle do fluxo. excecoes dos pagamentos (maior-menor)
+
+ideias para integracao do sicop-gru com sigef-destinacao

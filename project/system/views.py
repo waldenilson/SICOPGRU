@@ -29,7 +29,7 @@ def consulta_unica(request):
     if request.method == "POST":
         cpf = request.POST['cpf'].replace('.','').replace('/','').replace('-','')
 
-        if cpf != '00000000000':    
+        if cpf != '00000000000':
             dados = consultar(cpf)
 
             if dados != None:
@@ -42,14 +42,14 @@ def consulta_unica(request):
                         if dados['modulo_fiscal'] >= 1.0:
                             return HttpResponseRedirect('/sistema/inicio-pagamento/'+dados['cpf_titulado']+'/')
                         else:
-                            messages.add_message(request, messages.WARNING, 'Título isento de pagamento. Abaixo de 1 módulo fiscal.')                    
+                            messages.add_message(request, messages.WARNING, 'Título isento de pagamento. Abaixo de 1 módulo fiscal.')
                     else:
                         messages.add_message(request, messages.WARNING, 'Requerente ainda não titulado.')
             else:
                 messages.add_message(request, messages.WARNING, 'CPF não encontrado.')
         else:
             messages.add_message(request, messages.WARNING, 'CPF Inválido.')
-        
+
     return render_to_response('system/consulta_unica.html',{}, context_instance = RequestContext(request))
 
 @permission_required('system.consulta_titulado', login_url='/excecoes/permissao_negada/', raise_exception=True)
@@ -118,7 +118,7 @@ def gru_pagamento(request, id):
                 'codigo_barra':codigo_barra
             }
 
-    return emitir_documento("modelo-gru-cobranca.odt",dados)
+    #return emitir_documento("modelo-gru-cobranca.odt",dados)
     return gerar_pdf(request,'system/gru-cobranca.html',dados,num_codigo_linha_digitavel+'.pdf')
 
 @permission_required('system.relatorio_pagas_vencidas', login_url='/excecoes/permissao_negada/', raise_exception=True)
