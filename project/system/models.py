@@ -35,7 +35,7 @@ class Tbcalculotitulo(models.Model):
     dtgeracao = models.DateField(null=True)
     dtpagamento = models.DateField(null=True)
 
-    
+
     id = models.AutoField(primary_key=True)
     class Meta:
         db_table = 'tbcalculotitulo'
@@ -137,7 +137,6 @@ class Convenio(models.Model):
     instituicao_financeira = models.CharField(max_length=80)
     class Meta:
         db_table = '"administracao"."convenio"'
-
 
 #SCHEMA TITULACAO
 

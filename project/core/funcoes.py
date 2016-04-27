@@ -36,7 +36,7 @@ from webodt.converters import converter
 import webodt
 
 def upload_file(request_file,path,nome_arquivo,extensao):
-    if nome_arquivo[len(nome_arquivo)-3:len(nome_arquivo)] == extensao:        
+    if nome_arquivo[len(nome_arquivo)-3:len(nome_arquivo)] == extensao:
         try:
             with open(path, 'wb+') as destination:
                 for chunk in request_file.chunks():
@@ -48,14 +48,14 @@ def upload_file(request_file,path,nome_arquivo,extensao):
     else:
         return '2'
 
-def reader_csv(path, delimitador):    
+def reader_csv(path, delimitador):
     csv.field_size_limit(sys.maxsize)
     retorno = []
     with open(path, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(delimitador), quotechar='\n')
         for row in spamreader:
             if row:
-                retorno.append(row) 
+                retorno.append(row)
     return retorno
 
 def formatDataToText( formato_data ):
@@ -78,7 +78,7 @@ def verificaDivisaoUsuario(request):
     divisoes = []
     id_divisoes = []
     id_uf_classe = []
-    
+
     if Regional.objects.filter(nrclasse__lt = classe_divisao ):
         #a divisao do usuario logado permite que veja objetos de sua div e das divs de classes menores que a sua
         request.session['isdivisao'] = False
@@ -90,7 +90,7 @@ def verificaDivisaoUsuario(request):
         request.session['isdivisao'] = True
         #usa a divisao do usuario logado
         divisoes = Regional.objects.all().filter(id = AuthUser.objects.get(pk = request.user.id ).regional.id)
-    
+
     for obj in divisoes:
         id_divisoes.append(obj.id)#cria lista com as divisoes que o usuario pode acessar
     for obj in divisoes:
@@ -100,7 +100,7 @@ def verificaDivisaoUsuario(request):
     request.session['classe'] = [1,2,3,4,5,6,7,8,9,10]
 
 def gerar_pdf(request, template_path, data, name):
-    
+
     # Render html content through html template with context
     t = loader.get_template(template_path)
     c = Context(data)
@@ -149,10 +149,10 @@ def consumir_url_json(url):
         retorno = json.loads(response.read())
     except:
         pass
-    return retorno           
+    return retorno
 
 def emitir_documento(nome_template, dados=dict()):
-    
+
     template = webodt.ODFTemplate(nome_template)
     document = template.render(Context(dados))
 
