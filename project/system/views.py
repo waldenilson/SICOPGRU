@@ -21,7 +21,7 @@ from django.template import loader
 from project.system.integration import consultar
 from project.system.payment import iniciar_calculo, carregar_parcelas, return_file_ref
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
-from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel
+from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
 
 #@permission_required('system.consulta_unica', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def consulta_unica(request):
@@ -115,7 +115,14 @@ def gru_pagamento(request, id):
 	dados = {
 				'icone':abspath(join(dirname(__file__), '../../staticfiles'))+'/img/bb.png',
 				'codigo_linha_digitavel':num_codigo_linha_digitavel,
-				'codigo_barra':codigo_barra
+				'codigo_barra':codigo_barra,
+				'nome_titulado':parcela.pagamento.imovel_titulo.titulo.nome_titulado,
+				'cpf_titulado':parcela.pagamento.imovel_titulo.titulo.cpf_titulado,
+				'valor_principal':parcela.valor_principal,
+				'valor_multa':parcela.valor_multa,
+				'valor_correcao':parcela.valor_juro+parcela.valor_correcao,
+				'valor_total':parcela.valor_total,
+				'nosso_numero':format_10_position(str(obj_guia.id))
 			}
 
 	return emitir_documento("modelo-gru-cobranca.odt",dados)
