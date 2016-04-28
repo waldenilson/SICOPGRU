@@ -31,7 +31,7 @@ class Regional(models.Model):
 class AuthGroup(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=80, unique=True)
-    regional = models.ForeignKey(Regional)
+    #regional = models.ForeignKey(Regional)
     class Meta:
         db_table = 'auth_group'
 

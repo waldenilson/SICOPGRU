@@ -22,9 +22,9 @@ planilha_relatorio  = "Grupos"
 def consulta(request):
     if request.method == "POST":
         nome = request.POST['name']
-        lista = AuthGroup.objects.filter( name__icontains=nome, regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
+        lista = AuthGroup.objects.filter( name__icontains=nome)#, regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id )
     else:
-        lista = AuthGroup.objects.filter(regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id)
+        lista = AuthGroup.objects.all()#filter(regional__id = AuthUser.objects.get( pk = request.user.id ).regional.id)
     lista = lista.order_by( 'name' )
     #gravando na sessao o resultado da consulta preparando para o relatorio/pdf
     request.session['relatorio_grupo'] = lista
@@ -33,18 +33,18 @@ def consulta(request):
 @permission_required('sicop.grupo_cadastro', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def cadastro(request):
     if request.method == "POST":
-        next = request.GET.get('next', '/')    
+        next = request.GET.get('next', '/')
         f_grupo = AuthGroup(
-            name = request.POST['nome'],
-            regional = AuthUser.objects.get( pk = request.user.id ).regional
+            name = request.POST['nome']
+            #regional = AuthUser.objects.get( pk = request.user.id ).regional
         )
         f_grupo.save()
         if next == "/":
             return HttpResponseRedirect("/core/grupo/consulta/")
-        else:    
-            return HttpResponseRedirect( next ) 
+        else:
+            return HttpResponseRedirect( next )
     return render_to_response('core/grupo/cadastro.html',{}, context_instance = RequestContext(request))
-    
+
 @permission_required('sicop.grupo_consulta', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def edicao(request, id):
 
@@ -64,12 +64,12 @@ def edicao(request, id):
         if not achou:
             result.setdefault(obj, False)
     result = sorted(result.items())
-    
+
     instance = get_object_or_404(AuthGroup, id=id)
     if request.method == "POST":
-        
+
         if not request.user.has_perm('sicop.grupo_edicao'):
-            return HttpResponseRedirect('/excecoes/permissao_negada/') 
+            return HttpResponseRedirect('/excecoes/permissao_negada/')
 
 
         # verificando os grupos do usuario
@@ -90,13 +90,13 @@ def edicao(request, id):
                     # excluir do authusergroups
                     for aug in res:
                         aug.delete()
-                    #print obj.name + ' desmarcou deste usuario'        
-        
+                    #print obj.name + ' desmarcou deste usuario'
+
         if validacao(request):
             f_grupo = AuthGroup(
                                         id = instance.id,
-                                        name = request.POST['nome'],
-                                        regional = AuthUser.objects.get( pk = request.user.id ).regional
+                                        name = request.POST['nome']
+                                        #regional = AuthUser.objects.get( pk = request.user.id ).regional
                                       )
             f_grupo.save()
             return HttpResponseRedirect("/core/grupo/consulta/")
@@ -109,9 +109,9 @@ def relatorio_pdf(request):
     lista = request.session[nome_relatorio]
     if lista:
         response = HttpResponse(mimetype='application/pdf')
-        doc = relatorio_pdf_base_header(response, nome_relatorio)   
+        doc = relatorio_pdf_base_header(response, nome_relatorio)
         elements=[]
-        
+
         dados = relatorio_pdf_base_header_title(titulo_relatorio)
         dados.append( ('NOME','') )
         for obj in lista:
@@ -125,30 +125,30 @@ def relatorio_ods(request):
 
     # montar objeto lista com os campos a mostrar no relatorio/pdf
     lista = request.session[nome_relatorio]
-    
+
     if lista:
         ods = ODS()
         sheet = relatorio_ods_base_header(planilha_relatorio, titulo_relatorio, ods)
-        
+
         # subtitle
         sheet.getCell(0, 1).setAlignHorizontal('center').stringValue( 'Nome' ).setFontSize('14pt')
         sheet.getRow(1).setHeight('20pt')
-        
+
     #TRECHO PERSONALIZADO DE CADA CONSULTA
         #DADOS
         x = 0
         for obj in lista:
             sheet.getCell(0, x+2).setAlignHorizontal('center').stringValue(obj.name)
             x += 1
-        
-    #TRECHO PERSONALIZADO DE CADA CONSULTA     
-       
+
+    #TRECHO PERSONALIZADO DE CADA CONSULTA
+
         relatorio_ods_base(ods, planilha_relatorio)
         # generating response
         response = HttpResponse(mimetype=ods.mimetype.toString())
         response['Content-Disposition'] = 'attachment; filename='+nome_relatorio+'.ods'
         ods.save(response)
-    
+
         return response
     else:
         return HttpResponseRedirect( response_consulta )
@@ -158,7 +158,7 @@ def relatorio_csv(request):
     # montar objeto lista com os campos a mostrar no relatorio/pdf
     lista = request.session[nome_relatorio]
     if lista:
-        response = HttpResponse(content_type='text/csv')     
+        response = HttpResponse(content_type='text/csv')
         writer = relatorio_csv_base(response, nome_relatorio)
         writer.writerow(['Nome'])
         for obj in lista:
