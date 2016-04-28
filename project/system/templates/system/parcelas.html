@@ -90,7 +90,7 @@
 				</tr>
 				{% if dados.parcelas %}
 				  		{% for obj in dados.parcelas %}
-							<tr>
+							<tr style="background-color:{% if obj.status = 'True' %} lightgreen {% else %} lightgray {% endif %}">
 									<td class="colunaTabelaConsulta">{{ obj.numero }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.valor_principal }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.valor_juro }}</td>
@@ -99,9 +99,11 @@
 									<td class="colunaTabelaConsulta">{{ obj.valor_total}}</td>
 									<td class="colunaTabelaConsulta">{{ obj.data_vencimento|date:'d/m/Y'}}</td>
 									<td class="colunaTabelaConsulta">
-										<a target="blank" href="/sistema/gru-pagamento/{{obj.id}}/">
-											<img width="24px" src="{% static "img/pdf.png" %}" title="Gerar GRU" alt="Gerar GRU" />
-										</a>
+										{% if obj.status = 'False' %}
+											<a target="blank" href="/sistema/gru-pagamento/{{obj.id}}/">
+													<img width="24px" src="{% static "img/pdf.png" %}" title="Gerar GRU" alt="Gerar GRU" />
+											</a>
+										{% endif %}
 									</td>
 							</tr>
 						{% endfor %}
@@ -114,7 +116,6 @@
 			Base de cálculos de correção monetária efetuada com base na Portaria Serfal Nº 1 de 19 de maio de 2010,
 			Lei 11.952 de 25 de junho de 2009 e  Decreto 6.992/09.  Para os pagamento após o vencimento da prestação,
 			estão sendo aplicados juros de 1% ao mês, conforme estabelecido na MP nº 2.183-56 de 24 de agosto de 2001.
-
 		</div>
 
 {% endblock %}

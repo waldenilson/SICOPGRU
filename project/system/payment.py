@@ -17,11 +17,14 @@ def return_file_ref(file_ref):
 		x += 1
 	obj_convenio = Convenio.objects.filter( numero = header )
 	if obj_convenio:
+		print 'conv'
 		for l in lines:
-			guias = Guia.objects.filter( id_convenio = obj_convenio[0].id, id = int(l[0:10]) )
+			guias = Guia.objects.filter( id = int(l[0:10]) )
 			for g in guias:
+				print 'guia'
 				parcelasguia = ParcelaGuia.objects.filter( guia__id = g.id )
 				for pg in parcelasguia:
+					print 'parcelaguia'
 					pg.status_pagamento = True
 					pg.data_pagamento = str(l[10:14])+'-'+str(l[14:16])+'-'+str(l[16:18])
 					pg.guia.codigo_retorno = file_ref
@@ -32,7 +35,7 @@ def return_file_ref(file_ref):
 
 def iniciar_calculo( dados, data_requerimento, nossa_escola, usuario ):
 	print 'INICIANDO CALCULO'
-	
+
 	# cadastrar titulo
 	obj_titulo = Titulo(
 			numero= dados['titulo'],
@@ -63,7 +66,7 @@ def iniciar_calculo( dados, data_requerimento, nossa_escola, usuario ):
 			valor_imovel= dados['valor_imovel']
 		)
 	obj_ititulo.save()
-	
+
 	# cadastrar pagamento
 	obj_pagamento = Pagamento(
 			imovel_titulo= obj_ititulo,
@@ -76,8 +79,8 @@ def iniciar_calculo( dados, data_requerimento, nossa_escola, usuario ):
 			updater_auth_user= usuario
 		)
 	obj_pagamento.save()
-	
-	for i in range(1,18):		   
+
+	for i in range(1,18):
 	   retorno = calcular( dados, data_requerimento, nossa_escola, i )
 	   # cadastrar parcela(s)
 	   obj_parcela = Parcela(
@@ -95,14 +98,31 @@ def iniciar_calculo( dados, data_requerimento, nossa_escola, usuario ):
 		)
 	   obj_parcela.save()
 
-
 def carregar_parcelas( cpf ):
-    lista = Pagamento.objects.filter( imovel_titulo__titulo__cpf_titulado__icontains=cpf )
-    dados = dict()
-    dados['pagamento'] = lista[0]
-    dados['parcelas'] = Parcela.objects.filter( pagamento__id = lista[0].id )
-    # retornar obj imoveltitulo, pagamento, parcelas
-    return dados
+	lista = Pagamento.objects.filter( imovel_titulo__titulo__cpf_titulado__icontains=cpf )
+	dados = dict()
+	dados['pagamento'] = lista[0]
+	parcelas = Parcela.objects.filter( pagamento__id = lista[0].id )
+	l_parcelas = []
+	for p in parcelas:
+		parcela = dict()
+		parcela['id'] = p.id
+		parcela['numero'] = p.numero
+		parcela['valor_principal'] = p.valor_principal
+		parcela['valor_juro'] = p.valor_juro
+		parcela['valor_multa'] = p.valor_multa
+		parcela['valor_correcao'] = p.valor_correcao
+		parcela['valor_total'] = p.valor_total
+		parcela['data_vencimento'] = p.data_vencimento
+		parcela['status'] = 'False'
+		pguia = ParcelaGuia.objects.filter( parcela__id = p.id )
+		for pg in pguia:
+			if pg.status_pagamento:
+				parcela['status'] = 'True'
+		l_parcelas.append(parcela)
+	dados['parcelas'] = l_parcelas
+	# retornar obj imoveltitulo, pagamento, parcelas
+	return dados
 
 def recalculo():
 	pass
