@@ -1,19 +1,6 @@
 # encoding: utf-8
 from datetime import timedelta
 
-def taxa_juros( modulo_fiscal, valor_imovel ):
-	#artigo 9,10 - portaria 1 20/05/2010
-	ijuros = 0.0
-	if dados['modulo_fiscal'] > 4.:
-		ijuros = 6.75
-	elif dados['valor_imovel'] <= 40000:
-		ijuros = 1.
-	elif dados['valor_imovel'] > 40000 and dados['valor_imovel'] <= 100000:
-		ijuros = 2.
-	elif dados['valor_imovel'] > 100000:
-		ijuros = 4.
-	return ijuros
-
 def calcular( dados, data_requerimento, numero_parcela ):
 	prestacao = float(dados['valor_imovel'])/17.0
 	imulta = 1.0
@@ -79,6 +66,18 @@ def verificar_vencimento( data_requerimento,
 				correcao = cm
 	return True
 
+def taxa_juros( modulo_fiscal, valor_imovel ):
+	#artigo 9,10 - portaria 1 20/05/2010
+	ijuros = 0.0
+	if dados['modulo_fiscal'] > 4.:
+		ijuros = 6.75
+	elif dados['valor_imovel'] <= 40000:
+		ijuros = 1.
+	elif dados['valor_imovel'] > 40000 and dados['valor_imovel'] <= 100000:
+		ijuros = 2.
+	elif dados['valor_imovel'] > 100000:
+		ijuros = 4.
+	return ijuros
 
 def calculo_prazo_prestacao(prestacao, data_vencimento, data_prazo, ijuros):
 	#artigo 8-B alinea a
@@ -87,9 +86,14 @@ def calculo_prazo_prestacao(prestacao, data_vencimento, data_prazo, ijuros):
 	#VP = P x ( 1 + ( N x J/100 ) )
 	return float(prestacao) * ( 1 + (float(prazo_prestacao)/360.)*(ijuros/100.0) )
 
-def calculo_nossa_terra_nossa_escola(prestacao, encargos):
-	#encargos calculados com a parcela anual e depois somados a  metade do valor da parcela anual
-	return encargos + ( prestacao / 2 )
+def calculo_nossa_terra_nossa_escola(modulo_fiscal, prestacao, encargos):
+	#beneficio para areas de ate 4 modulos fiscais
+	if modulo_fiscal <= 4.:
+		#encargos calculados com a parcela anual e depois somados a  metade do valor da parcela anual
+		return encargos + ( prestacao / 2 )
+	else:
+		#valor integral da parcela com encargos
+		return encargos + prestacao
 
 def calculo_tr():
 	#periodo entre o vencimento da prestacao e a data do requerimento
