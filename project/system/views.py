@@ -39,7 +39,7 @@ def consulta_unica(request):
 					return HttpResponseRedirect('/sistema/parcelas-pagamento/'+dados['cpf_titulado']+'/')
 				elif dados['dados'] == 'externa':
 					if dados['situacao'] == 'Titulado':
-						if dados['modulo_fiscal'] >= 1.0:
+						if dados['modulo_fiscal'] > 1.0:
 							return HttpResponseRedirect('/sistema/inicio-pagamento/'+dados['cpf_titulado']+'/')
 						else:
 							messages.add_message(request, messages.WARNING, 'Título isento de pagamento. Abaixo de 1 módulo fiscal.')
