@@ -1,24 +1,30 @@
 # encoding: utf-8
 from datetime import timedelta
 
-def calcular( dados, data_requerimento, numero_parcela ):
+def taxa_juros( modulo_fiscal, valor_imovel ):
+	#artigo 9,10 - portaria 1 20/05/2010
+	ijuros = 0.0
+	if dados['modulo_fiscal'] > 4.:
+		ijuros = 6.75
+	elif dados['valor_imovel'] <= 40000:
+		ijuros = 1.
+	elif dados['valor_imovel'] > 40000 and dados['valor_imovel'] <= 100000:
+		ijuros = 2.
+	elif dados['valor_imovel'] > 100000:
+		ijuros = 4.
+	return ijuros
 
+def calcular( dados, data_requerimento, numero_parcela ):
 	prestacao = float(dados['valor_imovel'])/17.0
 	imulta = 1.0
-
-	if dados['modulo_fiscal'] > 4:
-		ijuros = 6.75
-	else:
-		if dados['valor_imovel'] <= 40000:
-			ijuros = 1.0
-		else:
-			if dados['valor_imovel'] > 40000 and dados['valor_imovel'] <= 100000:
-				ijuros = 2.0
-			else:
-				if dados['valor_imovel'] > 100000:
-					ijuros = 4.0
-
-	return verificar_vencimento( data_requerimento, ijuros, prestacao, numero_parcela, imulta, dados )
+	return verificar_vencimento(
+		data_requerimento,
+		taxa_juros(modulo_fiscal=dados['modulo_fiscal'],valor_imovel=dados['valor_imovel']),
+		prestacao,
+		numero_parcela,
+		imulta,
+		dados
+	)
 
 def verificar_vencimento( data_requerimento,
 	ijuros,
