@@ -96,7 +96,7 @@ def verificar_vencimento( data_requerimento,
 def calculo_prazo_prestacao(prestacao, data_vencimento, data_prazo, ijuros):
 	#artigo 8-B alinea a
 	#N = prazo da prestacao em numero de anos
-	prazo_prestacao = (data_vencimento - data_prazo.days
+	prazo_prestacao = data_vencimento - data_prazo.days
 	#VP = P x ( 1 + ( N x J/100 ) )
 	return float(prestacao) * ( 1 + (float(prazo_prestacao)/360.)*(ijuros/100.0) )
 
