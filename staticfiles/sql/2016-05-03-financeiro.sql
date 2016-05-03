@@ -2,9 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.4.4
--- Dumped by pg_dump version 9.4.4
--- Started on 2015-10-01 15:03:48 BRT
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
+
+-- Started on 2016-05-03 12:34:03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,9 +13,10 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
--- TOC entry 8 (class 2615 OID 299702)
+-- TOC entry 7 (class 2615 OID 282142)
 -- Name: administracao; Type: SCHEMA; Schema: -; Owner: admin
 --
 
@@ -24,7 +26,7 @@ CREATE SCHEMA administracao;
 ALTER SCHEMA administracao OWNER TO admin;
 
 --
--- TOC entry 7 (class 2615 OID 299701)
+-- TOC entry 8 (class 2615 OID 282143)
 -- Name: pagamento; Type: SCHEMA; Schema: -; Owner: admin
 --
 
@@ -34,7 +36,7 @@ CREATE SCHEMA pagamento;
 ALTER SCHEMA pagamento OWNER TO admin;
 
 --
--- TOC entry 9 (class 2615 OID 299703)
+-- TOC entry 9 (class 2615 OID 282144)
 -- Name: titulacao; Type: SCHEMA; Schema: -; Owner: admin
 --
 
@@ -44,7 +46,7 @@ CREATE SCHEMA titulacao;
 ALTER SCHEMA titulacao OWNER TO admin;
 
 --
--- TOC entry 219 (class 3079 OID 11901)
+-- TOC entry 1 (class 3079 OID 12355)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -52,8 +54,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2344 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 2403 (class 0 OID 0)
+-- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -67,8 +69,8 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 200 (class 1259 OID 299717)
--- Name: convenio; Type: TABLE; Schema: administracao; Owner: admin; Tablespace: 
+-- TOC entry 184 (class 1259 OID 282145)
+-- Name: convenio; Type: TABLE; Schema: administracao; Owner: admin
 --
 
 CREATE TABLE convenio (
@@ -83,7 +85,7 @@ CREATE TABLE convenio (
 ALTER TABLE convenio OWNER TO admin;
 
 --
--- TOC entry 199 (class 1259 OID 299715)
+-- TOC entry 185 (class 1259 OID 282151)
 -- Name: convenio_id_seq; Type: SEQUENCE; Schema: administracao; Owner: admin
 --
 
@@ -98,8 +100,8 @@ CREATE SEQUENCE convenio_id_seq
 ALTER TABLE convenio_id_seq OWNER TO admin;
 
 --
--- TOC entry 2345 (class 0 OID 0)
--- Dependencies: 199
+-- TOC entry 2404 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: convenio_id_seq; Type: SEQUENCE OWNED BY; Schema: administracao; Owner: admin
 --
 
@@ -107,8 +109,8 @@ ALTER SEQUENCE convenio_id_seq OWNED BY convenio.id;
 
 
 --
--- TOC entry 198 (class 1259 OID 299706)
--- Name: orgao; Type: TABLE; Schema: administracao; Owner: admin; Tablespace: 
+-- TOC entry 186 (class 1259 OID 282153)
+-- Name: orgao; Type: TABLE; Schema: administracao; Owner: admin
 --
 
 CREATE TABLE orgao (
@@ -123,7 +125,7 @@ CREATE TABLE orgao (
 ALTER TABLE orgao OWNER TO admin;
 
 --
--- TOC entry 197 (class 1259 OID 299704)
+-- TOC entry 187 (class 1259 OID 282159)
 -- Name: orgao_id_seq; Type: SEQUENCE; Schema: administracao; Owner: admin
 --
 
@@ -138,8 +140,8 @@ CREATE SEQUENCE orgao_id_seq
 ALTER TABLE orgao_id_seq OWNER TO admin;
 
 --
--- TOC entry 2346 (class 0 OID 0)
--- Dependencies: 197
+-- TOC entry 2405 (class 0 OID 0)
+-- Dependencies: 187
 -- Name: orgao_id_seq; Type: SEQUENCE OWNED BY; Schema: administracao; Owner: admin
 --
 
@@ -149,8 +151,8 @@ ALTER SEQUENCE orgao_id_seq OWNED BY orgao.id;
 SET search_path = pagamento, pg_catalog;
 
 --
--- TOC entry 212 (class 1259 OID 299836)
--- Name: forma_pagamento; Type: TABLE; Schema: pagamento; Owner: postgres; Tablespace: 
+-- TOC entry 188 (class 1259 OID 282161)
+-- Name: forma_pagamento; Type: TABLE; Schema: pagamento; Owner: postgres
 --
 
 CREATE TABLE forma_pagamento (
@@ -163,7 +165,7 @@ CREATE TABLE forma_pagamento (
 ALTER TABLE forma_pagamento OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 299834)
+-- TOC entry 189 (class 1259 OID 282167)
 -- Name: forma_pagamento_id_seq; Type: SEQUENCE; Schema: pagamento; Owner: postgres
 --
 
@@ -178,8 +180,8 @@ CREATE SEQUENCE forma_pagamento_id_seq
 ALTER TABLE forma_pagamento_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2347 (class 0 OID 0)
--- Dependencies: 211
+-- TOC entry 2406 (class 0 OID 0)
+-- Dependencies: 189
 -- Name: forma_pagamento_id_seq; Type: SEQUENCE OWNED BY; Schema: pagamento; Owner: postgres
 --
 
@@ -187,8 +189,8 @@ ALTER SEQUENCE forma_pagamento_id_seq OWNED BY forma_pagamento.id;
 
 
 --
--- TOC entry 216 (class 1259 OID 299872)
--- Name: guia; Type: TABLE; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 190 (class 1259 OID 282169)
+-- Name: guia; Type: TABLE; Schema: pagamento; Owner: admin
 --
 
 CREATE TABLE guia (
@@ -205,7 +207,7 @@ CREATE TABLE guia (
 ALTER TABLE guia OWNER TO admin;
 
 --
--- TOC entry 215 (class 1259 OID 299870)
+-- TOC entry 191 (class 1259 OID 282175)
 -- Name: guia_id_seq; Type: SEQUENCE; Schema: pagamento; Owner: admin
 --
 
@@ -220,8 +222,8 @@ CREATE SEQUENCE guia_id_seq
 ALTER TABLE guia_id_seq OWNER TO admin;
 
 --
--- TOC entry 2348 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 2407 (class 0 OID 0)
+-- Dependencies: 191
 -- Name: guia_id_seq; Type: SEQUENCE OWNED BY; Schema: pagamento; Owner: admin
 --
 
@@ -229,8 +231,8 @@ ALTER SEQUENCE guia_id_seq OWNED BY guia.id;
 
 
 --
--- TOC entry 210 (class 1259 OID 299818)
--- Name: pagamento; Type: TABLE; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 192 (class 1259 OID 282177)
+-- Name: pagamento; Type: TABLE; Schema: pagamento; Owner: admin
 --
 
 CREATE TABLE pagamento (
@@ -250,7 +252,7 @@ CREATE TABLE pagamento (
 ALTER TABLE pagamento OWNER TO admin;
 
 --
--- TOC entry 209 (class 1259 OID 299816)
+-- TOC entry 193 (class 1259 OID 282180)
 -- Name: pagamento_id_seq; Type: SEQUENCE; Schema: pagamento; Owner: admin
 --
 
@@ -265,8 +267,8 @@ CREATE SEQUENCE pagamento_id_seq
 ALTER TABLE pagamento_id_seq OWNER TO admin;
 
 --
--- TOC entry 2349 (class 0 OID 0)
--- Dependencies: 209
+-- TOC entry 2408 (class 0 OID 0)
+-- Dependencies: 193
 -- Name: pagamento_id_seq; Type: SEQUENCE OWNED BY; Schema: pagamento; Owner: admin
 --
 
@@ -274,8 +276,8 @@ ALTER SEQUENCE pagamento_id_seq OWNED BY pagamento.id;
 
 
 --
--- TOC entry 214 (class 1259 OID 299853)
--- Name: parcela; Type: TABLE; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 194 (class 1259 OID 282182)
+-- Name: parcela; Type: TABLE; Schema: pagamento; Owner: admin
 --
 
 CREATE TABLE parcela (
@@ -297,8 +299,8 @@ CREATE TABLE parcela (
 ALTER TABLE parcela OWNER TO admin;
 
 --
--- TOC entry 218 (class 1259 OID 299883)
--- Name: parcela_guia; Type: TABLE; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 195 (class 1259 OID 282185)
+-- Name: parcela_guia; Type: TABLE; Schema: pagamento; Owner: admin
 --
 
 CREATE TABLE parcela_guia (
@@ -313,7 +315,7 @@ CREATE TABLE parcela_guia (
 ALTER TABLE parcela_guia OWNER TO admin;
 
 --
--- TOC entry 217 (class 1259 OID 299881)
+-- TOC entry 196 (class 1259 OID 282188)
 -- Name: parcela_guia_id_seq; Type: SEQUENCE; Schema: pagamento; Owner: admin
 --
 
@@ -328,8 +330,8 @@ CREATE SEQUENCE parcela_guia_id_seq
 ALTER TABLE parcela_guia_id_seq OWNER TO admin;
 
 --
--- TOC entry 2350 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 2409 (class 0 OID 0)
+-- Dependencies: 196
 -- Name: parcela_guia_id_seq; Type: SEQUENCE OWNED BY; Schema: pagamento; Owner: admin
 --
 
@@ -337,7 +339,7 @@ ALTER SEQUENCE parcela_guia_id_seq OWNED BY parcela_guia.id;
 
 
 --
--- TOC entry 213 (class 1259 OID 299851)
+-- TOC entry 197 (class 1259 OID 282190)
 -- Name: parcela_id_seq; Type: SEQUENCE; Schema: pagamento; Owner: admin
 --
 
@@ -352,8 +354,8 @@ CREATE SEQUENCE parcela_id_seq
 ALTER TABLE parcela_id_seq OWNER TO admin;
 
 --
--- TOC entry 2351 (class 0 OID 0)
--- Dependencies: 213
+-- TOC entry 2410 (class 0 OID 0)
+-- Dependencies: 197
 -- Name: parcela_id_seq; Type: SEQUENCE OWNED BY; Schema: pagamento; Owner: admin
 --
 
@@ -363,8 +365,8 @@ ALTER SEQUENCE parcela_id_seq OWNED BY parcela.id;
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 175 (class 1259 OID 298862)
--- Name: auth_group; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 198 (class 1259 OID 282192)
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE auth_group (
@@ -376,7 +378,7 @@ CREATE TABLE auth_group (
 ALTER TABLE auth_group OWNER TO admin;
 
 --
--- TOC entry 176 (class 1259 OID 298865)
+-- TOC entry 199 (class 1259 OID 282195)
 -- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -391,8 +393,8 @@ CREATE SEQUENCE auth_group_id_seq
 ALTER TABLE auth_group_id_seq OWNER TO admin;
 
 --
--- TOC entry 2352 (class 0 OID 0)
--- Dependencies: 176
+-- TOC entry 2411 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -400,8 +402,8 @@ ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
 
 
 --
--- TOC entry 177 (class 1259 OID 298867)
--- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 200 (class 1259 OID 282197)
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE auth_group_permissions (
@@ -414,7 +416,7 @@ CREATE TABLE auth_group_permissions (
 ALTER TABLE auth_group_permissions OWNER TO admin;
 
 --
--- TOC entry 178 (class 1259 OID 298870)
+-- TOC entry 201 (class 1259 OID 282200)
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -429,8 +431,8 @@ CREATE SEQUENCE auth_group_permissions_id_seq
 ALTER TABLE auth_group_permissions_id_seq OWNER TO admin;
 
 --
--- TOC entry 2353 (class 0 OID 0)
--- Dependencies: 178
+-- TOC entry 2412 (class 0 OID 0)
+-- Dependencies: 201
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -438,8 +440,8 @@ ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
 
 
 --
--- TOC entry 179 (class 1259 OID 298872)
--- Name: auth_permission; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 202 (class 1259 OID 282202)
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE auth_permission (
@@ -453,7 +455,7 @@ CREATE TABLE auth_permission (
 ALTER TABLE auth_permission OWNER TO admin;
 
 --
--- TOC entry 180 (class 1259 OID 298875)
+-- TOC entry 203 (class 1259 OID 282205)
 -- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -468,8 +470,8 @@ CREATE SEQUENCE auth_permission_id_seq
 ALTER TABLE auth_permission_id_seq OWNER TO admin;
 
 --
--- TOC entry 2354 (class 0 OID 0)
--- Dependencies: 180
+-- TOC entry 2413 (class 0 OID 0)
+-- Dependencies: 203
 -- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -477,8 +479,8 @@ ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
 
 
 --
--- TOC entry 181 (class 1259 OID 298877)
--- Name: auth_user; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 204 (class 1259 OID 282207)
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE auth_user (
@@ -492,16 +494,16 @@ CREATE TABLE auth_user (
     is_staff boolean NOT NULL,
     is_active boolean NOT NULL,
     date_joined timestamp with time zone NOT NULL,
-    tbdivisao_id integer NOT NULL,
-    id integer NOT NULL
+    id integer NOT NULL,
+    regional_id integer
 );
 
 
 ALTER TABLE auth_user OWNER TO admin;
 
 --
--- TOC entry 182 (class 1259 OID 298880)
--- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 205 (class 1259 OID 282210)
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE auth_user_groups (
@@ -514,7 +516,7 @@ CREATE TABLE auth_user_groups (
 ALTER TABLE auth_user_groups OWNER TO admin;
 
 --
--- TOC entry 183 (class 1259 OID 298883)
+-- TOC entry 206 (class 1259 OID 282213)
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -529,8 +531,8 @@ CREATE SEQUENCE auth_user_groups_id_seq
 ALTER TABLE auth_user_groups_id_seq OWNER TO admin;
 
 --
--- TOC entry 2355 (class 0 OID 0)
--- Dependencies: 183
+-- TOC entry 2414 (class 0 OID 0)
+-- Dependencies: 206
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -538,7 +540,7 @@ ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
 
 
 --
--- TOC entry 184 (class 1259 OID 298885)
+-- TOC entry 207 (class 1259 OID 282215)
 -- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -553,8 +555,8 @@ CREATE SEQUENCE auth_user_id_seq
 ALTER TABLE auth_user_id_seq OWNER TO admin;
 
 --
--- TOC entry 2356 (class 0 OID 0)
--- Dependencies: 184
+-- TOC entry 2415 (class 0 OID 0)
+-- Dependencies: 207
 -- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -562,8 +564,8 @@ ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
 
 
 --
--- TOC entry 185 (class 1259 OID 298887)
--- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 208 (class 1259 OID 282217)
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE auth_user_user_permissions (
@@ -576,7 +578,7 @@ CREATE TABLE auth_user_user_permissions (
 ALTER TABLE auth_user_user_permissions OWNER TO admin;
 
 --
--- TOC entry 186 (class 1259 OID 298890)
+-- TOC entry 209 (class 1259 OID 282220)
 -- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -591,8 +593,8 @@ CREATE SEQUENCE auth_user_user_permissions_id_seq
 ALTER TABLE auth_user_user_permissions_id_seq OWNER TO admin;
 
 --
--- TOC entry 2357 (class 0 OID 0)
--- Dependencies: 186
+-- TOC entry 2416 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -600,8 +602,8 @@ ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permiss
 
 
 --
--- TOC entry 187 (class 1259 OID 298892)
--- Name: django_admin_log; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 210 (class 1259 OID 282222)
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE django_admin_log (
@@ -619,8 +621,8 @@ CREATE TABLE django_admin_log (
 ALTER TABLE django_admin_log OWNER TO admin;
 
 --
--- TOC entry 188 (class 1259 OID 298898)
--- Name: django_content_type; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 211 (class 1259 OID 282228)
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE django_content_type (
@@ -634,8 +636,8 @@ CREATE TABLE django_content_type (
 ALTER TABLE django_content_type OWNER TO admin;
 
 --
--- TOC entry 189 (class 1259 OID 298901)
--- Name: django_session; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 212 (class 1259 OID 282231)
+-- Name: django_session; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE django_session (
@@ -648,8 +650,8 @@ CREATE TABLE django_session (
 ALTER TABLE django_session OWNER TO admin;
 
 --
--- TOC entry 190 (class 1259 OID 298907)
--- Name: django_site; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 213 (class 1259 OID 282237)
+-- Name: django_site; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE django_site (
@@ -662,8 +664,8 @@ CREATE TABLE django_site (
 ALTER TABLE django_site OWNER TO admin;
 
 --
--- TOC entry 193 (class 1259 OID 298918)
--- Name: municipio; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 214 (class 1259 OID 282240)
+-- Name: municipio; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE municipio (
@@ -686,7 +688,7 @@ CREATE TABLE municipio (
 ALTER TABLE municipio OWNER TO admin;
 
 --
--- TOC entry 194 (class 1259 OID 298921)
+-- TOC entry 215 (class 1259 OID 282243)
 -- Name: municipio_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -701,8 +703,8 @@ CREATE SEQUENCE municipio_id_seq
 ALTER TABLE municipio_id_seq OWNER TO admin;
 
 --
--- TOC entry 2358 (class 0 OID 0)
--- Dependencies: 194
+-- TOC entry 2417 (class 0 OID 0)
+-- Dependencies: 215
 -- Name: municipio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -710,22 +712,23 @@ ALTER SEQUENCE municipio_id_seq OWNED BY municipio.id;
 
 
 --
--- TOC entry 191 (class 1259 OID 298910)
--- Name: regional; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 216 (class 1259 OID 282245)
+-- Name: regional; Type: TABLE; Schema: public; Owner: admin
 --
 
 CREATE TABLE regional (
     nome character varying(80) NOT NULL,
     descricao text NOT NULL,
-    tbuf_id integer,
-    id integer NOT NULL
+    id integer NOT NULL,
+    uf_id integer,
+    nrclasse smallint
 );
 
 
 ALTER TABLE regional OWNER TO admin;
 
 --
--- TOC entry 192 (class 1259 OID 298916)
+-- TOC entry 217 (class 1259 OID 282251)
 -- Name: regional_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -740,8 +743,8 @@ CREATE SEQUENCE regional_id_seq
 ALTER TABLE regional_id_seq OWNER TO admin;
 
 --
--- TOC entry 2359 (class 0 OID 0)
--- Dependencies: 192
+-- TOC entry 2418 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: regional_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
@@ -749,21 +752,21 @@ ALTER SEQUENCE regional_id_seq OWNED BY regional.id;
 
 
 --
--- TOC entry 195 (class 1259 OID 298923)
--- Name: tbuf; Type: TABLE; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 218 (class 1259 OID 282253)
+-- Name: uf; Type: TABLE; Schema: public; Owner: admin
 --
 
-CREATE TABLE tbuf (
+CREATE TABLE uf (
     sigla character varying(2) NOT NULL,
     nmuf character varying(50) NOT NULL,
     id integer NOT NULL
 );
 
 
-ALTER TABLE tbuf OWNER TO admin;
+ALTER TABLE uf OWNER TO admin;
 
 --
--- TOC entry 196 (class 1259 OID 298926)
+-- TOC entry 219 (class 1259 OID 282256)
 -- Name: uf_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
 --
 
@@ -778,19 +781,19 @@ CREATE SEQUENCE uf_id_seq
 ALTER TABLE uf_id_seq OWNER TO admin;
 
 --
--- TOC entry 2360 (class 0 OID 0)
--- Dependencies: 196
+-- TOC entry 2419 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: uf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
 --
 
-ALTER SEQUENCE uf_id_seq OWNED BY tbuf.id;
+ALTER SEQUENCE uf_id_seq OWNED BY uf.id;
 
 
 SET search_path = titulacao, pg_catalog;
 
 --
--- TOC entry 208 (class 1259 OID 299796)
--- Name: historico_imovel; Type: TABLE; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 220 (class 1259 OID 282258)
+-- Name: historico_imovel; Type: TABLE; Schema: titulacao; Owner: admin
 --
 
 CREATE TABLE historico_imovel (
@@ -805,7 +808,7 @@ CREATE TABLE historico_imovel (
 ALTER TABLE historico_imovel OWNER TO admin;
 
 --
--- TOC entry 207 (class 1259 OID 299794)
+-- TOC entry 221 (class 1259 OID 282264)
 -- Name: historico_imovel_id_seq; Type: SEQUENCE; Schema: titulacao; Owner: admin
 --
 
@@ -820,8 +823,8 @@ CREATE SEQUENCE historico_imovel_id_seq
 ALTER TABLE historico_imovel_id_seq OWNER TO admin;
 
 --
--- TOC entry 2361 (class 0 OID 0)
--- Dependencies: 207
+-- TOC entry 2420 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: historico_imovel_id_seq; Type: SEQUENCE OWNED BY; Schema: titulacao; Owner: admin
 --
 
@@ -829,8 +832,8 @@ ALTER SEQUENCE historico_imovel_id_seq OWNED BY historico_imovel.id;
 
 
 --
--- TOC entry 202 (class 1259 OID 299734)
--- Name: imovel; Type: TABLE; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 222 (class 1259 OID 282266)
+-- Name: imovel; Type: TABLE; Schema: titulacao; Owner: admin
 --
 
 CREATE TABLE imovel (
@@ -848,7 +851,7 @@ CREATE TABLE imovel (
 ALTER TABLE imovel OWNER TO admin;
 
 --
--- TOC entry 201 (class 1259 OID 299732)
+-- TOC entry 223 (class 1259 OID 282269)
 -- Name: imovel_id_seq; Type: SEQUENCE; Schema: titulacao; Owner: admin
 --
 
@@ -863,8 +866,8 @@ CREATE SEQUENCE imovel_id_seq
 ALTER TABLE imovel_id_seq OWNER TO admin;
 
 --
--- TOC entry 2362 (class 0 OID 0)
--- Dependencies: 201
+-- TOC entry 2421 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: imovel_id_seq; Type: SEQUENCE OWNED BY; Schema: titulacao; Owner: admin
 --
 
@@ -872,8 +875,8 @@ ALTER SEQUENCE imovel_id_seq OWNED BY imovel.id;
 
 
 --
--- TOC entry 204 (class 1259 OID 299766)
--- Name: imovel_titulo; Type: TABLE; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 224 (class 1259 OID 282271)
+-- Name: imovel_titulo; Type: TABLE; Schema: titulacao; Owner: admin
 --
 
 CREATE TABLE imovel_titulo (
@@ -887,7 +890,7 @@ CREATE TABLE imovel_titulo (
 ALTER TABLE imovel_titulo OWNER TO admin;
 
 --
--- TOC entry 203 (class 1259 OID 299764)
+-- TOC entry 225 (class 1259 OID 282277)
 -- Name: imovel_titulo_id_seq; Type: SEQUENCE; Schema: titulacao; Owner: admin
 --
 
@@ -902,8 +905,8 @@ CREATE SEQUENCE imovel_titulo_id_seq
 ALTER TABLE imovel_titulo_id_seq OWNER TO admin;
 
 --
--- TOC entry 2363 (class 0 OID 0)
--- Dependencies: 203
+-- TOC entry 2422 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: imovel_titulo_id_seq; Type: SEQUENCE OWNED BY; Schema: titulacao; Owner: admin
 --
 
@@ -911,8 +914,8 @@ ALTER SEQUENCE imovel_titulo_id_seq OWNED BY imovel_titulo.id;
 
 
 --
--- TOC entry 206 (class 1259 OID 299782)
--- Name: titulo; Type: TABLE; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 226 (class 1259 OID 282279)
+-- Name: titulo; Type: TABLE; Schema: titulacao; Owner: admin
 --
 
 CREATE TABLE titulo (
@@ -929,7 +932,7 @@ CREATE TABLE titulo (
 ALTER TABLE titulo OWNER TO admin;
 
 --
--- TOC entry 205 (class 1259 OID 299780)
+-- TOC entry 227 (class 1259 OID 282282)
 -- Name: titulo_id_seq; Type: SEQUENCE; Schema: titulacao; Owner: admin
 --
 
@@ -944,8 +947,8 @@ CREATE SEQUENCE titulo_id_seq
 ALTER TABLE titulo_id_seq OWNER TO admin;
 
 --
--- TOC entry 2364 (class 0 OID 0)
--- Dependencies: 205
+-- TOC entry 2423 (class 0 OID 0)
+-- Dependencies: 227
 -- Name: titulo_id_seq; Type: SEQUENCE OWNED BY; Schema: titulacao; Owner: admin
 --
 
@@ -955,7 +958,7 @@ ALTER SEQUENCE titulo_id_seq OWNED BY titulo.id;
 SET search_path = administracao, pg_catalog;
 
 --
--- TOC entry 2077 (class 2604 OID 299720)
+-- TOC entry 2123 (class 2604 OID 282284)
 -- Name: id; Type: DEFAULT; Schema: administracao; Owner: admin
 --
 
@@ -963,7 +966,7 @@ ALTER TABLE ONLY convenio ALTER COLUMN id SET DEFAULT nextval('convenio_id_seq':
 
 
 --
--- TOC entry 2076 (class 2604 OID 299709)
+-- TOC entry 2124 (class 2604 OID 282285)
 -- Name: id; Type: DEFAULT; Schema: administracao; Owner: admin
 --
 
@@ -973,7 +976,7 @@ ALTER TABLE ONLY orgao ALTER COLUMN id SET DEFAULT nextval('orgao_id_seq'::regcl
 SET search_path = pagamento, pg_catalog;
 
 --
--- TOC entry 2083 (class 2604 OID 299839)
+-- TOC entry 2125 (class 2604 OID 282286)
 -- Name: id; Type: DEFAULT; Schema: pagamento; Owner: postgres
 --
 
@@ -981,7 +984,7 @@ ALTER TABLE ONLY forma_pagamento ALTER COLUMN id SET DEFAULT nextval('forma_paga
 
 
 --
--- TOC entry 2085 (class 2604 OID 299875)
+-- TOC entry 2126 (class 2604 OID 282287)
 -- Name: id; Type: DEFAULT; Schema: pagamento; Owner: admin
 --
 
@@ -989,7 +992,7 @@ ALTER TABLE ONLY guia ALTER COLUMN id SET DEFAULT nextval('guia_id_seq'::regclas
 
 
 --
--- TOC entry 2082 (class 2604 OID 299821)
+-- TOC entry 2127 (class 2604 OID 282288)
 -- Name: id; Type: DEFAULT; Schema: pagamento; Owner: admin
 --
 
@@ -997,7 +1000,7 @@ ALTER TABLE ONLY pagamento ALTER COLUMN id SET DEFAULT nextval('pagamento_id_seq
 
 
 --
--- TOC entry 2084 (class 2604 OID 299899)
+-- TOC entry 2128 (class 2604 OID 282289)
 -- Name: id; Type: DEFAULT; Schema: pagamento; Owner: admin
 --
 
@@ -1005,7 +1008,7 @@ ALTER TABLE ONLY parcela ALTER COLUMN id SET DEFAULT nextval('parcela_id_seq'::r
 
 
 --
--- TOC entry 2086 (class 2604 OID 299886)
+-- TOC entry 2129 (class 2604 OID 282290)
 -- Name: id; Type: DEFAULT; Schema: pagamento; Owner: admin
 --
 
@@ -1015,7 +1018,7 @@ ALTER TABLE ONLY parcela_guia ALTER COLUMN id SET DEFAULT nextval('parcela_guia_
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2067 (class 2604 OID 298928)
+-- TOC entry 2130 (class 2604 OID 282291)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1023,7 +1026,7 @@ ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_s
 
 
 --
--- TOC entry 2068 (class 2604 OID 298929)
+-- TOC entry 2131 (class 2604 OID 282292)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1031,7 +1034,7 @@ ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('aut
 
 
 --
--- TOC entry 2069 (class 2604 OID 298930)
+-- TOC entry 2132 (class 2604 OID 282293)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1039,7 +1042,7 @@ ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permi
 
 
 --
--- TOC entry 2070 (class 2604 OID 298931)
+-- TOC entry 2133 (class 2604 OID 282294)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1047,7 +1050,7 @@ ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq
 
 
 --
--- TOC entry 2071 (class 2604 OID 298932)
+-- TOC entry 2134 (class 2604 OID 282295)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1055,7 +1058,7 @@ ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user
 
 
 --
--- TOC entry 2072 (class 2604 OID 298933)
+-- TOC entry 2135 (class 2604 OID 282296)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1063,7 +1066,7 @@ ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- TOC entry 2074 (class 2604 OID 299700)
+-- TOC entry 2136 (class 2604 OID 282297)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1071,7 +1074,7 @@ ALTER TABLE ONLY municipio ALTER COLUMN id SET DEFAULT nextval('municipio_id_seq
 
 
 --
--- TOC entry 2073 (class 2604 OID 298934)
+-- TOC entry 2137 (class 2604 OID 282298)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -1079,17 +1082,17 @@ ALTER TABLE ONLY regional ALTER COLUMN id SET DEFAULT nextval('regional_id_seq':
 
 
 --
--- TOC entry 2075 (class 2604 OID 298936)
+-- TOC entry 2138 (class 2604 OID 282299)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
-ALTER TABLE ONLY tbuf ALTER COLUMN id SET DEFAULT nextval('uf_id_seq'::regclass);
+ALTER TABLE ONLY uf ALTER COLUMN id SET DEFAULT nextval('uf_id_seq'::regclass);
 
 
 SET search_path = titulacao, pg_catalog;
 
 --
--- TOC entry 2081 (class 2604 OID 299799)
+-- TOC entry 2139 (class 2604 OID 282300)
 -- Name: id; Type: DEFAULT; Schema: titulacao; Owner: admin
 --
 
@@ -1097,7 +1100,7 @@ ALTER TABLE ONLY historico_imovel ALTER COLUMN id SET DEFAULT nextval('historico
 
 
 --
--- TOC entry 2078 (class 2604 OID 299737)
+-- TOC entry 2140 (class 2604 OID 282301)
 -- Name: id; Type: DEFAULT; Schema: titulacao; Owner: admin
 --
 
@@ -1105,7 +1108,7 @@ ALTER TABLE ONLY imovel ALTER COLUMN id SET DEFAULT nextval('imovel_id_seq'::reg
 
 
 --
--- TOC entry 2079 (class 2604 OID 299769)
+-- TOC entry 2141 (class 2604 OID 282302)
 -- Name: id; Type: DEFAULT; Schema: titulacao; Owner: admin
 --
 
@@ -1113,7 +1116,7 @@ ALTER TABLE ONLY imovel_titulo ALTER COLUMN id SET DEFAULT nextval('imovel_titul
 
 
 --
--- TOC entry 2080 (class 2604 OID 299785)
+-- TOC entry 2142 (class 2604 OID 282303)
 -- Name: id; Type: DEFAULT; Schema: titulacao; Owner: admin
 --
 
@@ -1123,16 +1126,16 @@ ALTER TABLE ONLY titulo ALTER COLUMN id SET DEFAULT nextval('titulo_id_seq'::reg
 SET search_path = administracao, pg_catalog;
 
 --
--- TOC entry 2318 (class 0 OID 299717)
--- Dependencies: 200
+-- TOC entry 2352 (class 0 OID 282145)
+-- Dependencies: 184
 -- Data for Name: convenio; Type: TABLE DATA; Schema: administracao; Owner: admin
 --
 
 
 
 --
--- TOC entry 2365 (class 0 OID 0)
--- Dependencies: 199
+-- TOC entry 2424 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: convenio_id_seq; Type: SEQUENCE SET; Schema: administracao; Owner: admin
 --
 
@@ -1140,16 +1143,16 @@ SELECT pg_catalog.setval('convenio_id_seq', 1, false);
 
 
 --
--- TOC entry 2316 (class 0 OID 299706)
--- Dependencies: 198
+-- TOC entry 2354 (class 0 OID 282153)
+-- Dependencies: 186
 -- Data for Name: orgao; Type: TABLE DATA; Schema: administracao; Owner: admin
 --
 
 
 
 --
--- TOC entry 2366 (class 0 OID 0)
--- Dependencies: 197
+-- TOC entry 2425 (class 0 OID 0)
+-- Dependencies: 187
 -- Name: orgao_id_seq; Type: SEQUENCE SET; Schema: administracao; Owner: admin
 --
 
@@ -1159,16 +1162,16 @@ SELECT pg_catalog.setval('orgao_id_seq', 1, false);
 SET search_path = pagamento, pg_catalog;
 
 --
--- TOC entry 2330 (class 0 OID 299836)
--- Dependencies: 212
+-- TOC entry 2356 (class 0 OID 282161)
+-- Dependencies: 188
 -- Data for Name: forma_pagamento; Type: TABLE DATA; Schema: pagamento; Owner: postgres
 --
 
 
 
 --
--- TOC entry 2367 (class 0 OID 0)
--- Dependencies: 211
+-- TOC entry 2426 (class 0 OID 0)
+-- Dependencies: 189
 -- Name: forma_pagamento_id_seq; Type: SEQUENCE SET; Schema: pagamento; Owner: postgres
 --
 
@@ -1176,16 +1179,16 @@ SELECT pg_catalog.setval('forma_pagamento_id_seq', 1, false);
 
 
 --
--- TOC entry 2334 (class 0 OID 299872)
--- Dependencies: 216
+-- TOC entry 2358 (class 0 OID 282169)
+-- Dependencies: 190
 -- Data for Name: guia; Type: TABLE DATA; Schema: pagamento; Owner: admin
 --
 
 
 
 --
--- TOC entry 2368 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 2427 (class 0 OID 0)
+-- Dependencies: 191
 -- Name: guia_id_seq; Type: SEQUENCE SET; Schema: pagamento; Owner: admin
 --
 
@@ -1193,16 +1196,16 @@ SELECT pg_catalog.setval('guia_id_seq', 1, false);
 
 
 --
--- TOC entry 2328 (class 0 OID 299818)
--- Dependencies: 210
+-- TOC entry 2360 (class 0 OID 282177)
+-- Dependencies: 192
 -- Data for Name: pagamento; Type: TABLE DATA; Schema: pagamento; Owner: admin
 --
 
 
 
 --
--- TOC entry 2369 (class 0 OID 0)
--- Dependencies: 209
+-- TOC entry 2428 (class 0 OID 0)
+-- Dependencies: 193
 -- Name: pagamento_id_seq; Type: SEQUENCE SET; Schema: pagamento; Owner: admin
 --
 
@@ -1210,24 +1213,24 @@ SELECT pg_catalog.setval('pagamento_id_seq', 1, false);
 
 
 --
--- TOC entry 2332 (class 0 OID 299853)
--- Dependencies: 214
+-- TOC entry 2362 (class 0 OID 282182)
+-- Dependencies: 194
 -- Data for Name: parcela; Type: TABLE DATA; Schema: pagamento; Owner: admin
 --
 
 
 
 --
--- TOC entry 2336 (class 0 OID 299883)
--- Dependencies: 218
+-- TOC entry 2363 (class 0 OID 282185)
+-- Dependencies: 195
 -- Data for Name: parcela_guia; Type: TABLE DATA; Schema: pagamento; Owner: admin
 --
 
 
 
 --
--- TOC entry 2370 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 2429 (class 0 OID 0)
+-- Dependencies: 196
 -- Name: parcela_guia_id_seq; Type: SEQUENCE SET; Schema: pagamento; Owner: admin
 --
 
@@ -1235,8 +1238,8 @@ SELECT pg_catalog.setval('parcela_guia_id_seq', 1, false);
 
 
 --
--- TOC entry 2371 (class 0 OID 0)
--- Dependencies: 213
+-- TOC entry 2430 (class 0 OID 0)
+-- Dependencies: 197
 -- Name: parcela_id_seq; Type: SEQUENCE SET; Schema: pagamento; Owner: admin
 --
 
@@ -1246,8 +1249,8 @@ SELECT pg_catalog.setval('parcela_id_seq', 1, false);
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2293 (class 0 OID 298862)
--- Dependencies: 175
+-- TOC entry 2366 (class 0 OID 282192)
+-- Dependencies: 198
 -- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
@@ -1256,8 +1259,8 @@ INSERT INTO auth_group (id, name) VALUES (2, 'Administrador');
 
 
 --
--- TOC entry 2372 (class 0 OID 0)
--- Dependencies: 176
+-- TOC entry 2431 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -1265,16 +1268,16 @@ SELECT pg_catalog.setval('auth_group_id_seq', 12, true);
 
 
 --
--- TOC entry 2295 (class 0 OID 298867)
--- Dependencies: 177
+-- TOC entry 2368 (class 0 OID 282197)
+-- Dependencies: 200
 -- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
 
 
 --
--- TOC entry 2373 (class 0 OID 0)
--- Dependencies: 178
+-- TOC entry 2432 (class 0 OID 0)
+-- Dependencies: 201
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -1282,16 +1285,16 @@ SELECT pg_catalog.setval('auth_group_permissions_id_seq', 143, true);
 
 
 --
--- TOC entry 2297 (class 0 OID 298872)
--- Dependencies: 179
+-- TOC entry 2370 (class 0 OID 282202)
+-- Dependencies: 202
 -- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
 
 
 --
--- TOC entry 2374 (class 0 OID 0)
--- Dependencies: 180
+-- TOC entry 2433 (class 0 OID 0)
+-- Dependencies: 203
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -1299,26 +1302,26 @@ SELECT pg_catalog.setval('auth_permission_id_seq', 104, true);
 
 
 --
--- TOC entry 2299 (class 0 OID 298877)
--- Dependencies: 181
+-- TOC entry 2372 (class 0 OID 282207)
+-- Dependencies: 204
 -- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, tbdivisao_id, id) VALUES ('pbkdf2_sha256$10000$ywoPysG0uAbz$ub4oyWzhda/4Bg16U/7rfOWSxkcoS/mQnGUBY0IzUHw=', '2015-07-02 15:15:47.38-03', true, 'eduardo.oliveira', 'eduardo.oliveira', 'sobrenome', 'user@email', true, true, '2014-01-10 03:01:46-03', 1, 31);
-INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, tbdivisao_id, id) VALUES ('pbkdf2_sha256$10000$ud655OE0SbkF$rEOCUOJXcbjo9hobcAD4HEH+rTiIJDGTwYayt2fH9ow=', '2015-09-30 11:45:59.887639-03', true, 'waldenilson.carneiro', 'waldenilson.carneiro', 'Novaes', 'waldenilsonnovaes@gmail.com', true, true, '2013-08-05 12:07:59-03', 1, 1);
+INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, id, regional_id) VALUES ('pbkdf2_sha256$10000$ywoPysG0uAbz$ub4oyWzhda/4Bg16U/7rfOWSxkcoS/mQnGUBY0IzUHw=', '2015-07-02 15:15:47.38-03', true, 'eduardo.oliveira', 'eduardo.oliveira', 'sobrenome', 'user@email', true, true, '2014-01-10 03:01:46-03', 31, 1);
+INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, id, regional_id) VALUES ('pbkdf2_sha256$10000$ud655OE0SbkF$rEOCUOJXcbjo9hobcAD4HEH+rTiIJDGTwYayt2fH9ow=', '2016-05-03 12:32:31.902-03', true, 'waldenilson.carneiro', 'waldenilson.carneiro', 'Novaes', 'waldenilsonnovaes@gmail.com', true, true, '2013-08-05 12:07:59-03', 1, 1);
 
 
 --
--- TOC entry 2300 (class 0 OID 298880)
--- Dependencies: 182
+-- TOC entry 2373 (class 0 OID 282210)
+-- Dependencies: 205
 -- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
 
 
 --
--- TOC entry 2375 (class 0 OID 0)
--- Dependencies: 183
+-- TOC entry 2434 (class 0 OID 0)
+-- Dependencies: 206
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -1326,8 +1329,8 @@ SELECT pg_catalog.setval('auth_user_groups_id_seq', 176, true);
 
 
 --
--- TOC entry 2376 (class 0 OID 0)
--- Dependencies: 184
+-- TOC entry 2435 (class 0 OID 0)
+-- Dependencies: 207
 -- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -1335,16 +1338,16 @@ SELECT pg_catalog.setval('auth_user_id_seq', 72, true);
 
 
 --
--- TOC entry 2303 (class 0 OID 298887)
--- Dependencies: 185
+-- TOC entry 2376 (class 0 OID 282217)
+-- Dependencies: 208
 -- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
 
 
 --
--- TOC entry 2377 (class 0 OID 0)
--- Dependencies: 186
+-- TOC entry 2436 (class 0 OID 0)
+-- Dependencies: 209
 -- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -1352,32 +1355,33 @@ SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
 
 
 --
--- TOC entry 2305 (class 0 OID 298892)
--- Dependencies: 187
+-- TOC entry 2378 (class 0 OID 282222)
+-- Dependencies: 210
 -- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
 
 
 --
--- TOC entry 2306 (class 0 OID 298898)
--- Dependencies: 188
+-- TOC entry 2379 (class 0 OID 282228)
+-- Dependencies: 211
 -- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
 
 
 --
--- TOC entry 2307 (class 0 OID 298901)
--- Dependencies: 189
+-- TOC entry 2380 (class 0 OID 282231)
+-- Dependencies: 212
 -- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
+INSERT INTO django_session (session_key, session_data, expire_date) VALUES ('dk9tt8bhvpbvrxr93307aqf5g11hpd6g', 'YThjNWZiN2U1MmM4NjhlNDIzMTVhYTFjYTQ1YTY1N2QzY2M0OTc5YjqAAn1xAShVBmNsYXNzZXECXXEDKEsBSwJLA0sESwVLBksHSwhLCUsKZVUIZGl2aXNvZXNxBF1xBUsBYVUNX2F1dGhfdXNlcl9pZEsBVQhyZWdpb25hbHEGWBIAAABTUkZBMDIgLSBNYXJhbmjDo29VEl9hdXRoX3VzZXJfYmFja2VuZFUpZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmRVCWlzZGl2aXNhb3EHiFUCdWZxCF1xCUsKYXUu', '2016-05-17 12:32:32.027-03');
 
 
 --
--- TOC entry 2308 (class 0 OID 298907)
--- Dependencies: 190
+-- TOC entry 2381 (class 0 OID 282237)
+-- Dependencies: 213
 -- Data for Name: django_site; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
@@ -1385,8 +1389,8 @@ INSERT INTO django_site (id, domain, name) VALUES (1, 'example.com', 'example.co
 
 
 --
--- TOC entry 2311 (class 0 OID 298918)
--- Dependencies: 193
+-- TOC entry 2382 (class 0 OID 282240)
+-- Dependencies: 214
 -- Data for Name: municipio; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
@@ -6990,8 +6994,8 @@ INSERT INTO municipio ("Nome_Mun_Maiusculo", "Nome_Mun", "Codigo_Mun", "Regiao",
 
 
 --
--- TOC entry 2378 (class 0 OID 0)
--- Dependencies: 194
+-- TOC entry 2437 (class 0 OID 0)
+-- Dependencies: 215
 -- Name: municipio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -6999,19 +7003,19 @@ SELECT pg_catalog.setval('municipio_id_seq', 5597, true);
 
 
 --
--- TOC entry 2309 (class 0 OID 298910)
--- Dependencies: 191
+-- TOC entry 2384 (class 0 OID 282245)
+-- Dependencies: 216
 -- Data for Name: regional; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-INSERT INTO regional (nome, descricao, tbuf_id, id) VALUES ('SRFAR2', 'DIVISAO DE ALIENACAO DE TERRAS RURAIS', 7, 3);
-INSERT INTO regional (nome, descricao, tbuf_id, id) VALUES ('SRFA02', 'Sede São Luis / MA', 10, 1);
-INSERT INTO regional (nome, descricao, tbuf_id, id) VALUES ('SEDE', 'Coordenação Nacional', 7, 2);
+INSERT INTO regional (nome, descricao, id, uf_id, nrclasse) VALUES ('SRFA02', 'Sede São Luis / MA', 1, 10, 1);
+INSERT INTO regional (nome, descricao, id, uf_id, nrclasse) VALUES ('SEDE', 'Coordenação Nacional', 2, 7, 10);
+INSERT INTO regional (nome, descricao, id, uf_id, nrclasse) VALUES ('SRFAR2', 'DIVISAO DE ALIENACAO DE TERRAS RURAIS', 3, 7, 10);
 
 
 --
--- TOC entry 2379 (class 0 OID 0)
--- Dependencies: 192
+-- TOC entry 2438 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: regional_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -7019,43 +7023,43 @@ SELECT pg_catalog.setval('regional_id_seq', 3, true);
 
 
 --
--- TOC entry 2313 (class 0 OID 298923)
--- Dependencies: 195
--- Data for Name: tbuf; Type: TABLE DATA; Schema: public; Owner: admin
+-- TOC entry 2386 (class 0 OID 282253)
+-- Dependencies: 218
+-- Data for Name: uf; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('AC', 'Acre', 1);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('AL', 'Alagoas', 2);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('AM', 'Amazonas', 3);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('AP', 'Amapá', 4);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('BA', 'Bahia', 5);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('CE', 'Ceará', 6);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('DF', 'Distrito Federal', 7);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('ES', 'Espírito Santo', 8);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('GO', 'Goiás', 9);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('MA', 'Maranhão', 10);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('MG', 'Minas Gerais', 11);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('MS', 'Mato Grosso do Sul', 12);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('MT', 'Mato Grosso', 13);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('PA', 'Pará', 14);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('PB', 'Paraíba', 15);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('PE', 'Pernambuco', 16);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('PI', 'Piauí', 17);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('PR', 'Paraná', 18);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('RJ', 'Rio de Janeiro', 19);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('RN', 'Rio Grande do Norte', 20);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('RR', 'Roraima', 21);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('RO', 'Rondônia', 22);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('RS', 'Rio Grande do Sul', 23);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('SC', 'Santa Catarina', 24);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('SE', 'Sergipe', 25);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('SP', 'São Paulo', 26);
-INSERT INTO tbuf (sigla, nmuf, id) VALUES ('TO', 'Tocantins', 27);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('AC', 'Acre', 1);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('AL', 'Alagoas', 2);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('AM', 'Amazonas', 3);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('AP', 'Amapá', 4);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('BA', 'Bahia', 5);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('CE', 'Ceará', 6);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('DF', 'Distrito Federal', 7);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('ES', 'Espírito Santo', 8);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('GO', 'Goiás', 9);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('MA', 'Maranhão', 10);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('MG', 'Minas Gerais', 11);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('MS', 'Mato Grosso do Sul', 12);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('MT', 'Mato Grosso', 13);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('PA', 'Pará', 14);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('PB', 'Paraíba', 15);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('PE', 'Pernambuco', 16);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('PI', 'Piauí', 17);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('PR', 'Paraná', 18);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('RJ', 'Rio de Janeiro', 19);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('RN', 'Rio Grande do Norte', 20);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('RR', 'Roraima', 21);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('RO', 'Rondônia', 22);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('RS', 'Rio Grande do Sul', 23);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('SC', 'Santa Catarina', 24);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('SE', 'Sergipe', 25);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('SP', 'São Paulo', 26);
+INSERT INTO uf (sigla, nmuf, id) VALUES ('TO', 'Tocantins', 27);
 
 
 --
--- TOC entry 2380 (class 0 OID 0)
--- Dependencies: 196
+-- TOC entry 2439 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: uf_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
@@ -7065,16 +7069,16 @@ SELECT pg_catalog.setval('uf_id_seq', 27, true);
 SET search_path = titulacao, pg_catalog;
 
 --
--- TOC entry 2326 (class 0 OID 299796)
--- Dependencies: 208
+-- TOC entry 2388 (class 0 OID 282258)
+-- Dependencies: 220
 -- Data for Name: historico_imovel; Type: TABLE DATA; Schema: titulacao; Owner: admin
 --
 
 
 
 --
--- TOC entry 2381 (class 0 OID 0)
--- Dependencies: 207
+-- TOC entry 2440 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: historico_imovel_id_seq; Type: SEQUENCE SET; Schema: titulacao; Owner: admin
 --
 
@@ -7082,16 +7086,16 @@ SELECT pg_catalog.setval('historico_imovel_id_seq', 1, false);
 
 
 --
--- TOC entry 2320 (class 0 OID 299734)
--- Dependencies: 202
+-- TOC entry 2390 (class 0 OID 282266)
+-- Dependencies: 222
 -- Data for Name: imovel; Type: TABLE DATA; Schema: titulacao; Owner: admin
 --
 
 
 
 --
--- TOC entry 2382 (class 0 OID 0)
--- Dependencies: 201
+-- TOC entry 2441 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: imovel_id_seq; Type: SEQUENCE SET; Schema: titulacao; Owner: admin
 --
 
@@ -7099,16 +7103,16 @@ SELECT pg_catalog.setval('imovel_id_seq', 1, false);
 
 
 --
--- TOC entry 2322 (class 0 OID 299766)
--- Dependencies: 204
+-- TOC entry 2392 (class 0 OID 282271)
+-- Dependencies: 224
 -- Data for Name: imovel_titulo; Type: TABLE DATA; Schema: titulacao; Owner: admin
 --
 
 
 
 --
--- TOC entry 2383 (class 0 OID 0)
--- Dependencies: 203
+-- TOC entry 2442 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: imovel_titulo_id_seq; Type: SEQUENCE SET; Schema: titulacao; Owner: admin
 --
 
@@ -7116,16 +7120,16 @@ SELECT pg_catalog.setval('imovel_titulo_id_seq', 1, false);
 
 
 --
--- TOC entry 2324 (class 0 OID 299782)
--- Dependencies: 206
+-- TOC entry 2394 (class 0 OID 282279)
+-- Dependencies: 226
 -- Data for Name: titulo; Type: TABLE DATA; Schema: titulacao; Owner: admin
 --
 
 
 
 --
--- TOC entry 2384 (class 0 OID 0)
--- Dependencies: 205
+-- TOC entry 2443 (class 0 OID 0)
+-- Dependencies: 227
 -- Name: titulo_id_seq; Type: SEQUENCE SET; Schema: titulacao; Owner: admin
 --
 
@@ -7135,8 +7139,8 @@ SELECT pg_catalog.setval('titulo_id_seq', 1, false);
 SET search_path = administracao, pg_catalog;
 
 --
--- TOC entry 2136 (class 2606 OID 299725)
--- Name: pk_convenio; Type: CONSTRAINT; Schema: administracao; Owner: admin; Tablespace: 
+-- TOC entry 2145 (class 2606 OID 282305)
+-- Name: pk_convenio; Type: CONSTRAINT; Schema: administracao; Owner: admin
 --
 
 ALTER TABLE ONLY convenio
@@ -7144,8 +7148,8 @@ ALTER TABLE ONLY convenio
 
 
 --
--- TOC entry 2133 (class 2606 OID 299714)
--- Name: pk_orgao; Type: CONSTRAINT; Schema: administracao; Owner: admin; Tablespace: 
+-- TOC entry 2147 (class 2606 OID 282307)
+-- Name: pk_orgao; Type: CONSTRAINT; Schema: administracao; Owner: admin
 --
 
 ALTER TABLE ONLY orgao
@@ -7155,8 +7159,8 @@ ALTER TABLE ONLY orgao
 SET search_path = pagamento, pg_catalog;
 
 --
--- TOC entry 2151 (class 2606 OID 299844)
--- Name: pk_forma_pagamento; Type: CONSTRAINT; Schema: pagamento; Owner: postgres; Tablespace: 
+-- TOC entry 2149 (class 2606 OID 282309)
+-- Name: pk_forma_pagamento; Type: CONSTRAINT; Schema: pagamento; Owner: postgres
 --
 
 ALTER TABLE ONLY forma_pagamento
@@ -7164,8 +7168,8 @@ ALTER TABLE ONLY forma_pagamento
 
 
 --
--- TOC entry 2155 (class 2606 OID 299880)
--- Name: pk_guia; Type: CONSTRAINT; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 2151 (class 2606 OID 282311)
+-- Name: pk_guia; Type: CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
 ALTER TABLE ONLY guia
@@ -7173,8 +7177,8 @@ ALTER TABLE ONLY guia
 
 
 --
--- TOC entry 2149 (class 2606 OID 299823)
--- Name: pk_pagamento; Type: CONSTRAINT; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 2155 (class 2606 OID 282313)
+-- Name: pk_pagamento; Type: CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
 ALTER TABLE ONLY pagamento
@@ -7182,8 +7186,8 @@ ALTER TABLE ONLY pagamento
 
 
 --
--- TOC entry 2157 (class 2606 OID 299888)
--- Name: pk_parcela_guia; Type: CONSTRAINT; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 2159 (class 2606 OID 282315)
+-- Name: pk_parcela_guia; Type: CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
 ALTER TABLE ONLY parcela_guia
@@ -7191,8 +7195,8 @@ ALTER TABLE ONLY parcela_guia
 
 
 --
--- TOC entry 2153 (class 2606 OID 299858)
--- Name: pk_parcela_pagamento; Type: CONSTRAINT; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 2157 (class 2606 OID 282317)
+-- Name: pk_parcela_pagamento; Type: CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
 ALTER TABLE ONLY parcela
@@ -7202,8 +7206,8 @@ ALTER TABLE ONLY parcela
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2088 (class 2606 OID 299583)
--- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2161 (class 2606 OID 282319)
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_group
@@ -7211,8 +7215,8 @@ ALTER TABLE ONLY auth_group
 
 
 --
--- TOC entry 2095 (class 2606 OID 299585)
--- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2168 (class 2606 OID 282321)
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_group_permissions
@@ -7220,8 +7224,8 @@ ALTER TABLE ONLY auth_group_permissions
 
 
 --
--- TOC entry 2091 (class 2606 OID 299587)
--- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2164 (class 2606 OID 282323)
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_group
@@ -7229,8 +7233,8 @@ ALTER TABLE ONLY auth_group
 
 
 --
--- TOC entry 2098 (class 2606 OID 299589)
--- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2171 (class 2606 OID 282325)
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_permission
@@ -7238,8 +7242,8 @@ ALTER TABLE ONLY auth_permission
 
 
 --
--- TOC entry 2107 (class 2606 OID 299591)
--- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2180 (class 2606 OID 282327)
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_user_groups
@@ -7247,8 +7251,8 @@ ALTER TABLE ONLY auth_user_groups
 
 
 --
--- TOC entry 2100 (class 2606 OID 299593)
--- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2173 (class 2606 OID 282329)
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_user
@@ -7256,8 +7260,8 @@ ALTER TABLE ONLY auth_user
 
 
 --
--- TOC entry 2111 (class 2606 OID 299595)
--- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2184 (class 2606 OID 282331)
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_user_user_permissions
@@ -7265,8 +7269,8 @@ ALTER TABLE ONLY auth_user_user_permissions
 
 
 --
--- TOC entry 2103 (class 2606 OID 299597)
--- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2175 (class 2606 OID 282333)
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY auth_user
@@ -7274,8 +7278,8 @@ ALTER TABLE ONLY auth_user
 
 
 --
--- TOC entry 2115 (class 2606 OID 299599)
--- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2188 (class 2606 OID 282335)
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY django_admin_log
@@ -7283,8 +7287,8 @@ ALTER TABLE ONLY django_admin_log
 
 
 --
--- TOC entry 2118 (class 2606 OID 299601)
--- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2191 (class 2606 OID 282337)
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY django_content_type
@@ -7292,8 +7296,8 @@ ALTER TABLE ONLY django_content_type
 
 
 --
--- TOC entry 2120 (class 2606 OID 299603)
--- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2193 (class 2606 OID 282339)
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY django_session
@@ -7301,8 +7305,8 @@ ALTER TABLE ONLY django_session
 
 
 --
--- TOC entry 2123 (class 2606 OID 299605)
--- Name: django_site_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2196 (class 2606 OID 282341)
+-- Name: django_site_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY django_site
@@ -7310,8 +7314,8 @@ ALTER TABLE ONLY django_site
 
 
 --
--- TOC entry 2125 (class 2606 OID 299607)
--- Name: tbdivisao_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2201 (class 2606 OID 282343)
+-- Name: tbdivisao_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY regional
@@ -7319,8 +7323,8 @@ ALTER TABLE ONLY regional
 
 
 --
--- TOC entry 2129 (class 2606 OID 299609)
--- Name: tbmunicipio_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2199 (class 2606 OID 282345)
+-- Name: tbmunicipio_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY municipio
@@ -7328,19 +7332,19 @@ ALTER TABLE ONLY municipio
 
 
 --
--- TOC entry 2131 (class 2606 OID 299611)
--- Name: tbuf_pkey; Type: CONSTRAINT; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2203 (class 2606 OID 282347)
+-- Name: tbuf_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
 --
 
-ALTER TABLE ONLY tbuf
+ALTER TABLE ONLY uf
     ADD CONSTRAINT tbuf_pkey PRIMARY KEY (id);
 
 
 SET search_path = titulacao, pg_catalog;
 
 --
--- TOC entry 2145 (class 2606 OID 299804)
--- Name: pk_historico_imovel; Type: CONSTRAINT; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 2205 (class 2606 OID 282349)
+-- Name: pk_historico_imovel; Type: CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
 ALTER TABLE ONLY historico_imovel
@@ -7348,8 +7352,8 @@ ALTER TABLE ONLY historico_imovel
 
 
 --
--- TOC entry 2138 (class 2606 OID 299742)
--- Name: pk_imovel; Type: CONSTRAINT; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 2207 (class 2606 OID 282351)
+-- Name: pk_imovel; Type: CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
 ALTER TABLE ONLY imovel
@@ -7357,8 +7361,8 @@ ALTER TABLE ONLY imovel
 
 
 --
--- TOC entry 2141 (class 2606 OID 299774)
--- Name: pk_imovel_titulo; Type: CONSTRAINT; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 2210 (class 2606 OID 282353)
+-- Name: pk_imovel_titulo; Type: CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
 ALTER TABLE ONLY imovel_titulo
@@ -7366,8 +7370,8 @@ ALTER TABLE ONLY imovel_titulo
 
 
 --
--- TOC entry 2143 (class 2606 OID 299787)
--- Name: pk_titulo; Type: CONSTRAINT; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 2212 (class 2606 OID 282355)
+-- Name: pk_titulo; Type: CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
 ALTER TABLE ONLY titulo
@@ -7377,8 +7381,8 @@ ALTER TABLE ONLY titulo
 SET search_path = administracao, pg_catalog;
 
 --
--- TOC entry 2134 (class 1259 OID 299731)
--- Name: fki_orgao_convenio; Type: INDEX; Schema: administracao; Owner: admin; Tablespace: 
+-- TOC entry 2143 (class 1259 OID 282356)
+-- Name: fki_orgao_convenio; Type: INDEX; Schema: administracao; Owner: admin
 --
 
 CREATE INDEX fki_orgao_convenio ON convenio USING btree (orgao_id);
@@ -7387,16 +7391,16 @@ CREATE INDEX fki_orgao_convenio ON convenio USING btree (orgao_id);
 SET search_path = pagamento, pg_catalog;
 
 --
--- TOC entry 2146 (class 1259 OID 299869)
--- Name: fki_convenio_pagamento; Type: INDEX; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 2152 (class 1259 OID 282357)
+-- Name: fki_convenio_pagamento; Type: INDEX; Schema: pagamento; Owner: admin
 --
 
 CREATE INDEX fki_convenio_pagamento ON pagamento USING btree (convenio_id);
 
 
 --
--- TOC entry 2147 (class 1259 OID 299850)
--- Name: fki_forma_pagamento_pagamento; Type: INDEX; Schema: pagamento; Owner: admin; Tablespace: 
+-- TOC entry 2153 (class 1259 OID 282358)
+-- Name: fki_forma_pagamento_pagamento; Type: INDEX; Schema: pagamento; Owner: admin
 --
 
 CREATE INDEX fki_forma_pagamento_pagamento ON pagamento USING btree (forma_pagamento_id);
@@ -7405,120 +7409,112 @@ CREATE INDEX fki_forma_pagamento_pagamento ON pagamento USING btree (forma_pagam
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2089 (class 1259 OID 299612)
--- Name: auth_group_name_like; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2162 (class 1259 OID 282359)
+-- Name: auth_group_name_like; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_group_name_like ON auth_group USING btree (name varchar_pattern_ops);
 
 
 --
--- TOC entry 2092 (class 1259 OID 299613)
--- Name: auth_group_permissions_group_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2165 (class 1259 OID 282360)
+-- Name: auth_group_permissions_group_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_group_permissions_group_id ON auth_group_permissions USING btree (group_id);
 
 
 --
--- TOC entry 2093 (class 1259 OID 299614)
--- Name: auth_group_permissions_permission_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2166 (class 1259 OID 282361)
+-- Name: auth_group_permissions_permission_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_group_permissions_permission_id ON auth_group_permissions USING btree (permission_id);
 
 
 --
--- TOC entry 2096 (class 1259 OID 299615)
--- Name: auth_permission_content_type_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2169 (class 1259 OID 282362)
+-- Name: auth_permission_content_type_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_permission_content_type_id ON auth_permission USING btree (content_type_id);
 
 
 --
--- TOC entry 2105 (class 1259 OID 299616)
--- Name: auth_user_groups_group_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2178 (class 1259 OID 282363)
+-- Name: auth_user_groups_group_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_user_groups_group_id ON auth_user_groups USING btree (group_id);
 
 
 --
--- TOC entry 2108 (class 1259 OID 299617)
--- Name: auth_user_groups_user_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2181 (class 1259 OID 282364)
+-- Name: auth_user_groups_user_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_user_groups_user_id ON auth_user_groups USING btree (user_id);
 
 
 --
--- TOC entry 2101 (class 1259 OID 299618)
--- Name: auth_user_tbdivisao_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
---
-
-CREATE INDEX auth_user_tbdivisao_id ON auth_user USING btree (tbdivisao_id);
-
-
---
--- TOC entry 2109 (class 1259 OID 299619)
--- Name: auth_user_user_permissions_permission_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2182 (class 1259 OID 282366)
+-- Name: auth_user_user_permissions_permission_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_user_user_permissions_permission_id ON auth_user_user_permissions USING btree (permission_id);
 
 
 --
--- TOC entry 2112 (class 1259 OID 299620)
--- Name: auth_user_user_permissions_user_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2185 (class 1259 OID 282367)
+-- Name: auth_user_user_permissions_user_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_user_user_permissions_user_id ON auth_user_user_permissions USING btree (user_id);
 
 
 --
--- TOC entry 2104 (class 1259 OID 299621)
--- Name: auth_user_username_like; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2176 (class 1259 OID 282368)
+-- Name: auth_user_username_like; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX auth_user_username_like ON auth_user USING btree (username varchar_pattern_ops);
 
 
 --
--- TOC entry 2113 (class 1259 OID 299622)
--- Name: django_admin_log_content_type_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2186 (class 1259 OID 282369)
+-- Name: django_admin_log_content_type_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX django_admin_log_content_type_id ON django_admin_log USING btree (content_type_id);
 
 
 --
--- TOC entry 2116 (class 1259 OID 299623)
--- Name: django_admin_log_user_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2189 (class 1259 OID 282370)
+-- Name: django_admin_log_user_id; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX django_admin_log_user_id ON django_admin_log USING btree (user_id);
 
 
 --
--- TOC entry 2121 (class 1259 OID 299624)
--- Name: django_session_session_key_like; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2194 (class 1259 OID 282371)
+-- Name: django_session_session_key_like; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX django_session_session_key_like ON django_session USING btree (session_key varchar_pattern_ops);
 
 
 --
--- TOC entry 2126 (class 1259 OID 299626)
--- Name: tbdivisao_tbuf_id; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2177 (class 1259 OID 282513)
+-- Name: fki_auth_user_regional; Type: INDEX; Schema: public; Owner: admin
 --
 
-CREATE INDEX tbdivisao_tbuf_id ON regional USING btree (tbuf_id);
+CREATE INDEX fki_auth_user_regional ON auth_user USING btree (regional_id);
 
 
 --
--- TOC entry 2127 (class 1259 OID 299627)
--- Name: tbmunicipio_Codigo_UF; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
+-- TOC entry 2197 (class 1259 OID 282373)
+-- Name: tbmunicipio_Codigo_UF; Type: INDEX; Schema: public; Owner: admin
 --
 
 CREATE INDEX "tbmunicipio_Codigo_UF" ON municipio USING btree ("Codigo_UF");
@@ -7527,8 +7523,8 @@ CREATE INDEX "tbmunicipio_Codigo_UF" ON municipio USING btree ("Codigo_UF");
 SET search_path = titulacao, pg_catalog;
 
 --
--- TOC entry 2139 (class 1259 OID 299793)
--- Name: fki_titulo_imovel_titulo; Type: INDEX; Schema: titulacao; Owner: admin; Tablespace: 
+-- TOC entry 2208 (class 1259 OID 282374)
+-- Name: fki_titulo_imovel_titulo; Type: INDEX; Schema: titulacao; Owner: admin
 --
 
 CREATE INDEX fki_titulo_imovel_titulo ON imovel_titulo USING btree (titulo_id);
@@ -7537,7 +7533,7 @@ CREATE INDEX fki_titulo_imovel_titulo ON imovel_titulo USING btree (titulo_id);
 SET search_path = administracao, pg_catalog;
 
 --
--- TOC entry 2170 (class 2606 OID 299726)
+-- TOC entry 2213 (class 2606 OID 282375)
 -- Name: fk_orgao_convenio; Type: FK CONSTRAINT; Schema: administracao; Owner: admin
 --
 
@@ -7548,7 +7544,7 @@ ALTER TABLE ONLY convenio
 SET search_path = pagamento, pg_catalog;
 
 --
--- TOC entry 2177 (class 2606 OID 299824)
+-- TOC entry 2214 (class 2606 OID 282380)
 -- Name: fk_auth_user_creator_pagamento; Type: FK CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
@@ -7557,7 +7553,7 @@ ALTER TABLE ONLY pagamento
 
 
 --
--- TOC entry 2178 (class 2606 OID 299829)
+-- TOC entry 2215 (class 2606 OID 282385)
 -- Name: fk_auth_user_updater_pagamento; Type: FK CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
@@ -7566,7 +7562,7 @@ ALTER TABLE ONLY pagamento
 
 
 --
--- TOC entry 2180 (class 2606 OID 299864)
+-- TOC entry 2216 (class 2606 OID 282390)
 -- Name: fk_convenio_pagamento; Type: FK CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
@@ -7575,7 +7571,7 @@ ALTER TABLE ONLY pagamento
 
 
 --
--- TOC entry 2179 (class 2606 OID 299845)
+-- TOC entry 2217 (class 2606 OID 282395)
 -- Name: fk_forma_pagamento_pagamento; Type: FK CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
@@ -7584,7 +7580,7 @@ ALTER TABLE ONLY pagamento
 
 
 --
--- TOC entry 2183 (class 2606 OID 299894)
+-- TOC entry 2219 (class 2606 OID 282400)
 -- Name: fk_guia_parcela_guia; Type: FK CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
@@ -7593,7 +7589,7 @@ ALTER TABLE ONLY parcela_guia
 
 
 --
--- TOC entry 2181 (class 2606 OID 299859)
+-- TOC entry 2218 (class 2606 OID 282405)
 -- Name: fk_pagamento_parcela_pagamento; Type: FK CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
@@ -7602,7 +7598,7 @@ ALTER TABLE ONLY parcela
 
 
 --
--- TOC entry 2182 (class 2606 OID 299889)
+-- TOC entry 2220 (class 2606 OID 282410)
 -- Name: fk_parcela_parcela_guia; Type: FK CONSTRAINT; Schema: pagamento; Owner: admin
 --
 
@@ -7613,16 +7609,16 @@ ALTER TABLE ONLY parcela_guia
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2169 (class 2606 OID 299628)
+-- TOC entry 2231 (class 2606 OID 282415)
 -- Name: Codigo_UF_refs_id_29984a75; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
 ALTER TABLE ONLY municipio
-    ADD CONSTRAINT "Codigo_UF_refs_id_29984a75" FOREIGN KEY ("Codigo_UF") REFERENCES tbuf(id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT "Codigo_UF_refs_id_29984a75" FOREIGN KEY ("Codigo_UF") REFERENCES uf(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- TOC entry 2158 (class 2606 OID 299633)
+-- TOC entry 2221 (class 2606 OID 282420)
 -- Name: auth_group_permissions_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7631,7 +7627,7 @@ ALTER TABLE ONLY auth_group_permissions
 
 
 --
--- TOC entry 2162 (class 2606 OID 299638)
+-- TOC entry 2225 (class 2606 OID 282425)
 -- Name: auth_user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7640,7 +7636,7 @@ ALTER TABLE ONLY auth_user_groups
 
 
 --
--- TOC entry 2163 (class 2606 OID 299643)
+-- TOC entry 2226 (class 2606 OID 282430)
 -- Name: auth_user_groups_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7649,7 +7645,7 @@ ALTER TABLE ONLY auth_user_groups
 
 
 --
--- TOC entry 2164 (class 2606 OID 299648)
+-- TOC entry 2227 (class 2606 OID 282435)
 -- Name: auth_user_user_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7658,7 +7654,7 @@ ALTER TABLE ONLY auth_user_user_permissions
 
 
 --
--- TOC entry 2165 (class 2606 OID 299653)
+-- TOC entry 2228 (class 2606 OID 282440)
 -- Name: auth_user_user_permissions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7667,7 +7663,7 @@ ALTER TABLE ONLY auth_user_user_permissions
 
 
 --
--- TOC entry 2166 (class 2606 OID 299658)
+-- TOC entry 2229 (class 2606 OID 282445)
 -- Name: content_type_id_refs_id_93d2d1f8; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7676,7 +7672,7 @@ ALTER TABLE ONLY django_admin_log
 
 
 --
--- TOC entry 2160 (class 2606 OID 299663)
+-- TOC entry 2223 (class 2606 OID 282450)
 -- Name: content_type_id_refs_id_d043b34a; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7685,7 +7681,7 @@ ALTER TABLE ONLY auth_permission
 
 
 --
--- TOC entry 2167 (class 2606 OID 299668)
+-- TOC entry 2230 (class 2606 OID 282455)
 -- Name: django_admin_log_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7694,7 +7690,16 @@ ALTER TABLE ONLY django_admin_log
 
 
 --
--- TOC entry 2159 (class 2606 OID 299673)
+-- TOC entry 2224 (class 2606 OID 282508)
+-- Name: fk_auth_user_regional; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT fk_auth_user_regional FOREIGN KEY (regional_id) REFERENCES regional(id);
+
+
+--
+-- TOC entry 2222 (class 2606 OID 282460)
 -- Name: permission_id_refs_id_6ba0f519; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -7702,28 +7707,10 @@ ALTER TABLE ONLY auth_group_permissions
     ADD CONSTRAINT permission_id_refs_id_6ba0f519 FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
 
 
---
--- TOC entry 2161 (class 2606 OID 299683)
--- Name: tbdivisao_id_refs_id_209f7cf0; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY auth_user
-    ADD CONSTRAINT tbdivisao_id_refs_id_209f7cf0 FOREIGN KEY (tbdivisao_id) REFERENCES regional(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- TOC entry 2168 (class 2606 OID 299688)
--- Name: tbuf_id_refs_id_c8d633fb; Type: FK CONSTRAINT; Schema: public; Owner: admin
---
-
-ALTER TABLE ONLY regional
-    ADD CONSTRAINT tbuf_id_refs_id_c8d633fb FOREIGN KEY (tbuf_id) REFERENCES tbuf(id) DEFERRABLE INITIALLY DEFERRED;
-
-
 SET search_path = titulacao, pg_catalog;
 
 --
--- TOC entry 2176 (class 2606 OID 299810)
+-- TOC entry 2232 (class 2606 OID 282475)
 -- Name: fk_auth_user_historico_imovel; Type: FK CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
@@ -7732,7 +7719,7 @@ ALTER TABLE ONLY historico_imovel
 
 
 --
--- TOC entry 2173 (class 2606 OID 299775)
+-- TOC entry 2236 (class 2606 OID 282480)
 -- Name: fk_imovel_imovel_titulo; Type: FK CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
@@ -7741,7 +7728,7 @@ ALTER TABLE ONLY imovel_titulo
 
 
 --
--- TOC entry 2175 (class 2606 OID 299805)
+-- TOC entry 2233 (class 2606 OID 282485)
 -- Name: fk_imovel_titulo_historico_imovel; Type: FK CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
@@ -7750,7 +7737,7 @@ ALTER TABLE ONLY historico_imovel
 
 
 --
--- TOC entry 2172 (class 2606 OID 299748)
+-- TOC entry 2234 (class 2606 OID 282490)
 -- Name: fk_municipio_imovel; Type: FK CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
@@ -7759,7 +7746,7 @@ ALTER TABLE ONLY imovel
 
 
 --
--- TOC entry 2171 (class 2606 OID 299743)
+-- TOC entry 2235 (class 2606 OID 282495)
 -- Name: fk_regional_imovel; Type: FK CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
@@ -7768,7 +7755,7 @@ ALTER TABLE ONLY imovel
 
 
 --
--- TOC entry 2174 (class 2606 OID 299788)
+-- TOC entry 2237 (class 2606 OID 282500)
 -- Name: fk_titulo_imovel_titulo; Type: FK CONSTRAINT; Schema: titulacao; Owner: admin
 --
 
@@ -7777,8 +7764,8 @@ ALTER TABLE ONLY imovel_titulo
 
 
 --
--- TOC entry 2343 (class 0 OID 0)
--- Dependencies: 5
+-- TOC entry 2402 (class 0 OID 0)
+-- Dependencies: 10
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -7788,7 +7775,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2015-10-01 15:03:49 BRT
+-- Completed on 2016-05-03 12:34:04
 
 --
 -- PostgreSQL database dump complete
