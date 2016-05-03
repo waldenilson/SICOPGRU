@@ -64,7 +64,7 @@ def inicio_pagamento(request, cpf):
 			#importar dados do titulado
 			importar_dados_titulado(dados)
 			#criar as parcelas para pagamento: 17x com 3 anos de carencia
-			gerar_parcelas(data_requerimento=data_requerimento, usuario=AuthUser.objects.get(pk=request.user.id))
+			gerar_parcelas(dados=dados, data_requerimento=data_requerimento, usuario=AuthUser.objects.get(pk=request.user.id))
 			return HttpResponseRedirect('/sistema/parcelas-pagamento/'+cpf+'/')
 		else:
 			messages.add_message(request, messages.WARNING, 'Data do Requerimento maior que a data de hoje.')

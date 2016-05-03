@@ -1,7 +1,7 @@
 # encoding: utf-8
 from datetime import timedelta
 
-def calcular( dados, data_requerimento, nossa_escola, numero_parcela ):
+def calcular( dados, data_requerimento, numero_parcela ):
 
 	prestacao = float(dados['valor_imovel'])/17.0
 	imulta = 1.0
@@ -18,16 +18,13 @@ def calcular( dados, data_requerimento, nossa_escola, numero_parcela ):
 				if dados['valor_imovel'] > 100000:
 					ijuros = 4.0
 
-	print 'ESTA CALCULANDO'
-
-	return verificar_vencimento( data_requerimento, ijuros, prestacao, numero_parcela, imulta, nossa_escola, dados )
+	return verificar_vencimento( data_requerimento, ijuros, prestacao, numero_parcela, imulta, dados )
 
 def verificar_vencimento( data_requerimento,
 	ijuros,
 	prestacao,
 	numero_parcela,
 	imulta,
-	nossa_escola,
 	dados):
 
 	correcao = 0
@@ -74,24 +71,8 @@ def verificar_vencimento( data_requerimento,
 				valor_prestacao_corrigido = valor_prestacao * ( 1 + cm + ( ma + float(drm/30.) ) * jm/100  )
 				valor_final_prestacao = valor_prestacao + valor_prestacao_corrigido
 				correcao = cm
+	return True
 
-	if nossa_escola:
-		valor_final_prestacao = calculo_nossa_terra_nossa_escola(prestacao, valor_prestacao_corrigido)
-
-	retorno = dict()
-	retorno['numero_parcela'] = numero_parcela
-	retorno['data_vencimento'] = dtvencGRU.replace(dtvencGRU.year + (numero_parcela - 1) )
-	retorno['prestacao'] = "{0:.2f}".format(prestacao)
-	retorno['desconto'] = "{0:.2f}".format(desconto)
-	retorno['multa'] = "{0:.2f}".format(multa)
-	retorno['juros'] = "{0:.2f}".format(juros)
-	retorno['deducao'] = "{0:.2f}".format(0)
-	retorno['acrescimo'] = "{0:.2f}".format(0)
-	retorno['correcao'] = "{0:.2f}".format(correcao)
-	retorno['total'] = "{0:.2f}".format(valor_final_prestacao)
-
-	#ateh aqui
-	return retorno
 
 def calculo_prazo_prestacao(prestacao, data_vencimento, data_prazo, ijuros):
 	#artigo 8-B alinea a

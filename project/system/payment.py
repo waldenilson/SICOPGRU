@@ -5,7 +5,7 @@ from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaP
 from project.core.models import Municipio
 import datetime
 
-def gerar_parcelas( data_requerimento, usuario ):
+def gerar_parcelas( dados, data_requerimento, usuario ):
 	# cadastrar pagamento
 	obj_pagamento = Pagamento(
 			imovel_titulo= obj_ititulo,
@@ -18,22 +18,21 @@ def gerar_parcelas( data_requerimento, usuario ):
 		)
 	obj_pagamento.save()
 
-	for i in range(1,18):
-	   retorno = calcular( dados, data_requerimento, nossa_escola, i )
+	for n_parcela in range(1,18):
 	   # cadastrar parcela(s)
 	   obj_parcela = Parcela(
 			pagamento= obj_pagamento,
-			numero= retorno['numero_parcela'],
-			data_vencimento= retorno['data_vencimento'],
-			valor_principal= retorno['prestacao'],
-			valor_desconto= retorno['desconto'],
-			valor_deducao= retorno['deducao'],
-			valor_multa= retorno['multa'],
-			valor_juro= retorno['juros'],
-			valor_acrescimo= retorno['acrescimo'],
-			valor_correcao= retorno['correcao'],
-			valor_total= retorno['total']
-		)
+			numero= n_parcela,
+			data_vencimento = dados['data_emissao_titulo'].replace(dados['data_emissao_titulo'].year + (n_parcela + 2) ),
+			valor_principal = float(dados['valor_imovel'])/17.0,
+			valor_desconto = "{0:.2f}".format(0),
+			valor_deducao = "{0:.2f}".format(0),
+			valor_multa = "{0:.2f}".format(0),
+			valor_juro = "{0:.2f}".format(0),
+			valor_acrescimo = "{0:.2f}".format(0),
+			valor_correcao = "{0:.2f}".format(0),
+			valor_total = float(dados['valor_imovel'])/17.0
+	   )
 	   obj_parcela.save()
 
 def carregar_parcelas( cpf ):
