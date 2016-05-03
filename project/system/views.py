@@ -23,7 +23,7 @@ from project.system.payment import iniciar_calculo, carregar_parcelas, return_fi
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
 
-#@permission_required('system.consulta_unica', login_url='/excecoes/permissao_negada/', raise_exception=True)
+@permission_required('system.consulta_unica', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def consulta_unica(request):
 
 	if request.method == "POST":

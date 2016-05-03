@@ -5,16 +5,16 @@ def calcular( dados, data_requerimento, nossa_escola, numero_parcela ):
 
 	prestacao = float(dados['valor_imovel'])/17.0
 	imulta = 1.0
-	
+
 	if dados['modulo_fiscal'] > 4:
 		ijuros = 6.75
 	else:
 		if dados['valor_imovel'] <= 40000:
 			ijuros = 1.0
-		else: 
+		else:
 			if dados['valor_imovel'] > 40000 and dados['valor_imovel'] <= 100000:
 				ijuros = 2.0
-			else: 
+			else:
 				if dados['valor_imovel'] > 100000:
 					ijuros = 4.0
 
@@ -31,81 +31,52 @@ def verificar_vencimento( data_requerimento,
 	dados):
 
 	correcao = 0
-	principal = 0 
-	principal_juros_correcao = 0
 	multa = 0
+	juros = 0
 	desconto = 0
-	principal_corrigido_desconto = 0
-	principal_corrigido_multa = 0
-	dtgeracao = None
-	stgerada =False
-	data = None
-
+	valor_prestacao = 0
+	valor_prestacao_corrigido = 0
+	valor_final_prestacao = 0
 	data_vencimento = dados['data_emissao_titulo'].replace(dados['data_emissao_titulo'].year+3)
-	
-	if data_requerimento <= data_vencimento: # nao vencido
-		print "nao vencido"
-		if (data_vencimento - data_requerimento).days < 30:
-			#incide juros de emissao titulo ateh vencimento parcela
-			dias_juros = (data_vencimento - dados['data_emissao_titulo']).days
-			dtvencGRU = data_vencimento
-			print "dias_juros ",(dias_juros)
-			juros = float(prestacao)*((float(dias_juros)/360.)*(ijuros/100.0))
-			prestacao_juros = prestacao + juros
-			principal_corrigido = prestacao_juros
-			#imprime(prestacao_juros,"prestacao_juros")
-			
-		else:
-			if (data_vencimento - data_requerimento).days > 30:
-				print "nao vencido - mais de 30 dias"   
-				#incide juros de emissao titulo ate dtrequerimento + 30 dias
-				dias_juros = (data_requerimento - dados['data_emissao_titulo']).days + 30
-				dtvencGRU = data_requerimento + timedelta(30)
-				juros = float(prestacao)*((float(dias_juros)/360.)*(ijuros/100.0))
-				prestacao_juros = prestacao + juros
-				principal_corrigido = prestacao_juros
-				
-				#imprime(prestacao_juros,"prestacao_juros")
-				print "dias_juros " ,dias_juros,"prestacao ",prestacao," ijuros ",ijuros
-				print "juros ",juros			
+
+
+	if dados['data_emissao_titulo'] > '10/02/2009' and dados['data_emissao_titulo'] < '20/05/2010':
+		#artigo 12-B
+		pass
 	else:
-		if data_requerimento > data_vencimento: # vencido
-			print"vencido "
-			print"prestacao" ,prestacao
-			#incide multa,correcao (a partir do dtVencParcela ) e juros (apartir de dtEmissaoTitulo)
-			# juros de emissao ateh dtrequerimento + 30 dias - incidencia aa
-			dias_juros = (data_requerimento - dados['data_emissao_titulo']).days + 30
-			dtvencGRU = data_requerimento + timedelta(30)
-			juros = float(prestacao)*((float(dias_juros)/360.)*(ijuros/100.0))
-			print "juros ",juros
-			prestacao_juros = prestacao + juros
-			print "prestacao_juros",prestacao_juros			
+		if data_requerimento <= data_vencimento:
+			#artigo 8-B alinea a
+			valor_prestacao =  calculo_prazo_prestacao(prestacao=prestacao, data_vencimento=data_vencimento, data_prazo=dados['data_emissao_titulo'], ijuros=ijuros)
+		else:
+			if data_requerimento - data_vencimento <= 30:
+				#artigo 8-B alinea b
+				valor_prestacao =  calculo_prazo_prestacao(prestacao=prestacao, data_vencimento=data_vencimento, data_prazo=dados['data_emissao_titulo'], ijuros=ijuros)
+			else:
+				#artigo 8-B alinea c
+				prazo_prestacao = (data_vencimento - dados['data_emissao_titulo']).days
+				#Na = numero de anos (inteiro) de atraso (desde o vencimento da prestacao)
+				na = 2 # 2 anos e 35 dias
+				#DrA = numero de dias remanescentes (apos se completar a contagem do numero de anos inteiros) ate a data do requerimento mais 30 dias
+				dra = 65 # 35 dias + 30 dias
+				#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
+				valor_prestacao = float(prestacao) * ( 1 + ( ( float(prazo_prestacao)/360. ) + na + dra/360. ) * (ijuros/100.0) )
 
-			# correcao de vencimento ate dtrequerimento + 30 dias
-			# falta obter a correcao correta a ser aplicada de acordo com tabela do governo
-			dias_correcao = (data_requerimento - data_vencimento).days + 30
-			
-			#calcular o indice de correcao
-			icorrecao = calculo_tr()
+				#artigo 8-C alinea a
+				#CM = porcentagem correspondente a correcao monetaria
+				cm = calculo_tr()
+				#Ma = numero de meses (inteiro) de atraso ( decorridos desde o vencimento da prestacao )
+				ma = 25
+				#DrM = numero de dias remanescentes (apos se completar a contagem de numero de meses inteiros) ate a data do requerimento mais 30 dias
+				drm = 35 # 5 dias + 30 dias
+				#Jm = taxa de juro mensal de mora
+				jm = 1
+				#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
+				valor_prestacao_corrigido = valor_prestacao * ( 1 + cm + ( ma + float(drm/30.) ) * jm/100  )
+				valor_final_prestacao = valor_prestacao + valor_prestacao_corrigido
+				correcao = cm
 
-			correcao = prestacao_juros*((icorrecao/100.0))
-			print"correcao",correcao
-			print "icorrecao",icorrecao
-			principal_juros_correcao = prestacao_juros + correcao
-			
-			# multa de vencimento ateh dtrequerimento + 30 dias
-			multa = ((float(dias_correcao))/30)*float(imulta)/100*float(principal_juros_correcao)  
-			principal_corrigido = principal_juros_correcao + multa
-			
-			print "principal_corrigido ", principal_corrigido
-			print "dtvencGRU ",dtvencGRU
-			print "multa",multa
-	
-	#referencia = str(instance.numero_processo[0:5])+str(instance.id_req[2:6])+str(numero_parcela)+str(0) #mudar qdo titulo vier do sisterleg
-	
 	if nossa_escola:
-		desconto = principal_corrigido / 2
-		principal_corrigido = desconto
+		valor_final_prestacao = calculo_nossa_terra_nossa_escola(prestacao, valor_prestacao_corrigido)
 
 	retorno = dict()
 	retorno['numero_parcela'] = numero_parcela
@@ -117,10 +88,30 @@ def verificar_vencimento( data_requerimento,
 	retorno['deducao'] = "{0:.2f}".format(0)
 	retorno['acrescimo'] = "{0:.2f}".format(0)
 	retorno['correcao'] = "{0:.2f}".format(correcao)
-	retorno['total'] = "{0:.2f}".format(principal_corrigido)
+	retorno['total'] = "{0:.2f}".format(valor_final_prestacao)
 
 	#ateh aqui
 	return retorno
-   
+
+def calculo_prazo_prestacao(prestacao, data_vencimento, data_prazo, ijuros):
+	#artigo 8-B alinea a
+	#N = prazo da prestacao em numero de anos
+	prazo_prestacao = (data_vencimento - data_prazo.days
+	#VP = P x ( 1 + ( N x J/100 ) )
+	return float(prestacao) * ( 1 + (float(prazo_prestacao)/360.)*(ijuros/100.0) )
+
+def calculo_nossa_terra_nossa_escola(prestacao, encargos):
+	#encargos calculados com a parcela anual e depois somados a  metade do valor da parcela anual
+	return encargos + ( prestacao / 2 )
+
 def calculo_tr():
+	#periodo entre o vencimento da prestacao e a data do requerimento
+	#dt_inicio: dia util anterior ao do vencimento da prestacao
+	#dt_final: dia util anterior ao requerimento
+	return 3.7999
+
+def calculo_igpm():
+	#periodo entre o vencimento da prestacao e a data do requerimento
+	#mes_inicio: anterior ao do vencimento da prestacao
+	#mes_final: anterior ao do requerimento
 	return 3.7999

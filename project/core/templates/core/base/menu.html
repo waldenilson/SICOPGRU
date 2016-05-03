@@ -1,4 +1,4 @@
-					
+
 					<ul id="menu" style="font-size:15px">
 
 					<li>
@@ -10,7 +10,9 @@
 
 					<li><a href="#">Cálculo</a>
 						<ul>
-							<li><a href="/sistema/consulta-unica/">Consulta Única</a></li>
+							{% if perms.system.consulta_unica %}
+								<li><a href="/sistema/consulta-unica/">Consulta Única</a></li>
+							{% endif %}
 							{% if perms.system.consulta_titulado %}
 								<li><a href="/sistema/consulta-titulado/">Consulta de Titulado(s)</a></li>
 							{% endif %}
@@ -22,14 +24,17 @@
 						<li><a href="#">Importação</a>
 						<ul>
 							{% if perms.system.importacao_arquivo_retorno %}
-							<li><a href="/sistema/arquivo-retorno/">Arquivo Retorno</a></li>
+								<li><a href="/sistema/arquivo-retorno/">Arquivo Retorno</a></li>
+							{% endif %}
+							{% if perms.system.importacao_arquivo_retorno %}
+								<li><a href="#">Relatório - Arquivo Retorno</a></li>
 							{% endif %}
 						</ul>
 						</li>
 						<hr/>
 					{% endif %}
 
-					{% if perms.system.relatorio %}					
+					{% if perms.system.relatorio %}
 					<li>
 					<a href="#" title="">
 					<span>Relatórios</span>
@@ -38,7 +43,7 @@
 							<li><a href="/sistema/relatorio/parcelas/pagas-vencidas/">Parcelas pagas x vencidas</a></li>
 						</ul>
 					</li>
-					<hr/>													
+					<hr/>
 					{% endif %}
 
 					{% if perms.system.orgao_consulta or perms.system.convenio_consulta %}
@@ -54,7 +59,7 @@
 						</li>
 						<hr/>
 					{% endif %}
-					
+
 					{% if perms.core.usuario_consulta or perms.core.grupo_consulta or perms.core.regional_consulta %}
 					<li><a href="#">Usuário</a>
 					<ul>
@@ -74,7 +79,7 @@
 					</li>
 					<hr/>
 					{% endif %}
-					
+
 					{% if perms.core.municipio_consulta %}
 						<li><a href="#">Município</a>
 						<ul>
@@ -90,5 +95,5 @@
 					<span>Equipe</span>
 					</a>
 					</li>
-	
+
 					</ul>
