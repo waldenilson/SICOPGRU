@@ -1,6 +1,6 @@
 # -- coding: utf-8 --
 from datetime import timedelta
-from project.calculation.calc import calcular
+from project.calculation.calc import calcular_parcela
 from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela, ParcelaGuia, Guia
 from project.core.models import Municipio
 import datetime
@@ -42,6 +42,7 @@ def carregar_parcelas( cpf ):
 	parcelas = Parcela.objects.filter( pagamento__id = lista[0].id )
 	l_parcelas = []
 	for p in parcelas:
+		p = calcular_parcela(p)
 		parcela = dict()
 		parcela['id'] = p.id
 		parcela['numero'] = p.numero
@@ -88,9 +89,6 @@ def return_file_ref(file_ref):
 					pg.save()
 	else:
 		print 'no conv'
-
-def recalculo():
-	pass
 
 def excecao_maior_menor():
 	pass
