@@ -13,6 +13,21 @@ def calcular( dados, data_requerimento, numero_parcela ):
 		dados
 	)
 
+def calcular_parcela( parcela ):
+	data_emissao_titulo = parcela.pagamento.imovel_titulo.titulo.data_emissao
+	if data_emissao_titulo > '10/02/2009' and data_emissao_titulo < '20/05/2010':
+		#artigo 12-B
+		pass
+	elif parcela.pagamento.data_requerimento <= parcela.data_vencimento:
+		#artigo 8-B alinea a
+		valor =  valor_prestacao(prestacao=parcela.valor_principal, data_vencimento=parcela.data_vencimento, data_prazo=data_emissao_titulo, modulo_fiscal=parcela.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal, valor_imovel=parcela.pagamento.imovel_titulo.imovel.valor)
+	elif parcela.pagamento.data_requerimento - parcela.data_vencimento <= 30:
+		#artigo 8-B alinea b
+		valor =  valor_prestacao(prestacao=parcela.valor_principal, data_vencimento=parcela.data_vencimento, data_prazo=data_emissao_titulo, modulo_fiscal=parcela.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal, valor_imovel=parcela.pagamento.imovel_titulo.imovel.valor)
+	else:
+		#artigo 8-B alinea c
+		pass
+
 def verificar_vencimento( data_requerimento,
 	ijuros,
 	prestacao,
@@ -77,12 +92,12 @@ def taxa_juros( modulo_fiscal, valor_imovel ):
 		ijuros = 4.
 	return ijuros
 
-def valor_prestacao(prestacao, data_vencimento, data_prazo, ijuros):
+def valor_prestacao(prestacao, data_vencimento, data_prazo, modulo_fiscal, valor_imovel):
 	#artigo 8-B alinea a
 	#N = prazo da prestacao em numero de anos
 	prazo_prestacao = data_vencimento - data_prazo.days
 	#VP = P x ( 1 + ( N x J/100 ) )
-	return float(prestacao) * ( 1 + (float(prazo_prestacao)/360.)*(ijuros/100.0) )
+	return float(prestacao) * ( 1 + (float(prazo_prestacao)/360.)*( taxa_juros(modulo_fiscal, valor_imovel) /100.0) )
 
 def nossa_terra_nossa_escola(modulo_fiscal, prestacao, encargos):
 	#beneficio para areas de ate 4 modulos fiscais
