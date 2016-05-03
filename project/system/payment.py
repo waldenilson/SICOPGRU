@@ -33,9 +33,7 @@ def return_file_ref(file_ref):
 	else:
 		print 'no conv'
 
-def iniciar_calculo( dados, data_requerimento, nossa_escola, usuario ):
-	print 'INICIANDO CALCULO'
-
+def importar_dados_titulado(dados):
 	# cadastrar titulo
 	obj_titulo = Titulo(
 			numero= dados['titulo'],
@@ -67,12 +65,12 @@ def iniciar_calculo( dados, data_requerimento, nossa_escola, usuario ):
 		)
 	obj_ititulo.save()
 
+def gerar_parcelas( data_requerimento, usuario ):
 	# cadastrar pagamento
 	obj_pagamento = Pagamento(
 			imovel_titulo= obj_ititulo,
 			convenio= Convenio.objects.get(pk=1),
 			data_requerimento= data_requerimento,
-			nossa_escola= nossa_escola,
 			forma_pagamento= FormaPagamento.objects.get(pk=2),
 			creator_auth_user= usuario,
 			updated_at= datetime.datetime.now(),

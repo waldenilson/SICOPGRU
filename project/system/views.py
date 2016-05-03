@@ -19,7 +19,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
 from project.system.integration import consultar
-from project.system.payment import iniciar_calculo, carregar_parcelas, return_file_ref
+from project.system.payment import importar_dados_titulado, gerar_parcelas, carregar_parcelas, return_file_ref
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
 
@@ -33,9 +33,7 @@ def consulta_unica(request):
 			dados = consultar(cpf)
 
 			if dados != None:
-				print 'Encontrou registro'
 				if dados['dados'] == 'local':
-					lista_parcela = carregar_parcelas( cpf )
 					return HttpResponseRedirect('/sistema/parcelas-pagamento/'+dados['cpf_titulado']+'/')
 				elif dados['dados'] == 'externa':
 					if dados['situacao'] == 'Titulado':
@@ -63,7 +61,10 @@ def inicio_pagamento(request, cpf):
 		data_requerimento = datetime.datetime.strptime( request.POST['data_requerimento'],'%d/%m/%Y')
 		data_requerimento = data_requerimento.date()
 		if data_requerimento <= datetime.datetime.now().date():
-			iniciar_calculo( dados, data_requerimento, request.POST.get('nossa_escola',False), AuthUser.objects.get(pk=request.user.id) )
+			#importar dados do titulado
+			importar_dados_titulado(dados)
+			#criar as parcelas para pagamento: 17x com 3 anos de carencia
+			gerar_parcelas(data_requerimento=data_requerimento, usuario=AuthUser.objects.get(pk=request.user.id))
 			return HttpResponseRedirect('/sistema/parcelas-pagamento/'+cpf+'/')
 		else:
 			messages.add_message(request, messages.WARNING, 'Data do Requerimento maior que a data de hoje.')

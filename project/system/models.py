@@ -195,7 +195,6 @@ class Pagamento(models.Model):
     imovel_titulo = models.ForeignKey(ImovelTitulo,null=False)
     convenio = models.ForeignKey(Convenio,null=False)
     data_requerimento = models.DateField()
-    nossa_escola = models.BooleanField(default=False)
     forma_pagamento = models.ForeignKey(FormaPagamento)
     created_at = models.DateTimeField(auto_now_add=True)
     creator_auth_user = models.ForeignKey('core.AuthUser', related_name='auth_user_creator')
