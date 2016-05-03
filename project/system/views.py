@@ -18,8 +18,8 @@ from os.path import abspath, join, dirname
 from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
-from project.system.integration import consultar
-from project.system.payment import importar_dados_titulado, gerar_parcelas, carregar_parcelas, return_file_ref
+from project.system.integration import consultar, importar_dados_titulado
+from project.system.payment import gerar_parcelas, carregar_parcelas, return_file_ref
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
 

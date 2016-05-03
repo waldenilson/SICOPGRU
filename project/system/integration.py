@@ -34,8 +34,37 @@ def consultar(cpf):
 		else:
 			return None
 
-def salvar():
-	pass
+def importar_dados_titulado(dados):
+	# cadastrar titulo
+	obj_titulo = Titulo(
+			numero= dados['titulo'],
+			tipo= dados['tipo_titulo'],
+			processo= dados['processo'],
+			nome_titulado= dados['nome_titulado'],
+			cpf_titulado= dados['cpf_titulado'],
+			data_emissao= dados['data_emissao_titulo']
+		)
+	obj_titulo.save()
+
+	# cadastrar imovel
+	obj_imovel = Imovel(
+			nome= dados['nome_imovel'],
+			sncr= dados['sncr'],
+			gleba= dados['gleba'],
+			area_total= dados['area_total'],
+			tamanho_modulo_fiscal= dados['modulo_fiscal'],
+			municipio= dados['municipio'],
+			regional= dados['regional']
+		)
+	obj_imovel.save()
+
+	# cadastrar imoveltitulo
+	obj_ititulo = ImovelTitulo(
+			imovel= obj_imovel,
+			titulo= obj_titulo,
+			valor_imovel= dados['valor_imovel']
+		)
+	obj_ititulo.save()
 
 def consumir_base_extrato(cpf):
 	lista = Tbextrato.objects.filter(cpf_req__icontains=cpf , situacao_processo__icontains = 'Titulado')
@@ -63,6 +92,7 @@ def consumir_base_extrato(cpf):
 		return dados
 	else:
 		return None
+
 def consumir_sisterleg( search ):
 	return consumir_sisterleg_qsit( search )
 
