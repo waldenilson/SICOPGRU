@@ -1,10 +1,10 @@
 # encoding: utf-8
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 def calcular_parcela( parcela ):
 	data_emissao_titulo = parcela.pagamento.imovel_titulo.titulo.data_emissao
 	juros = taxa_juros(modulo_fiscal=parcela.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal, valor_imovel=parcela.pagamento.imovel_titulo.valor_imovel)
-	if data_emissao_titulo > '10/02/2009' and data_emissao_titulo < '20/05/2010':
+	if data_emissao_titulo > datetime.strptime( '10/02/2009', "%d/%m/%Y") and data_emissao_titulo < datetime.strptime( '20/05/2010', "%d/%m/%Y"):
 		#artigo 12-B
 		pass
 	elif parcela.pagamento.data_requerimento <= parcela.data_vencimento:
