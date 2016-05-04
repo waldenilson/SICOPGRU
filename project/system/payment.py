@@ -8,7 +8,7 @@ import datetime
 def gerar_parcelas( dados, data_requerimento, usuario ):
 	# cadastrar pagamento
 	obj_pagamento = Pagamento(
-			imovel_titulo= obj_ititulo,
+			imovel_titulo= ImovelTitulo.objects.get(pk=int(dados['imovel_titulo'])),
 			convenio= Convenio.objects.get(pk=1),
 			data_requerimento= data_requerimento,
 			forma_pagamento= FormaPagamento.objects.get(pk=2),
@@ -39,7 +39,7 @@ def carregar_parcelas( cpf ):
 	lista = Pagamento.objects.filter( imovel_titulo__titulo__cpf_titulado__icontains=cpf )
 	dados = dict()
 	dados['pagamento'] = lista[0]
-	parcelas = Parcela.objects.filter( pagamento__id = lista[0].id )
+	parcelas = Parcela.objects.filter( pagamento__id = lista[0].id ).order_by('numero')
 	l_parcelas = []
 	for p in parcelas:
 		p = calcular_parcela(p)

@@ -1,6 +1,6 @@
 # -- coding: utf-8 --
 from project.core.funcoes import consumir_url_json
-from project.system.models import Tbextrato, ImovelTitulo
+from project.system.models import Tbextrato, Titulo, Imovel, ImovelTitulo
 from project.core.models import Municipio, Regional
 from decimal import Decimal
 
@@ -10,6 +10,7 @@ def consultar(cpf):
 	dados = dict()
 	if lista:
 		dados['dados'] = 'local'
+		dados['imovel_titulo'] = lista[0].id
 		dados['nome_titulado'] = lista[0].titulo.nome_titulado
 		dados['cpf_titulado'] = lista[0].titulo.cpf_titulado
 		dados['titulo'] = lista[0].titulo.numero
@@ -66,6 +67,9 @@ def importar_dados_titulado(dados):
 		)
 	obj_ititulo.save()
 
+	dados['imovel_titulo'] = obj_ititulo.id
+	return dados
+
 def consumir_base_extrato(cpf):
 	lista = Tbextrato.objects.filter(cpf_req__icontains=cpf , situacao_processo__icontains = 'Titulado')
 	dados = dict()
@@ -84,7 +88,10 @@ def consumir_base_extrato(cpf):
 		dados['sncr'] = lista[0].sncr
 		dados['gleba'] = lista[0].nome_gleba
 		dados['area_total'] = lista[0].area_total_imovel
-		dados['municipio'] = Municipio.objects.filter( codigo_mun = lista[0].cod_municipio[0:len(lista[0].cod_municipio)-1] )[0]
+		try:
+			dados['municipio'] = Municipio.objects.filter( codigo_mun = lista[0].cod_municipio[0:len(lista[0].cod_municipio)-1] )[0]
+		except:
+			dados['municipio'] = Municipio.objects.filter( codigo_mun = lista[0].cod_municipio )[0]
 		dados['regional'] = Regional.objects.get(pk=1)
 		dados['modulo_fiscal'] = lista[0].tamanho_modulos_fiscais
 
