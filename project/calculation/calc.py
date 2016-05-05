@@ -18,9 +18,12 @@ def calcular_parcela( parcela ):
 		#artigo 8-B alinea c
 		n = prazo_prestacao(data_requerimento=data_requerimento,data_emissao_titulo=data_emissao_titulo)
 		#Na = numero de anos (inteiro) de atraso (desde o vencimento da prestacao)
-		na = 2 # 2 anos e 35 dias
+		dt = data_requerimento - parcela.data_vencimento
+		qtd_ano = dt.days/360
+		qtd_dias = dt.days - qtd_ano*360
+		na = qtd_ano # 2 anos e 35 dias (data_requerimento - parcela.data_vencimento).days/360
 		#DrA = numero de dias remanescentes (apos se completar a contagem do numero de anos inteiros) ate a data do requerimento mais 30 dias
-		dra = 65 # 35 dias + 30 dias
+		dra = qtd_dias + 30
 		#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
 		valor = float(parcela.valor_principal) * ( 1 + ( ( float( n )/360. ) + na + dra/360. ) * ( juros /100.) )
 
@@ -28,9 +31,11 @@ def calcular_parcela( parcela ):
 		#CM = porcentagem correspondente a correcao monetaria
 		cm = indice_tr()
 		#Ma = numero de meses (inteiro) de atraso ( decorridos desde o vencimento da prestacao )
-		ma = 25
+		qtd_mes = dt.days/30
+		qtd_dias = dt.days - qtd_mes*30
+		ma = qtd_mes
 		#DrM = numero de dias remanescentes (apos se completar a contagem de numero de meses inteiros) ate a data do requerimento mais 30 dias
-		drm = 35 # 5 dias + 30 dias
+		drm = qtd_dias + 30 # 5 dias + 30 dias
 		#Jm = taxa de juro mensal de mora
 		jm = 1
 		#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
