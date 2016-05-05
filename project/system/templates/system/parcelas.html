@@ -107,7 +107,7 @@
 									<td class="colunaTabelaConsulta">{{ obj.valor_total|floatformat:2 }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.data_vencimento|date:'d/m/Y'}}</td>
 									<td class="colunaTabelaConsulta">
-										{% if obj.status = 'False' %}
+										{% if obj.status = 'False' and obj.numero == dados.proxima_parcela_a_pagar %}
 											<a target="blank" href="/sistema/gru-pagamento/{{obj.id}}/">
 													<img width="24px" src="{% static "img/pdf.png" %}" title="Gerar GRU" alt="Gerar GRU" />
 											</a>

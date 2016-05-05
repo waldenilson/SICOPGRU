@@ -41,6 +41,7 @@ def carregar_parcelas( cpf ):
 	dados['pagamento'] = lista[0]
 	parcelas = Parcela.objects.filter( pagamento__id = lista[0].id ).order_by('numero')
 	l_parcelas = []
+	proxima_parcela_a_pagar = 1
 	for p in parcelas:
 		p = calcular_parcela(p)
 		parcela = dict()
@@ -61,8 +62,13 @@ def carregar_parcelas( cpf ):
 			if pg.status_pagamento:
 				parcela['status'] = 'True'
 		l_parcelas.append(parcela)
+		#verificar a proxima parcela sucessiva a pagar
+		if parcela['status'] == 'True':
+			proxima_parcela_a_pagar += 1
 	dados['parcelas'] = l_parcelas
-	# retornar obj imoveltitulo, pagamento, parcelas
+	dados['proxima_parcela_a_pagar'] = proxima_parcela_a_pagar
+
+	# retornar obj pagamento, parcelas
 	return dados
 
 def return_file_ref(file_ref):
