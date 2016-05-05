@@ -14,6 +14,8 @@ def calcular_parcela( parcela ):
 	elif data_requerimento <= parcela.data_vencimento or (data_requerimento - parcela.data_vencimento).days <= 30:
 		#artigo 8-B alinea a e b
 		valor =  valor_prestacao(prestacao=parcela.valor_principal, data_emissao=data_emissao_titulo, data_requerimento=data_requerimento, juros=juros)
+		parcela.valor_juro = tx_juros( parcela.valor_principal, data_emissao_titulo, parcela.pagamento.data_requerimento, juros )
+		parcela.valor_total = valor
 	else:
 		#artigo 8-B alinea c
 		n = prazo_prestacao(data_requerimento=data_requerimento,data_emissao_titulo=data_emissao_titulo)
@@ -25,7 +27,9 @@ def calcular_parcela( parcela ):
 		#DrA = numero de dias remanescentes (apos se completar a contagem do numero de anos inteiros) ate a data do requerimento mais 30 dias
 		dra = qtd_dias + 30
 		#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
-		valor = float(parcela.valor_principal) * ( 1 + ( ( float( n )/360. ) + na + dra/360. ) * ( juros /100.) )
+		vpa = float(parcela.valor_principal) * ( 1 + ( ( float( n )/360. ) + na + dra/360. ) * ( juros /100.) )
+
+		print 'valor: '+str(vpa)
 
 		#artigo 8-C alinea a
 		#CM = porcentagem correspondente a correcao monetaria
@@ -39,12 +43,12 @@ def calcular_parcela( parcela ):
 		#Jm = taxa de juro mensal de mora
 		jm = 1
 		#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
-		valor_encargos = valor * ( 1 + cm + ( ma + float(drm/30.) ) * jm/100.  )
-		valor = valor + valor_encargos
+		valor_encargos = vpa * ( 1 + cm + ( ma + float(drm/30.) ) * jm/100.  )
+		valor = vpa + valor_encargos
+		parcela.valor_juro = vpa - float(parcela.valor_principal)
 		parcela.valor_multa = jm
-		parcela.valor_correcao = cm
-	parcela.valor_juro = tx_juros( parcela.valor_principal, data_emissao_titulo, parcela.pagamento.data_requerimento, juros )
-	parcela.valor_total = valor
+		parcela.valor_correcao = valor_encargos - vpa
+		parcela.valor_total = valor_encargos
 	parcela.save()
 	return parcela
 
@@ -89,10 +93,10 @@ def indice_tr():
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#dt_inicio: dia util anterior ao do vencimento da prestacao
 	#dt_final: dia util anterior ao requerimento
-	return 3.7999/100.
+	return 2.5/100.
 
 def indice_igpm():
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#mes_inicio: anterior ao do vencimento da prestacao
 	#mes_final: anterior ao do requerimento
-	return 3.7999/100.
+	return 2.5/100.

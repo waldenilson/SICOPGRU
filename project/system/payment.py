@@ -52,6 +52,9 @@ def carregar_parcelas( cpf ):
 		parcela['valor_correcao'] = p.valor_correcao
 		parcela['valor_total'] = p.valor_total
 		parcela['data_vencimento'] = p.data_vencimento
+		parcela['vencida'] = 'False'
+		if p.pagamento.data_requerimento > p.data_vencimento:
+			parcela['vencida'] = 'True'
 		parcela['status'] = 'False'
 		pguia = ParcelaGuia.objects.filter( parcela__id = p.id )
 		for pg in pguia:

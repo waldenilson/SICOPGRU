@@ -58,6 +58,16 @@
 											<td> {{dados.pagamento.imovel_titulo.imovel.municipio.nome_mun}} / {{dados.pagamento.imovel_titulo.imovel.municipio.uf}} </td>
 										</tr>
 
+										<tr>
+											<td> <b>Data Emissão do Titulo:</b> </td>
+											<td> {{dados.pagamento.imovel_titulo.titulo.data_emissao}} </td>
+										</tr>
+
+										<tr>
+											<td> <b>Data Requerimento:</b> </td>
+											<td> {{dados.pagamento.data_requerimento}} </td>
+										</tr>
+
 								</table>
 			<br />
 			<table style="width:20%">
@@ -81,21 +91,19 @@
 				<tr>
 					<td class="colunaTabelaConsulta" style="width:5%">Nº</td>
 					<td class="colunaTabelaConsulta" style="width:20%">Principal (R$)</td>
-					<td class="colunaTabelaConsulta" style="width:20%">Juros (R$)</td>
-					<td class="colunaTabelaConsulta" style="width:20%">Mora (R$)</td>
-					<td class="colunaTabelaConsulta" style="width:15%">Correção (R$)</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Juros (R$)</td>
+					<td class="colunaTabelaConsulta" style="width:20%">Correção + Juros de Mora (R$)</td>
 					<td class="colunaTabelaConsulta" style="width:15%">Total (R$)</td>
 					<td class="colunaTabelaConsulta" style="width:15%">Vencimento</td>
 					<td class="colunaTabelaConsulta" style="width:5%">Emitir</td>
 				</tr>
 				{% if dados.parcelas %}
 				  		{% for obj in dados.parcelas %}
-							<tr style="background-color:{% if obj.status = 'True' %} lightgreen {% else %} lightgray {% endif %}">
+							<tr style="background-color:{% if obj.status = 'True' %} lightgreen {% elif obj.vencida = 'True' %} red {% else %} lightgray {% endif %}">
 									<td class="colunaTabelaConsulta">{{ obj.numero }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.valor_principal|floatformat:2 }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.valor_juro|floatformat:2 }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.valor_multa }}</td>
-									<td class="colunaTabelaConsulta">{{ obj.valor_correcao }}</td>
+									<td class="colunaTabelaConsulta">{{ obj.valor_correcao|floatformat:2 }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.valor_total|floatformat:2 }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.data_vencimento|date:'d/m/Y'}}</td>
 									<td class="colunaTabelaConsulta">
