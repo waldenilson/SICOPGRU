@@ -11,7 +11,7 @@ def calcular_parcela( parcela ):
 	if data_emissao_titulo > datetime.strptime( '10/02/2009', "%d/%m/%Y").date() and data_emissao_titulo < datetime.strptime( '20/05/2010', "%d/%m/%Y").date():
 		#artigo 12-B
 		pass
-	elif data_requerimento <= parcela.data_vencimento or data_requerimento - parcela.data_vencimento <= 30:
+	elif data_requerimento <= parcela.data_vencimento or (data_requerimento - parcela.data_vencimento).days <= 30:
 		#artigo 8-B alinea a e b
 		valor =  valor_prestacao(prestacao=parcela.valor_principal, data_emissao=data_emissao_titulo, data_requerimento=data_requerimento, juros=juros)
 	else:
@@ -89,10 +89,10 @@ def indice_tr():
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#dt_inicio: dia util anterior ao do vencimento da prestacao
 	#dt_final: dia util anterior ao requerimento
-	return 3.7999
+	return 3.7999/100.
 
 def indice_igpm():
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#mes_inicio: anterior ao do vencimento da prestacao
 	#mes_final: anterior ao do requerimento
-	return 3.7999
+	return 3.7999/100.

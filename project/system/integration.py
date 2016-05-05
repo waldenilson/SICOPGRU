@@ -22,8 +22,8 @@ def consultar(cpf):
 		dados['sncr'] = lista[0].imovel.sncr
 		dados['gleba'] = lista[0].imovel.gleba
 		dados['area_total'] = lista[0].imovel.area_total
-		dados['municipio'] = lista[0].imovel.municipio.nome_mun
-		dados['regional'] = lista[0].imovel.regional.nome
+		dados['municipio'] = lista[0].imovel.municipio
+		dados['regional'] = lista[0].imovel.regional
 		dados['modulo_fiscal'] = lista[0].imovel.tamanho_modulo_fiscal
 
 		dados['valor_imovel'] = lista[0].valor_imovel.quantize(Decimal('1.00'))
