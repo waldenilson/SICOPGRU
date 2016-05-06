@@ -11,6 +11,8 @@ def calcular_parcela( parcela ):
 
 	if data_emissao_titulo > datetime.strptime( '10/02/2009', "%d/%m/%Y").date() and data_emissao_titulo < datetime.strptime( '20/05/2010', "%d/%m/%Y").date():
 		#artigo 12-B
+		#AVP = VP x ( 1 + IGPM ) : valor da prestacao com os juros devidos
+		#AVFPa = VFPa x ( 1 + IGPM ) : valor final da prestacao em atraso
 		pass
 	elif data_requerimento <= parcela.data_vencimento or (data_requerimento - parcela.data_vencimento).days <= 30:
 		#artigo 8-B alinea a e b
@@ -44,12 +46,11 @@ def calcular_parcela( parcela ):
 		#Jm = taxa de juro mensal de mora
 		jm = 1
 		#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
-		valor_encargos = vpa * ( 1 + cm + ( ma + float(drm/30.) ) * jm/100.  )
-		valor = vpa + valor_encargos
+		vfpa = valor_final_prestacao_atraso(vpa=vpa, cm=cm, ma=ma, drm=drm, mora=jm)
 		parcela.valor_juro = vpa - float(parcela.valor_principal)
 		parcela.valor_multa = jm
-		parcela.valor_correcao = valor_encargos - vpa
-		parcela.valor_total = valor_encargos
+		parcela.valor_correcao = vfpa - vpa
+		parcela.valor_total = vfpa
 	parcela.save()
 	return parcela
 
@@ -66,19 +67,28 @@ def indice_juros( modulo_fiscal, valor_imovel ):
 		ijuros = 4.
 	return ijuros
 
+#N
 def prazo_prestacao( data_emissao_titulo, data_requerimento ):
 	return (data_requerimento - data_emissao_titulo).days
 
+#VP
 def valor_prestacao(prestacao, data_emissao, data_requerimento, juros):
 	#artigo 8-B alinea a e b
 	#N = prazo da prestacao em numero de anos
 	#VP = P x ( 1 + ( N x J/100 ) )
 	return float(prestacao) * ( 1 + (float( prazo_prestacao(data_emissao_titulo=data_emissao, data_requerimento=data_requerimento) )/360.)*( juros /100.) )
 
+#VPa
 def valor_prestacao_atraso(prestacao, n, na, dra, juros):
 	#artigo 8-B alinea c
 	#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
 	return float(prestacao) * ( 1 + ( ( float( n )/360. ) + na + dra/360. ) * ( juros /100.) )
+
+#VFPa
+def valor_final_prestacao_atraso(vpa, cm, ma, drm, mora):
+	#artigo 8-C alinea a
+	#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
+	return vpa * ( 1 + cm + ( ma + float(drm/30.) ) * mora/100.  )
 
 def nossa_terra_nossa_escola(modulo_fiscal, prestacao, encargos):
 	#beneficio para areas de ate 4 modulos fiscais
