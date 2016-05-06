@@ -13,9 +13,11 @@ def calcular_parcela( parcela ):
 		pass
 	elif data_requerimento <= parcela.data_vencimento or (data_requerimento - parcela.data_vencimento).days <= 30:
 		#artigo 8-B alinea a e b
-		valor =  valor_prestacao(prestacao=parcela.valor_principal, data_emissao=data_emissao_titulo, data_requerimento=data_requerimento, juros=juros)
-		parcela.valor_juro = tx_juros( parcela.valor_principal, data_emissao_titulo, parcela.pagamento.data_requerimento, juros )
-		parcela.valor_total = valor
+		vp =  valor_prestacao(prestacao=parcela.valor_principal, data_emissao=data_emissao_titulo, data_requerimento=data_requerimento, juros=juros)
+		parcela.valor_juro = vp - float(parcela.valor_principal)
+		parcela.valor_multa = 0.
+		parcela.valor_correcao = 0.
+		parcela.valor_total = vp
 	else:
 		#artigo 8-B alinea c
 		n = prazo_prestacao(data_requerimento=data_requerimento,data_emissao_titulo=data_emissao_titulo)
@@ -27,9 +29,7 @@ def calcular_parcela( parcela ):
 		#DrA = numero de dias remanescentes (apos se completar a contagem do numero de anos inteiros) ate a data do requerimento mais 30 dias
 		dra = qtd_dias + 30
 		#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
-		vpa = float(parcela.valor_principal) * ( 1 + ( ( float( n )/360. ) + na + dra/360. ) * ( juros /100.) )
-
-		print 'valor: '+str(vpa)
+		vpa = valor_prestacao_atraso(prestacao=parcela.valor_principal, n=n, na=na, dra=dra, juros=juros)
 
 		#artigo 8-C alinea a
 		#CM = porcentagem correspondente a correcao monetaria
@@ -68,17 +68,16 @@ def indice_juros( modulo_fiscal, valor_imovel ):
 def prazo_prestacao( data_emissao_titulo, data_requerimento ):
 	return (data_requerimento - data_emissao_titulo).days
 
-def tx_juros( prestacao, data_emissao, data_requerimento, juros ):
-	#artigo 8-B alinea a
-	#N = prazo da prestacao em numero de anos : data_requerimento - data_emissao
-	#valor do juro sobre o valor da parcela principal = P x ( ( N x J/100 ) )
-	return float(prestacao) * (float( (data_requerimento - data_emissao).days )/360.) * ( juros /100.)
-
 def valor_prestacao(prestacao, data_emissao, data_requerimento, juros):
-	#artigo 8-B alinea a
+	#artigo 8-B alinea a e b
 	#N = prazo da prestacao em numero de anos
 	#VP = P x ( 1 + ( N x J/100 ) )
 	return float(prestacao) * ( 1 + (float( prazo_prestacao(data_emissao_titulo=data_emissao, data_requerimento=data_requerimento) )/360.)*( juros /100.) )
+
+def valor_prestacao_atraso(prestacao, n, na, dra, juros):
+	#artigo 8-B alinea c
+	#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
+	return float(prestacao) * ( 1 + ( ( float( n )/360. ) + na + dra/360. ) * ( juros /100.) )
 
 def nossa_terra_nossa_escola(modulo_fiscal, prestacao, encargos):
 	#beneficio para areas de ate 4 modulos fiscais
