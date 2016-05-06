@@ -7,31 +7,38 @@ def calcular_parcela( parcela ):
 	modulo_fiscal = parcela.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal
 	valor_imovel = parcela.pagamento.imovel_titulo.valor_imovel
 	data_requerimento = parcela.pagamento.data_requerimento
+	anterior_20_maio_2010 = False
 
 	if data_emissao_titulo > datetime.strptime( '10/02/2009', "%d/%m/%Y").date() and data_emissao_titulo < datetime.strptime( '20/05/2010', "%d/%m/%Y").date():
-		#artigo 12-B
-		#AVP = VP x ( 1 + IGPM ) : valor da prestacao com os juros devidos
-		#AVFPa = VFPa x ( 1 + IGPM ) : valor final da prestacao em atraso
-		pass
-	elif data_requerimento <= parcela.data_vencimento or (data_requerimento - parcela.data_vencimento).days <= 30:
-		#artigo 8-B alinea a e b
-		#VP = P x ( 1 + N x J/100 )
-		vp =  valor_prestacao(parcela.valor_principal, data_emissao_titulo, data_requerimento, indice_juros(modulo_fiscal, valor_imovel))
-		parcela.valor_juro = vp - float(parcela.valor_principal)
-		parcela.valor_multa = 0.
-		parcela.valor_correcao = 0.
-		parcela.valor_total = vp
+		anterior_20_maio_2010 = True
 	else:
-		#artigo 8-B alinea c
-		#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
-		vpa = valor_prestacao_atraso(parcela.valor_principal, data_requerimento, parcela.data_vencimento, data_emissao_titulo, indice_juros(modulo_fiscal, valor_imovel))
-		#artigo 8-C alinea a
-		#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
-		vfpa = valor_final_prestacao_atraso(vpa, data_requerimento, parcela.data_vencimento)
-		parcela.valor_juro = vpa - float(parcela.valor_principal)
-		parcela.valor_multa = jm
-		parcela.valor_correcao = vfpa - vpa
-		parcela.valor_total = vfpa
+		if data_requerimento <= parcela.data_vencimento or (data_requerimento - parcela.data_vencimento).days <= 30:
+			#artigo 8-B alinea a e b
+			#VP = P x ( 1 + N x J/100 )
+			vp =  valor_prestacao(parcela.valor_principal, data_emissao_titulo, data_requerimento, indice_juros(modulo_fiscal, valor_imovel))
+			if anterior_20_maio_2010:
+				#artigo 12-B
+				#AVP = VP x ( 1 + IGPM ) : valor da prestacao com os juros devidos
+				vp = vp * ( 1 + indice_igpm(data_vencimento=parcela.data_vencimento, data_requerimento=data_requerimento) )
+			parcela.valor_juro = vp - float(parcela.valor_principal)
+			parcela.valor_multa = 0.
+			parcela.valor_correcao = 0.
+			parcela.valor_total = vp
+		else:
+			#artigo 8-B alinea c
+			#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
+			vpa = valor_prestacao_atraso(parcela.valor_principal, data_requerimento, parcela.data_vencimento, data_emissao_titulo, indice_juros(modulo_fiscal, valor_imovel))
+			#artigo 8-C alinea a
+			#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
+			vfpa = valor_final_prestacao_atraso(vpa, data_requerimento, parcela.data_vencimento)
+			if anterior_20_maio_2010:
+				#artigo 12-B
+				#AVFPa = VFPa x ( 1 + IGPM ) : valor final da prestacao em atraso
+				vfpa = vfpa * ( 1 + indice_igpm(data_vencimento=parcela.data_vencimento, data_requerimento=data_requerimento) )
+			parcela.valor_juro = vpa - float(parcela.valor_principal)
+			parcela.valor_multa = 1.
+			parcela.valor_correcao = vfpa - vpa
+			parcela.valor_total = vfpa
 	parcela.save()
 	return parcela
 
