@@ -1,5 +1,6 @@
 # encoding: utf-8
 from datetime import datetime, timedelta
+from project.system.integration import consumir_tr, consumir_igpm
 
 def calcular_parcela( parcela ):
 	data_emissao_titulo = parcela.pagamento.imovel_titulo.titulo.data_emissao
@@ -88,14 +89,20 @@ def nossa_terra_nossa_escola(modulo_fiscal, prestacao, encargos):
 		#valor integral da parcela com encargos
 		return encargos + prestacao
 
-def indice_tr():
+def indice_tr( data_vencimento, data_requerimento ):
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#dt_inicio: dia util anterior ao do vencimento da prestacao
+	data_inicio = data_vencimento
 	#dt_final: dia util anterior ao requerimento
-	return 2.5/100.
+	data_final = data_requerimento
+	tr = consumir_tr(data_inicio=data_inicio, data_final=data_final)
+	return tr/100.
 
-def indice_igpm():
+def indice_igpm( data_vencimento, data_requerimento ):
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#mes_inicio: anterior ao do vencimento da prestacao
+	mes_inicio = data_vencimento
 	#mes_final: anterior ao do requerimento
-	return 2.5/100.
+	mes_final = data_requerimento
+	igpm = consumir_igpm(mes_inicio=mes_inicio, mes_final=mes_final)
+	return igpm/100.

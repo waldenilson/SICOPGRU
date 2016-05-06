@@ -115,3 +115,9 @@ def consumir_sisterleg_qsit( search ):
 
 def consumir_sigef_destinacao():
 	pass
+
+def consumir_tr(data_inicio, data_final):
+	return 2.
+
+def consumir_igpm(mes_inicio, mes_final):
+	return 2.
