@@ -237,3 +237,13 @@ class ParcelaGuia(models.Model):
     status_pagamento = models.BooleanField(default=False)
     class Meta:
         db_table = '"pagamento"."parcela_guia"'
+
+class SolicitacaoNossaTerraNossaEscola(models.Model):
+    id = models.AutoField(primary_key=True)
+    data_solicitacao = models.DateField(auto_now_add=True)
+    parcela = models.ForeignKey(Parcela, null=False)
+    auth_user = models.ForeignKey('core.AuthUser')
+    declaracao = models.CharField(max_length=120,null=False)
+    status = models.BooleanField(default=False)
+    class Meta:
+        db_table = '"pagamento"."solicitacao_nossa_terra_nossa_escola"'
