@@ -2,8 +2,8 @@
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from project.system.models import Tbextrato, Parcela, ParcelaGuia, Guia
-from project.core.models import Municipio, AuthUser
+from project.system.models import Parcela, ParcelaGuia, Guia, SolicitacaoNossaTerraNossaEscola
+from project.core.models import AuthUser
 from decimal import Decimal
 from datetime import date
 from project.core.funcoes import formatDataToText
@@ -19,7 +19,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
 from project.system.integration import consultar, importar_dados_titulado
-from project.system.payment import gerar_parcelas, carregar_parcelas, return_file_ref
+from project.system.payment import gerar_parcelas, carregar_parcelas, carregar_pagamento, return_file_ref
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
 
@@ -72,6 +72,10 @@ def inicio_pagamento(request, cpf):
 
 def parcelas_pagamento(request, cpf):
 	return render_to_response('system/parcelas.html',{'dados':carregar_parcelas( cpf )}, context_instance = RequestContext(request))
+
+def requerer_nossa_terra_nossa_escola(request, cpf):
+	solicitacoes = SolicitacaoNossaTerraNossaEscola.objects.filter( parcela__pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf )
+	return render_to_response('system/solicitacoes_nossa_terra_nossa_escola.html',{'pagamento':carregar_pagamento(cpf)[0],'solicitacoes':solicitacoes}, context_instance = RequestContext(request))
 
 def gru_pagamento(request, id):
 

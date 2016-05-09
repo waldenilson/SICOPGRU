@@ -7,11 +7,12 @@ urlpatterns = patterns('project.system',
    url(r'^consulta-titulado', 'views.consulta_titulado'),
    url(r'^inicio-pagamento/(?P<cpf>\d+)/', 'views.inicio_pagamento'),
    url(r'^parcelas-pagamento/(?P<cpf>\d+)/', 'views.parcelas_pagamento'),
+   url(r'^requerer-nossa-terra_nossa-escola/(?P<cpf>\d+)/', 'views.requerer_nossa_terra_nossa_escola'),
    url(r'^gru-pagamento/(?P<id>\d+)/', 'views.gru_pagamento'),
    url(r'^arquivo-retorno', 'views.arquivo_retorno'),
 
    url(r'^relatorio/parcelas/pagas-vencidas/', 'views.relatorio_parcelas_pagas_vencidas'),
-      
+
 
    url(r'^emissao/(?P<id>\d+)/', 'views.emissao'),
    url(r'^processo/digitar/', 'views.digitar'),

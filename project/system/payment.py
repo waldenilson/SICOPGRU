@@ -35,8 +35,11 @@ def gerar_parcelas( dados, data_requerimento, usuario ):
 	   )
 	   obj_parcela.save()
 
+def carregar_pagamento(cpf):
+	return Pagamento.objects.filter( imovel_titulo__titulo__cpf_titulado__icontains=cpf )
+
 def carregar_parcelas( cpf ):
-	lista = Pagamento.objects.filter( imovel_titulo__titulo__cpf_titulado__icontains=cpf )
+	lista = carregar_pagamento( cpf )
 	dados = dict()
 	dados['pagamento'] = lista[0]
 	parcelas = Parcela.objects.filter( pagamento__id = lista[0].id ).order_by('numero')
