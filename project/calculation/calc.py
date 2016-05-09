@@ -1,6 +1,7 @@
 # encoding: utf-8
 from datetime import datetime, timedelta
 from project.system.integration import consumir_tr, consumir_igpm
+from project.system.models import SolicitacaoNossaTerraNossaEscola
 
 def calcular_parcela( parcela ):
 	data_emissao_titulo = parcela.pagamento.imovel_titulo.titulo.data_emissao
@@ -23,7 +24,9 @@ def calcular_parcela( parcela ):
 			parcela.valor_juro = vp - float(parcela.valor_principal)
 			parcela.valor_multa = 0.
 			parcela.valor_correcao = 0.
-			parcela.valor_total = vp
+			parcela.valor_desconto = 0.
+			parcela = nossa_terra_nossa_escola(parcela)
+			parcela.valor_total = vp - parcela.valor_desconto
 		else:
 			#artigo 8-B alinea c
 			#VPa = P x ( 1 + ( N + Na + DrA/360 ) x J/100 )
@@ -38,7 +41,9 @@ def calcular_parcela( parcela ):
 			parcela.valor_juro = vpa - float(parcela.valor_principal)
 			parcela.valor_multa = 1.
 			parcela.valor_correcao = vfpa - vpa
-			parcela.valor_total = vfpa
+			parcela.valor_desconto = 0.
+			parcela = nossa_terra_nossa_escola(parcela)
+			parcela.valor_total = vfpa - parcela.valor_desconto
 	parcela.save()
 	return parcela
 
@@ -97,14 +102,14 @@ def valor_final_prestacao_atraso(vpa, data_requerimento, data_vencimento):
 	#VFPa = VPa x ( 1 + CM + ( Ma + DrM/30 ) x Jm/100 )
 	return vpa * ( 1 + cm + ( ma + float(drm/30.) ) * mora/100.  )
 
-def nossa_terra_nossa_escola(modulo_fiscal, prestacao, encargos):
+def nossa_terra_nossa_escola( parcela ):
 	#beneficio para areas de ate 4 modulos fiscais
-	if modulo_fiscal <= 4.:
-		#encargos calculados com a parcela anual e depois somados a  metade do valor da parcela anual
-		return encargos + ( prestacao / 2 )
-	else:
-		#valor integral da parcela com encargos
-		return encargos + prestacao
+	#encargos calculados com a parcela anual e depois somados a  metade do valor da parcela anual
+	if parcela.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal <= 4.:
+		solicitacao = SolicitacaoNossaTerraNossaEscola.objects.filter( parcela__id = parcela.id, status = True )
+		if solicitacao:
+			parcela.valor_desconto = parcela.valor_principal / 2.
+	return parcela
 
 def indice_tr( data_vencimento, data_requerimento ):
 	#periodo entre o vencimento da prestacao e a data do requerimento
