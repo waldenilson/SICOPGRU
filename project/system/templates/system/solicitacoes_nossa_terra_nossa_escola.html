@@ -18,55 +18,30 @@
 
 								<table style="width:80%;text-align: left">
 
-										<tr>
-											<td> <b>Nome:</b> </td>
-											<td> {{pagamento.imovel_titulo.titulo.nome_titulado}} </td>
-										</tr>
+									<tr>
+										<td> <b>Nome:</b> {{pagamento.imovel_titulo.titulo.nome_titulado}}</td>
+										<td> <b>CPF:</b> {{pagamento.imovel_titulo.titulo.cpf_titulado}} </td>
+									</tr>
 
-										<tr>
-											<td> <b>CPF:</b> </td>
-											<td> {{pagamento.imovel_titulo.titulo.cpf_titulado}} </td>
-										</tr>
+									<tr>
+										<td> <b>Titulo:</b> {{pagamento.imovel_titulo.titulo.numero}}</td>
+										<td> <b>Processo Administrativo:</b> {{pagamento.imovel_titulo.titulo.processo}}</td>
+									</tr>
 
-										<tr>
-											<td> <b>Titulo:</b> </td>
-											<td> {{pagamento.imovel_titulo.titulo.numero}} </td>
-										</tr>
+									<tr>
+										<td> <b>Tipo:</b> {{pagamento.imovel_titulo.titulo.tipo}} </td>
+										<td> <b>Data da Emissão:</b> {{pagamento.imovel_titulo.titulo.data_emissao}}</td>
+									</tr>
 
-										<tr>
-											<td> <b>Tipo:</b> </td>
-											<td> {{pagamento.imovel_titulo.titulo.tipo}} </td>
-										</tr>
+									<tr>
+										<td> <b>Nome do Imóvel:</b> {{pagamento.imovel_titulo.imovel.nome}}</td>
+										<td> <b>Gleba:</b> {{pagamento.imovel_titulo.imovel.gleba}}</td>
+									</tr>
 
-										<tr>
-											<td> <b>Nome do Imóvel:</b> </td>
-											<td> {{pagamento.imovel_titulo.imovel.nome}} </td>
-										</tr>
-
-										<tr>
-											<td> <b>Gleba:</b> </td>
-											<td> {{pagamento.imovel_titulo.imovel.gleba}} </td>
-										</tr>
-
-										<tr>
-											<td> <b>Área:</b> </td>
-											<td> {{pagamento.imovel_titulo.imovel.area_total}} ha </td>
-										</tr>
-
-										<tr>
-											<td> <b>Município:</b> </td>
-											<td> {{pagamento.imovel_titulo.imovel.municipio.nome_mun}} / {{dados.pagamento.imovel_titulo.imovel.municipio.uf}} </td>
-										</tr>
-
-										<tr>
-											<td> <b>Data Emissão do Titulo:</b> </td>
-											<td> {{pagamento.imovel_titulo.titulo.data_emissao}} </td>
-										</tr>
-
-										<tr>
-											<td> <b>Data Requerimento:</b> </td>
-											<td> {{pagamento.data_requerimento}} </td>
-										</tr>
+									<tr>
+										<td> <b>Área:</b> {{pagamento.imovel_titulo.imovel.area_total}} ha </td>
+										<td> <b>Município:</b> {{pagamento.imovel_titulo.imovel.municipio.nome_mun}} / {{pagamento.imovel_titulo.imovel.municipio.uf}}</td>
+									</tr>
 
 								</table>
 			<br />

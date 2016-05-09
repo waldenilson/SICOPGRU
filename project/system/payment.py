@@ -1,6 +1,6 @@
 # -- coding: utf-8 --
 from datetime import timedelta
-from project.calculation.calc import calcular_parcela
+from project.calculation.calc import calcular_parcela, indice_juros
 from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela, ParcelaGuia, Guia
 from project.core.models import Municipio
 import datetime
@@ -70,7 +70,7 @@ def carregar_parcelas( cpf ):
 			proxima_parcela_a_pagar += 1
 	dados['parcelas'] = l_parcelas
 	dados['proxima_parcela_a_pagar'] = proxima_parcela_a_pagar
-
+	dados['indice_juros'] = indice_juros(modulo_fiscal=dados['pagamento'].imovel_titulo.imovel.tamanho_modulo_fiscal, valor_imovel=dados['pagamento'].imovel_titulo.valor_imovel)
 	# retornar obj pagamento, parcelas
 	return dados
 
