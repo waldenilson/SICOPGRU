@@ -71,9 +71,19 @@
 								</table>
 			<br />
 			<table>
+        <tr>
+          <td class="colunaTabela">
+            DECLARAÇÃO  (PDF):
+          </td>
+          <td class="colunaTabela">
+            <input type="file" name="arquivo" required accept=".pdf" />
+          </td>
+        </tr>
+
 				<tr>
 					<td class="colunaTabela" style="text-align:left">
-            <a href="/sistema/parcelas-pagamento/{{pagamento.imovel_titulo.titulo.cpf_titulado}}/"> <input class="button_green" value="VISUALIZAR PARCELAS DO PAGAMENTO" type="button" /> </a>
+            <input type="submit" class="button_green" value="ENVIAR" style="margin-right: 5px" />
+            <a href="/sistema/parcelas-pagamento/{{pagamento.imovel_titulo.titulo.cpf_titulado}}/"> <input class="button_yellow" value="VISUALIZAR PARCELAS DO PAGAMENTO" type="button" /> </a>
 					</td>
 				</tr>
 			</table>

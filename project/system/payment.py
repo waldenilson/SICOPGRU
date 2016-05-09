@@ -74,6 +74,15 @@ def carregar_parcelas( cpf ):
 	# retornar obj pagamento, parcelas
 	return dados
 
+def parcela_a_pagar( cpf ):
+	parcelas = Parcela.objects.filter( pagamento__id = carregar_pagamento(cpf)[0].id ).order_by('numero')
+	parcela = parcelas[0]
+	for p in parcelas:
+		if not parcela.status_pagamento:
+			parcela = p
+			break
+	return parcela
+
 def return_file_ref(file_ref):
 	header = []
 	lines = []

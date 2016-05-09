@@ -19,7 +19,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
 from project.system.integration import consultar, importar_dados_titulado
-from project.system.payment import gerar_parcelas, carregar_parcelas, carregar_pagamento, return_file_ref
+from project.system.payment import gerar_parcelas, carregar_parcelas, carregar_pagamento, return_file_ref, parcela_a_pagar
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
 
@@ -75,6 +75,20 @@ def parcelas_pagamento(request, cpf):
 
 def requerer_nossa_terra_nossa_escola(request, cpf):
 	solicitacoes = SolicitacaoNossaTerraNossaEscola.objects.filter( parcela__pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf )
+	if request.method == 'POST' and request.FILES:
+		path = abspath(join(dirname(__file__), '../../media'))+'/tmp/declaracao_nossa_terra_nossa_escola.pdf'
+		res = upload_file(request.FILES['arquivo'],path,cpf,'pdf')
+		if res == '0':
+			messages.add_message(request,messages.ERROR,'Erro no upload. Tente novamente.')
+		elif res == '2':
+			messages.add_message(request,messages.WARNING,'Arquivo com extensão incorreta.')
+		elif res == '1':
+			sol = SolicitacaoNossaTerraNossaEscola(
+				parcela = parcela_a_pagar(cpf),
+				declaracao = cpf+'.pdf'
+			)
+			sol.save()
+			messages.add_message(request,messages.INFO,'Arquivo enviado.')
 	return render_to_response('system/solicitacoes_nossa_terra_nossa_escola.html',{'pagamento':carregar_pagamento(cpf)[0],'solicitacoes':solicitacoes}, context_instance = RequestContext(request))
 
 def gru_pagamento(request, id):
