@@ -57,7 +57,7 @@ def indice_juros( modulo_fiscal, valor_imovel ):
 
 #N
 def prazo_prestacao( data_emissao_titulo, data_requerimento ):
-	return (data_requerimento - data_emissao_titulo).days
+	return (data_requerimento - data_emissao_titulo).days + 5
 
 #VP
 def valor_prestacao(prestacao, data_emissao, data_requerimento, juros):
