@@ -79,27 +79,29 @@ def gerar_parcela_unica(request, cpf):
 	parcela_unica = Parcela.objects.filter( pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf, numero = 18 )
 	if parcela_unica:
 		obj_parcela_unica = parcela_unica[0]
-		obj_parcela_unica.valor_principal = 0.
-		obj_parcela_unica.valor_desconto = 0.
-		obj_parcela_unica.valor_juro = 0.
-		obj_parcela_unica.valor_multa = 0.
-		obj_parcela_unica.valor_acrescimo = 0.
-		obj_parcela_unica.valor_correcao = 0.
-		obj_parcela_unica.valor_total = 0.
-		for p in dados['parcelas']:
-			if p['status'] == 'False':
-				obj_parcela_unica.valor_principal += float(p['valor_principal'])
-				obj_parcela_unica.valor_desconto += float(p['valor_desconto'])
-				obj_parcela_unica.valor_juro += float(p['valor_juro'])
-				obj_parcela_unica.valor_multa += float(p['valor_multa'])
-				obj_parcela_unica.valor_acrescimo += float(p['valor_acrescimo'])
-				obj_parcela_unica.valor_correcao += float(p['valor_correcao'])
-				obj_parcela_unica.valor_total += float(p['valor_total'])
-		obj_parcela_unica.data_vencimento = datetime.datetime.now()
-		obj_parcela_unica.save()
 	else:
-		gerar_objeto_parcela_unica(pagamento=dados['pagamento'], dados=dados)
-	return render_to_response('system/parcelas.html',{'dados':dados}, context_instance = RequestContext(request))
+		obj_parcela_unica = gerar_objeto_parcela_unica(pagamento=dados['pagamento'], dados=dados)
+	obj_parcela_unica.valor_principal = 0.
+	obj_parcela_unica.valor_desconto = 0.
+	obj_parcela_unica.valor_juro = 0.
+	obj_parcela_unica.valor_multa = 0.
+	obj_parcela_unica.valor_acrescimo = 0.
+	obj_parcela_unica.valor_correcao = 0.
+	obj_parcela_unica.valor_total = 0.
+	for p in dados['parcelas']:
+		if p['status'] == 'False':
+			obj_parcela_unica.valor_principal += float(p['valor_principal'])
+			obj_parcela_unica.valor_desconto += float(p['valor_desconto'])
+			obj_parcela_unica.valor_juro += float(p['valor_juro'])
+			obj_parcela_unica.valor_multa += float(p['valor_multa'])
+			obj_parcela_unica.valor_acrescimo += float(p['valor_acrescimo'])
+			obj_parcela_unica.valor_correcao += float(p['valor_correcao'])
+			obj_parcela_unica.valor_total += float(p['valor_total'])
+	obj_parcela_unica.data_vencimento = datetime.datetime.now()
+	obj_parcela_unica.save()
+	if request.method == 'POST':
+		print 'emitir parcela unica'
+	return render_to_response('system/parcela_unica.html',{'dados':dados,'parcela_unica':obj_parcela_unica}, context_instance = RequestContext(request))
 
 def requerer_nossa_terra_nossa_escola(request, cpf):
 	solicitacoes = SolicitacaoNossaTerraNossaEscola.objects.filter( parcela__pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf )

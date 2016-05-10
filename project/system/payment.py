@@ -54,7 +54,7 @@ def gerar_objeto_parcela_unica(pagamento, dados):
 		valor_total = float(dados['valor_imovel'])
 	)
 	obj_parcela_unica.save()
-
+	return obj_parcela_unica
 
 def carregar_pagamento(cpf):
 	return Pagamento.objects.filter( imovel_titulo__titulo__cpf_titulado__icontains=cpf )
@@ -77,7 +77,7 @@ def carregar_parcelas( cpf ):
 			parcela['valor_principal'] = p.valor_principal
 			parcela['valor_juro'] = p.valor_juro
 			parcela['valor_multa'] = p.valor_multa
-			parcela['valor_acrescimo'] = p.valor_acrescimo			
+			parcela['valor_acrescimo'] = p.valor_acrescimo
 			parcela['valor_desconto'] = p.valor_desconto
 			parcela['valor_correcao'] = p.valor_correcao
 			parcela['valor_total'] = p.valor_total

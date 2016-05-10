@@ -1,0 +1,84 @@
+{% extends "core/base/consulta.html" %}
+{% load staticfiles %}
+
+{% block breadcumbs %}
+	Pagamento | Parcela Única
+{% endblock %}
+
+{% block subtitulo %}
+
+	PAGAMENTO VIA PARCELA ÚNICA
+
+{% endblock %}
+
+{% block consulta %}
+
+		<form name="form" method="post" action="">
+			{% csrf_token %}
+
+								<table style="width:80%;text-align: left">
+
+                  <tr>
+										<td colspan="2"> <b>DADOS DO TITULADO</b></td>
+									</tr>
+
+									<tr>
+										<td> <b>Nome:</b> {{dados.pagamento.imovel_titulo.titulo.nome_titulado}}</td>
+										<td> <b>CPF:</b> {{dados.pagamento.imovel_titulo.titulo.cpf_titulado}} </td>
+									</tr>
+
+									<tr>
+										<td> <b>Titulo:</b> {{dados.pagamento.imovel_titulo.titulo.numero}}</td>
+										<td> <b>Processo Administrativo:</b> {{dados.pagamento.imovel_titulo.titulo.processo}}</td>
+									</tr>
+
+									<tr>
+										<td> <b>Tipo:</b> {{dados.pagamento.imovel_titulo.titulo.tipo}} </td>
+										<td> <b>Data da Emissão:</b> {{dados.pagamento.imovel_titulo.titulo.data_emissao}}</td>
+									</tr>
+
+									<tr>
+										<td> <b>Nome do Imóvel:</b> {{dados.pagamento.imovel_titulo.imovel.nome}}</td>
+										<td> <b>Gleba:</b> {{dados.pagamento.imovel_titulo.imovel.gleba}}</td>
+									</tr>
+
+									<tr>
+										<td> <b>Área:</b> {{dados.pagamento.imovel_titulo.imovel.area_total}} ha </td>
+										<td> <b>Município:</b> {{dados.pagamento.imovel_titulo.imovel.municipio.nome_mun}} / {{dados.pagamento.imovel_titulo.imovel.municipio.uf}}</td>
+									</tr>
+
+                  <tr>
+										<td colspan="2"> <b>DADOS DA PARCELA</b></td>
+									</tr>
+
+                  <tr>
+										<td> <b>Data Vencimento:</b> R$ {{parcela_unica.valor_juro|floatformat:2}} </td>
+                    <td> <b>Valor Desconto:</b> R$ {{parcela_unica.valor_total|floatformat:2}}</td>
+									</tr>
+
+                  <tr>
+                    <td> <b>Valor Juros:</b> R$ {{parcela_unica.valor_juro|floatformat:2}} </td>
+										<td> <b>Valor Correção + Juros de Mora:</b> R$ {{parcela_unica.valor_juro|floatformat:2}} </td>
+									</tr>
+
+                  <tr>
+										<td colspan="2"> <b>Valor Total:</b> R$ {{parcela_unica.valor_total|floatformat:2}}</td>
+									</tr>
+
+								</table>
+			<br />
+			<table>
+				<tr>
+					<td class="colunaTabela" style="text-align:left">
+            <input type="submit" class="button_green" value="EMITIR PARCELA ÚNICA" style="margin-right: 5px" />
+            <a href="/sistema/parcelas-pagamento/{{dados.pagamento.imovel_titulo.titulo.cpf_titulado}}/"> <input class="button_yellow" value="VISUALIZAR PARCELAS DO PAGAMENTO" type="button" /> </a>
+					</td>
+				</tr>
+			</table>
+		</form>
+
+{% endblock %}
+
+{% block resultado %}
+
+{% endblock %}
