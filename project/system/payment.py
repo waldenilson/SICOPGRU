@@ -77,6 +77,8 @@ def carregar_parcelas( cpf ):
 			parcela['valor_principal'] = p.valor_principal
 			parcela['valor_juro'] = p.valor_juro
 			parcela['valor_multa'] = p.valor_multa
+			parcela['valor_acrescimo'] = p.valor_acrescimo			
+			parcela['valor_desconto'] = p.valor_desconto
 			parcela['valor_correcao'] = p.valor_correcao
 			parcela['valor_total'] = p.valor_total
 			parcela['data_vencimento'] = p.data_vencimento

@@ -79,10 +79,25 @@ def gerar_parcela_unica(request, cpf):
 	parcela_unica = Parcela.objects.filter( pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf, numero = 18 )
 	if parcela_unica:
 		obj_parcela_unica = parcela_unica[0]
-		print obj_parcela_unica.numero
+		obj_parcela_unica.valor_principal = 0.
+		obj_parcela_unica.valor_desconto = 0.
+		obj_parcela_unica.valor_juro = 0.
+		obj_parcela_unica.valor_multa = 0.
+		obj_parcela_unica.valor_acrescimo = 0.
+		obj_parcela_unica.valor_correcao = 0.
+		obj_parcela_unica.valor_total = 0.
+		for p in dados['parcelas']:
+			if p['status'] == 'False':
+				obj_parcela_unica.valor_principal += float(p['valor_principal'])
+				obj_parcela_unica.valor_desconto += float(p['valor_desconto'])
+				obj_parcela_unica.valor_juro += float(p['valor_juro'])
+				obj_parcela_unica.valor_multa += float(p['valor_multa'])
+				obj_parcela_unica.valor_acrescimo += float(p['valor_acrescimo'])
+				obj_parcela_unica.valor_correcao += float(p['valor_correcao'])
+				obj_parcela_unica.valor_total += float(p['valor_total'])
+		obj_parcela_unica.data_vencimento = datetime.datetime.now()
+		obj_parcela_unica.save()
 	else:
-		print 'parcela unicao nao gerada'
-		#gerar o obj parcela unica numero 18, para pagamento
 		gerar_objeto_parcela_unica(pagamento=dados['pagamento'], dados=dados)
 	return render_to_response('system/parcelas.html',{'dados':dados}, context_instance = RequestContext(request))
 
