@@ -19,7 +19,7 @@ from django.conf import settings
 from django.template.loader import get_template
 from django.template import loader
 from project.system.integration import consultar, importar_dados_titulado
-from project.system.payment import gerar_parcelas, carregar_parcelas, carregar_pagamento, return_file_ref, parcela_a_pagar
+from project.system.payment import gerar_parcelas, gerar_objeto_parcela_unica, carregar_parcelas, carregar_pagamento, return_file_ref, parcela_a_pagar
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
 from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
 
@@ -74,7 +74,17 @@ def parcelas_pagamento(request, cpf):
 	return render_to_response('system/parcelas.html',{'dados':carregar_parcelas( cpf )}, context_instance = RequestContext(request))
 
 def gerar_parcela_unica(request, cpf):
-	return render_to_response('system/parcelas.html',{'dados':carregar_parcelas( cpf )}, context_instance = RequestContext(request))
+	#gerar/recuperar a 18ª parcela que significarah para o sistema que eh a parcela de pagamento unico do titulado
+	dados = carregar_parcelas(cpf)
+	parcela_unica = Parcela.objects.filter( pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf, numero = 18 )
+	if parcela_unica:
+		obj_parcela_unica = parcela_unica[0]
+		print obj_parcela_unica.numero
+	else:
+		print 'parcela unicao nao gerada'
+		#gerar o obj parcela unica numero 18, para pagamento
+		gerar_objeto_parcela_unica(pagamento=dados['pagamento'], dados=dados)
+	return render_to_response('system/parcelas.html',{'dados':dados}, context_instance = RequestContext(request))
 
 def requerer_nossa_terra_nossa_escola(request, cpf):
 	solicitacoes = SolicitacaoNossaTerraNossaEscola.objects.filter( parcela__pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf )

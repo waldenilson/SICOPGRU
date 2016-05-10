@@ -3,6 +3,7 @@ from datetime import timedelta
 from project.calculation.calc import calcular_parcela, indice_juros
 from project.system.models import Imovel, Titulo, ImovelTitulo, Convenio, FormaPagamento, Pagamento, Parcela, ParcelaGuia, Guia
 from project.core.models import Municipio
+from decimal import Decimal
 import datetime
 
 def gerar_parcelas( dados, data_requerimento, usuario ):
@@ -34,6 +35,26 @@ def gerar_parcelas( dados, data_requerimento, usuario ):
 			valor_total = float(dados['valor_imovel'])/17.0
 	   )
 	   obj_parcela.save()
+	#gerar o obj parcela unica numero 18, para pagamento
+	gerar_objeto_parcela_unica(obj_pagamento, dados)
+
+def gerar_objeto_parcela_unica(pagamento, dados):
+	#gerar o obj parcela unica numero 18, para pagamento
+	obj_parcela_unica = Parcela(
+		pagamento= pagamento,
+		numero= 18,
+		data_vencimento = dados['data_emissao_titulo'].replace(dados['data_emissao_titulo'].day + 5 ),
+		valor_principal = float(dados['valor_imovel']),
+		valor_desconto = "{0:.2f}".format(0),
+		valor_deducao = "{0:.2f}".format(0),
+		valor_multa = "{0:.2f}".format(0),
+		valor_juro = "{0:.2f}".format(0),
+		valor_acrescimo = "{0:.2f}".format(0),
+		valor_correcao = "{0:.2f}".format(0),
+		valor_total = float(dados['valor_imovel'])
+	)
+	obj_parcela_unica.save()
+
 
 def carregar_pagamento(cpf):
 	return Pagamento.objects.filter( imovel_titulo__titulo__cpf_titulado__icontains=cpf )
@@ -42,32 +63,35 @@ def carregar_parcelas( cpf ):
 	lista = carregar_pagamento( cpf )
 	dados = dict()
 	dados['pagamento'] = lista[0]
+	dados['data_emissao_titulo'] = lista[0].imovel_titulo.titulo.data_emissao
+	dados['valor_imovel'] = lista[0].imovel_titulo.valor_imovel.quantize(Decimal('1.00'))
 	parcelas = Parcela.objects.filter( pagamento__id = lista[0].id ).order_by('numero')
 	l_parcelas = []
 	proxima_parcela_a_pagar = 1
 	for p in parcelas:
-		p = calcular_parcela(p)
-		parcela = dict()
-		parcela['id'] = p.id
-		parcela['numero'] = p.numero
-		parcela['valor_principal'] = p.valor_principal
-		parcela['valor_juro'] = p.valor_juro
-		parcela['valor_multa'] = p.valor_multa
-		parcela['valor_correcao'] = p.valor_correcao
-		parcela['valor_total'] = p.valor_total
-		parcela['data_vencimento'] = p.data_vencimento
-		parcela['vencida'] = 'False'
-		if p.pagamento.data_requerimento > p.data_vencimento:
-			parcela['vencida'] = 'True'
-		parcela['status'] = 'False'
-		pguia = ParcelaGuia.objects.filter( parcela__id = p.id )
-		for pg in pguia:
-			if pg.status_pagamento:
-				parcela['status'] = 'True'
-		l_parcelas.append(parcela)
-		#verificar a proxima parcela sucessiva a pagar
-		if parcela['status'] == 'True':
-			proxima_parcela_a_pagar += 1
+		if p.numero != 18:
+			p = calcular_parcela(p)
+			parcela = dict()
+			parcela['id'] = p.id
+			parcela['numero'] = p.numero
+			parcela['valor_principal'] = p.valor_principal
+			parcela['valor_juro'] = p.valor_juro
+			parcela['valor_multa'] = p.valor_multa
+			parcela['valor_correcao'] = p.valor_correcao
+			parcela['valor_total'] = p.valor_total
+			parcela['data_vencimento'] = p.data_vencimento
+			parcela['vencida'] = 'False'
+			if p.pagamento.data_requerimento > p.data_vencimento:
+				parcela['vencida'] = 'True'
+			parcela['status'] = 'False'
+			pguia = ParcelaGuia.objects.filter( parcela__id = p.id )
+			for pg in pguia:
+				if pg.status_pagamento:
+					parcela['status'] = 'True'
+			l_parcelas.append(parcela)
+			#verificar a proxima parcela sucessiva a pagar
+			if parcela['status'] == 'True':
+				proxima_parcela_a_pagar += 1
 	dados['parcelas'] = l_parcelas
 	dados['proxima_parcela_a_pagar'] = proxima_parcela_a_pagar
 	dados['indice_juros'] = indice_juros(modulo_fiscal=dados['pagamento'].imovel_titulo.imovel.tamanho_modulo_fiscal, valor_imovel=dados['pagamento'].imovel_titulo.valor_imovel)
