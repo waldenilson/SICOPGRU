@@ -73,6 +73,9 @@ def inicio_pagamento(request, cpf):
 def parcelas_pagamento(request, cpf):
 	return render_to_response('system/parcelas.html',{'dados':carregar_parcelas( cpf )}, context_instance = RequestContext(request))
 
+def gerar_parcela_unica(request, cpf):
+	return render_to_response('system/parcelas.html',{'dados':carregar_parcelas( cpf )}, context_instance = RequestContext(request))
+
 def requerer_nossa_terra_nossa_escola(request, cpf):
 	solicitacoes = SolicitacaoNossaTerraNossaEscola.objects.filter( parcela__pagamento__imovel_titulo__titulo__cpf_titulado__icontains=cpf )
 	if request.method == 'POST' and request.FILES:
