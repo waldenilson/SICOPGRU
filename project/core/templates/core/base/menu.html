@@ -8,16 +8,7 @@
 					</li>
 					<hr/>
 
-					<li><a href="#">Cálculo</a>
-						<ul>
-							{% if perms.system.consulta_unica %}
-								<li><a href="/sistema/consulta-unica/">Consulta Única</a></li>
-							{% endif %}
-							{% if perms.system.consulta_titulado %}
-								<li><a href="/sistema/consulta-titulado/">Consulta de Titulado(s)</a></li>
-							{% endif %}
-						</ul>
-					</li>
+					<li><a href="/sistema/consulta-unica/">Consulta Única</a></li>
 					<hr/>
 
 					{% if perms.system.importacao_arquivo_retorno %}

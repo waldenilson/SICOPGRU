@@ -66,7 +66,7 @@
 			<table>
 				<tr>
 					<td class="colunaTabela" style="text-align:left">
-						{% if dados.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal <= 4. %}
+						{% if dados.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal <= 4 %}
 							<a href="/sistema/requerer-nossa-terra_nossa-escola/{{dados.pagamento.imovel_titulo.titulo.cpf_titulado}}/"> <input style="margin-right: 5px" class="button_green" value="REQUERER DESCONTO NOSSA TERRA - NOSSA ESCOLA" type="button" /> </a>
 						{% endif %}
 						<a href="/sistema/parcela-unica/{{dados.pagamento.imovel_titulo.titulo.cpf_titulado}}/"> <input class="button_green" type="button" value="GERAR PARCELA ÚNICA" /> </a>

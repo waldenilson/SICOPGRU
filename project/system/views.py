@@ -21,7 +21,8 @@ from django.template import loader
 from project.system.integration import consultar, importar_dados_titulado
 from project.system.payment import gerar_parcelas, gerar_objeto_parcela_unica, carregar_parcelas, carregar_pagamento, return_file_ref, parcela_a_pagar
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
-from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position, desconto_a_vista
+from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
+from project.calculation.calc import desconto_a_vista
 
 @permission_required('system.consulta_unica', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def consulta_unica(request):
@@ -113,8 +114,8 @@ def requerer_nossa_terra_nossa_escola(request, cpf):
 	parcela = parcela_a_pagar(cpf)
 	if parcela.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal <= 4.:
 		if request.method == 'POST' and request.FILES:
-			path = abspath(join(dirname(__file__), '../../media'))+'/tmp/declaracao_nossa_terra_nossa_escola.pdf'
-			res = upload_file(request.FILES['arquivo'],path,cpf,'pdf')
+			path = abspath(join(dirname(__file__), '../../media'))+'/declaracao_nossa_terra_nossa_escola/'+cpf+'.pdf'
+			res = upload_file(request.FILES['arquivo'],path,cpf+'.pdf','pdf')
 			if res == '0':
 				messages.add_message(request,messages.ERROR,'Erro no upload. Tente novamente.')
 			elif res == '2':
@@ -208,7 +209,7 @@ def relatorio_parcelas_pagas_vencidas(request):
 			for l in lista:
 				if l.data_vencimento < datetime.datetime.now().date():
 					if not ParcelaGuia.objects.filter( parcela__id = l.id, status_pagamento = True ):
-						total += Decimal(l.valor_total)
+						total = Decimal(l.valor_total)
 						parcelas.append( l )
 		print escolha
 	return render_to_response('system/relatorio/parcelas_pagas_vencidas.html',{'titulo':titulo,'total':total,'descricao':descricao,'parcelas':parcelas}, context_instance = RequestContext(request))

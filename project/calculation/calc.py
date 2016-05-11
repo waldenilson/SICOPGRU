@@ -76,7 +76,7 @@ def valor_prestacao_atraso(prestacao, data_requerimento, data_vencimento, data_e
 	#artigo 8-B alinea c
 	n = prazo_prestacao(data_requerimento=data_requerimento,data_emissao_titulo=data_emissao_titulo)
 	#Na = numero de anos (inteiro) de atraso (desde o vencimento da prestacao)
-	dt = data_requerimento - parcela.data_vencimento
+	dt = data_requerimento - data_vencimento
 	qtd_ano = dt.days/360
 	qtd_dias = dt.days - qtd_ano*360
 	na = qtd_ano # 2 anos e 35 dias (data_requerimento - parcela.data_vencimento).days/360
@@ -89,7 +89,7 @@ def valor_prestacao_atraso(prestacao, data_requerimento, data_vencimento, data_e
 def valor_final_prestacao_atraso(vpa, data_requerimento, data_vencimento):
 	#artigo 8-C alinea a
 	#CM = porcentagem correspondente a correcao monetaria
-	cm = indice_tr()
+	cm = indice_tr(data_vencimento=data_vencimento, data_requerimento=data_requerimento)
 	#Ma = numero de meses (inteiro) de atraso ( decorridos desde o vencimento da prestacao )
 	dt = data_requerimento - data_vencimento
 	qtd_mes = dt.days/30
@@ -112,11 +112,12 @@ def nossa_terra_nossa_escola( parcela ):
 	return parcela
 
 def desconto_a_vista(parcela):
-	if ( parcela.pagamento.data_requerimento.days - parcela.pagamento.imovel_titulo.titulo.data_emissao.days) <= 30:
+	if ( parcela.pagamento.data_requerimento - parcela.pagamento.imovel_titulo.titulo.data_emissao).days <= 30:
 		#desconto de 20% sobre o pagamento de parcela unica e valor total das 17 prestacoes
 		parcela.valor_desconto = parcela.valor_total / 5.
 		parcela.valor_total = parcela.valor_total - parcela.valor_desconto
 	return parcela
+
 def indice_tr( data_vencimento, data_requerimento ):
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#dt_inicio: dia util anterior ao do vencimento da prestacao

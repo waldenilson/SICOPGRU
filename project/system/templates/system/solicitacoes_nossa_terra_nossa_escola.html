@@ -13,7 +13,7 @@
 
 {% block consulta %}
 
-		<form name="form" method="post" action="">
+		<form name="form" method="post" action="" enctype="multipart/form-data">
 			{% csrf_token %}
 
 								<table style="width:80%;text-align: left">
@@ -72,18 +72,24 @@ direção da escola ou pela secretaria de educação municipal ou estadual. (PDF
 			<table class="csstable">
 			<tbody>
 				<tr>
-					<td class="colunaTabelaConsulta" style="width:30%">Parcela</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Parcela</td>
 					<td class="colunaTabelaConsulta" style="width:20%">Data da Solicitação</td>
 					<td class="colunaTabelaConsulta" style="width:20%">Status</td>
 					<td class="colunaTabelaConsulta" style="width:30%">Responsável</td>
+					<td class="colunaTabelaConsulta" style="width:15%">Declaração</td>
 				</tr>
 				{% if solicitacoes %}
 				  		{% for obj in solicitacoes %}
 							<tr style="background-color:{% if obj.status = 'True' %} lightgreen {% else %} lightgray {% endif %}">
 									<td class="colunaTabelaConsulta">{{ obj.parcela.numero }}</td>
 									<td class="colunaTabelaConsulta">{{ obj.data_solicitacao|date:'d/m/Y' }}</td>
-									<td class="colunaTabelaConsulta">{% if obj.status = 'True' %} Desconto Concedido {% else %} -- {% endif %}</td>
+									<td class="colunaTabelaConsulta">{% if obj.status = 'True' %} Desconto Concedido {% else %} --- {% endif %}</td>
 									<td class="colunaTabelaConsulta">{{ obj.auth_user.username }}</td>
+									<td class="colunaTabelaConsulta">
+										<a target="blank" href="/media/declaracao_nossa_terra_nossa_escola/{{obj.parcela.pagamento.imovel_titulo.titulo.cpf_titulado}}.pdf/">
+												<img width="24px" src="{% static "img/pdf.png" %}" title="Declaração" alt="Declaração" />
+										</a>
+								</td>
 							</tr>
 						{% endfor %}
 					{% else %}
