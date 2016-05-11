@@ -104,7 +104,12 @@ def parcela_a_pagar( cpf ):
 	parcelas = Parcela.objects.filter( pagamento__id = carregar_pagamento(cpf)[0].id ).order_by('numero')
 	parcela = parcelas[0]
 	for p in parcelas:
-		if not parcela.status_pagamento:
+		status = False
+		pguia = ParcelaGuia.objects.filter( parcela__id = p.id )
+		for pg in pguia:
+			if pg.status_pagamento:
+				status = True
+		if not status:
 			parcela = p
 			break
 	return parcela
