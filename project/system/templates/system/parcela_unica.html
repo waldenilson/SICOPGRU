@@ -52,13 +52,13 @@
 									</tr>
 
                   <tr>
-										<td> <b>Data Vencimento:</b> R$ {{parcela_unica.valor_juro|floatformat:2}} </td>
-                    <td> <b>Valor Desconto:</b> R$ {{parcela_unica.valor_total|floatformat:2}}</td>
+										<td> <b>Data Vencimento:</b> {{parcela_unica.data_vencimento}} </td>
+                    <td> <b>Valor Desconto:</b> R$ {{parcela_unica.valor_desconto|floatformat:2}}</td>
 									</tr>
 
                   <tr>
                     <td> <b>Valor Juros:</b> R$ {{parcela_unica.valor_juro|floatformat:2}} </td>
-										<td> <b>Valor Correção + Juros de Mora:</b> R$ {{parcela_unica.valor_juro|floatformat:2}} </td>
+										<td> <b>Valor Correção + Juros de Mora:</b> R$ {{parcela_unica.valor_correcao|floatformat:2}} </td>
 									</tr>
 
                   <tr>
@@ -70,8 +70,8 @@
 			<table>
 				<tr>
 					<td class="colunaTabela" style="text-align:left">
-            <input type="submit" class="button_green" value="EMITIR PARCELA ÚNICA" style="margin-right: 5px" />
-            <a href="/sistema/parcelas-pagamento/{{dados.pagamento.imovel_titulo.titulo.cpf_titulado}}/"> <input class="button_yellow" value="VISUALIZAR PARCELAS DO PAGAMENTO" type="button" /> </a>
+						<a target="blank" href="/sistema/gru-pagamento/{{parcela_unica.id}}/"> <input style="margin-right: 5px" class="button_green" value="EMITIR PARCELA ÚNICA" type="button" /> </a>
+					  <a href="/sistema/parcelas-pagamento/{{dados.pagamento.imovel_titulo.titulo.cpf_titulado}}/"> <input class="button_yellow" value="VISUALIZAR PARCELAS DO PAGAMENTO" type="button" /> </a>
 					</td>
 				</tr>
 			</table>

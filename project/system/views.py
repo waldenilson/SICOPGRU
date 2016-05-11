@@ -97,7 +97,7 @@ def gerar_parcela_unica(request, cpf):
 			obj_parcela_unica.valor_acrescimo += float(p['valor_acrescimo'])
 			obj_parcela_unica.valor_correcao += float(p['valor_correcao'])
 			obj_parcela_unica.valor_total += float(p['valor_total'])
-	obj_parcela_unica.data_vencimento = datetime.datetime.now()
+	obj_parcela_unica.data_vencimento = datetime.datetime.today().date()+timedelta(5)
 	obj_parcela_unica.save()
 	if request.method == 'POST':
 		print 'emitir parcela unica'
