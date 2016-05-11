@@ -108,7 +108,7 @@ def nossa_terra_nossa_escola( parcela ):
 	if parcela.pagamento.imovel_titulo.imovel.tamanho_modulo_fiscal <= 4.:
 		solicitacao = SolicitacaoNossaTerraNossaEscola.objects.filter( parcela__id = parcela.id, status = True )
 		if solicitacao:
-			parcela.valor_desconto = parcela.valor_principal / 2.
+			parcela.valor_desconto = float(parcela.valor_principal) / 2.
 	return parcela
 
 def desconto_a_vista(parcela):

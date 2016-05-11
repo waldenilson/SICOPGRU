@@ -131,6 +131,17 @@ def requerer_nossa_terra_nossa_escola(request, cpf):
 		return HttpResponseRedirect('/sistema/parcelas-pagamento/'+cpf+'/')
 	return render_to_response('system/solicitacoes_nossa_terra_nossa_escola.html',{'pagamento':carregar_pagamento(cpf)[0],'solicitacoes':solicitacoes}, context_instance = RequestContext(request))
 
+def solicitacoes_nossa_terra_nossa_escola(request):
+	solicitacoes = SolicitacaoNossaTerraNossaEscola.objects.all()
+	return render_to_response('system/solicitacoes.html',{'lista':solicitacoes}, context_instance = RequestContext(request))
+
+def validar_nossa_terra_nossa_escola(request, id):
+	solicitacao = SolicitacaoNossaTerraNossaEscola.objects.get(pk = id)
+	solicitacao.status = True
+	solicitacao.auth_user = AuthUser.objects.get(pk=request.user.id)
+	solicitacao.save()
+	return HttpResponseRedirect('/sistema/solicitacoes-nossa-terra_nossa-escola/')
+
 def gru_pagamento(request, id):
 
 	# id da parcela
