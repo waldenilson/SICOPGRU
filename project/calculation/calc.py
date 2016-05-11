@@ -111,6 +111,12 @@ def nossa_terra_nossa_escola( parcela ):
 			parcela.valor_desconto = parcela.valor_principal / 2.
 	return parcela
 
+def desconto_a_vista(parcela):
+	if ( parcela.pagamento.data_requerimento.days - parcela.pagamento.imovel_titulo.titulo.data_emissao.days) <= 30:
+		#desconto de 20% sobre o pagamento de parcela unica e valor total das 17 prestacoes
+		parcela.valor_desconto = parcela.valor_total / 5.
+		parcela.valor_total = parcela.valor_total - parcela.valor_desconto
+	return parcela
 def indice_tr( data_vencimento, data_requerimento ):
 	#periodo entre o vencimento da prestacao e a data do requerimento
 	#dt_inicio: dia util anterior ao do vencimento da prestacao

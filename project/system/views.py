@@ -21,7 +21,7 @@ from django.template import loader
 from project.system.integration import consultar, importar_dados_titulado
 from project.system.payment import gerar_parcelas, gerar_objeto_parcela_unica, carregar_parcelas, carregar_pagamento, return_file_ref, parcela_a_pagar
 from project.core.funcoes import gerar_codigo_barra, gerar_pdf, emitir_documento, upload_file, reader_csv
-from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position
+from project.calculation.gru import calcular_codigo_barra, calcular_linha_digitavel,format_10_position, desconto_a_vista
 
 @permission_required('system.consulta_unica', login_url='/excecoes/permissao_negada/', raise_exception=True)
 def consulta_unica(request):
@@ -88,6 +88,7 @@ def gerar_parcela_unica(request, cpf):
 	obj_parcela_unica.valor_acrescimo = 0.
 	obj_parcela_unica.valor_correcao = 0.
 	obj_parcela_unica.valor_total = 0.
+	alguma_parcela_paga = False
 	for p in dados['parcelas']:
 		if p['status'] == 'False':
 			obj_parcela_unica.valor_principal += float(p['valor_principal'])
@@ -97,10 +98,14 @@ def gerar_parcela_unica(request, cpf):
 			obj_parcela_unica.valor_acrescimo += float(p['valor_acrescimo'])
 			obj_parcela_unica.valor_correcao += float(p['valor_correcao'])
 			obj_parcela_unica.valor_total += float(p['valor_total'])
+		else:
+			alguma_parcela_paga = True
 	obj_parcela_unica.data_vencimento = datetime.datetime.today().date()+timedelta(5)
+	#verificar se terah direito a desconto de 20% valor a vista
+	#manifestacao conjur: requerimento para pagamento ate 30 dias da emissao do titulo
+	if not alguma_parcela_paga:
+		obj_parcela_unica = desconto_a_vista(obj_parcela_unica)
 	obj_parcela_unica.save()
-	if request.method == 'POST':
-		print 'emitir parcela unica'
 	return render_to_response('system/parcela_unica.html',{'dados':dados,'parcela_unica':obj_parcela_unica}, context_instance = RequestContext(request))
 
 def requerer_nossa_terra_nossa_escola(request, cpf):
